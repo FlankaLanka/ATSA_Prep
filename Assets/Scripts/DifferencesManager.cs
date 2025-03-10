@@ -56,6 +56,7 @@ public class DifferencesManager : MonoBehaviour
 
     private IEnumerator StartTimer(float totalTime)
     {
+        timer = 0f;
         while(timer < totalTime)
         {
             timer += Time.deltaTime;

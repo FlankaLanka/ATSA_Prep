@@ -103,12 +103,12 @@ TextureImporter:
       name: eye_0
       rect:
         serializedVersion: 2
-        x: 46
-        y: 32
-        width: 515
-        height: 384
+        x: 17
+        y: 52
+        width: 420
+        height: 420
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5404d35a581b74157a72805f82f90645
     internalID: 0
     vertices: []
     indices: 
@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      eye_0: -112968808170193824
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

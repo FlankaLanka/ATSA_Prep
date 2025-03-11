@@ -5,15 +5,19 @@ using TMPro;
 
 public class DifferencesManager : MonoBehaviour
 {
+    [Header("UI")]
     public TMP_Text displayedNumber;
     public TMP_Text timeLimitText;
     public Image correctnessIndicator;
+
     public Dropdown timeLimitDropdown;
     public Toggle showTimeLimit;
     public Toggle showCorrectnessIndicator;
 
     public GameObject SettingsMenu;
 
+
+    [Header("Game Logic Related")]
     [HideInInspector]
     public float totalTime = 30f;
     public float timer = 0f;
@@ -25,10 +29,10 @@ public class DifferencesManager : MonoBehaviour
     private Coroutine timerCoroutine;
     private Coroutine nextNumberCoroutine;
 
-
-
     
+    //TODO: stats
     private string logOutput = "| prevNum | curNum | difference | keypressed | rxn_time | timer_val_on_answer |";
+
 
     public void StartDifferences()
     {
@@ -36,15 +40,9 @@ public class DifferencesManager : MonoBehaviour
 
         SettingsMenu.SetActive(false);
 
-        TranslateDropdownTimeLimit();
-        if(totalTime > 0f)
-        {
-            timerCoroutine = StartCoroutine(StartTimer(totalTime));
-        }
-        else
-        {
-            timeLimitText.text = "Untimed Session";
-        }
+        totalTime = TranslateDropdownTimeLimit(timeLimitDropdown.value);
+        timerCoroutine = StartCoroutine(StartTimer(totalTime));
+
         EnableAppropriateUI();
 
         score = 0;
@@ -60,7 +58,7 @@ public class DifferencesManager : MonoBehaviour
         while(timer < totalTime)
         {
             timer += Time.deltaTime;
-            timeLimitText.text = FormatTime(totalTime - timer);
+            timeLimitText.text = GlobalFormatter.FormatTimeMinSec(totalTime - timer);
             yield return null;
         }
         StopDifferences();
@@ -139,38 +137,28 @@ public class DifferencesManager : MonoBehaviour
         displayedNumber.text = num1.ToString();
     }
 
-    private void TranslateDropdownTimeLimit()
+    private float TranslateDropdownTimeLimit(int val)
     {
-        int limit = timeLimitDropdown.value;
-        switch (limit)
+        switch (val)
         {
             case 0:
-                totalTime = 15f;
-                break;
+                return 15f;
             case 1:
-                totalTime = 30f;
-                break;
+                return 30f;
             case 2:
-                totalTime = 450f;
-                break;
+                return 45f;
             case 3:
-                totalTime = 60f;
-                break;
+                return 60f;
             case 4:
-                totalTime = 120f;
-                break;
+                return 120f;
             case 5:
-                totalTime = 180f;
-                break;
+                return 180f;
             case 6:
-                totalTime = 240f;
-                break;
+                return 240f;
             case 7:
-                totalTime = 300f;
-                break;
+                return 300f;
             default:
-                totalTime = -1f;
-                break;
+                return 5940f;
         }
     }
 
@@ -195,16 +183,6 @@ public class DifferencesManager : MonoBehaviour
     private void UpdateStats()
     {
 
-    }
-
-    public string FormatTime(float timeInSeconds)
-    {
-        int minutes = (int)(timeInSeconds / 60);
-        int seconds = (int)(timeInSeconds % 60);
-        //int milliseconds = (int)((timeInSeconds - (int)timeInSeconds) * 1000);
-
-        //return $"{minutes}:{seconds:00}:{milliseconds:000}";
-        return $"{minutes}:{seconds:00}";
     }
 
     #endregion

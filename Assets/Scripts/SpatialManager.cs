@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using static UnityEngine.GraphicsBuffer;
 
 public class SpatialManager : MonoBehaviour
 {
@@ -35,6 +34,7 @@ public class SpatialManager : MonoBehaviour
     [Header("Game Logic Related")]
     public int score = 0, total = 0;
     public bool correctAnswer = false;
+    public SpriteRenderer spawnbox;
 
 
     public void StartSpatial()
@@ -51,6 +51,8 @@ public class SpatialManager : MonoBehaviour
 
         EnableAppropriateUI();
 
+        LoadNewOrientations();
+
         gameRunning = true;
     }
 
@@ -66,27 +68,24 @@ public class SpatialManager : MonoBehaviour
 
     public void LoadNewOrientations()
     {
-        total++;
+        //cheaper than SetActive()
+        redPlane.transform.position = new Vector2(1000,1000);
+        blackPlane.transform.position = new Vector2(2000, 1000);
+        eye.transform.position = new Vector2(3000, 1000);
 
         //text
         bool textLR = Random.Range(0, 2) == 0 ? false : true;
         leftRightText.text = textLR == false ? "Left" : "Right";
 
-        //2 planes
-        if (!redPlane.activeInHierarchy)
-            redPlane.SetActive(true);
-        if (!blackPlane.activeInHierarchy)
-            blackPlane.SetActive(true);
-        redPlane.transform.position = new Vector3(1, 0, 0);
-        blackPlane.transform.position = new Vector3(0, 0, 0);
+        //planes
+        SetPositionAndOrientation(redPlane.transform, spawnbox.bounds, false);
+        SetPositionAndOrientation(blackPlane.transform, spawnbox.bounds, true);
         bool actualLR = Vector2.Dot(blackPlane.transform.right, redPlane.transform.position) >= 0; //false = L, true = R
 
         //eye
         if (Random.Range(0, 9) <= 3) //40% chance for eye to appear
         {
-            eye.SetActive(true);
-
-            eye.transform.position = new Vector3(2, 1, 0);
+            SetPositionAndOrientation(eye.transform, spawnbox.bounds, false);
             Vector3 direction = blackPlane.transform.position - eye.transform.position;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             eye.transform.rotation = Quaternion.Euler(0, 0, angle);
@@ -94,12 +93,9 @@ public class SpatialManager : MonoBehaviour
             //the eye changes the correct answer
             actualLR = Vector2.Dot(eye.transform.right, redPlane.transform.position) >= 0; //false = L, true = R
         }
-        else
-        {
-            eye.SetActive(false);
-        }
 
         correctAnswer = textLR == actualLR;
+        total++;
         curPicTimer = 0f;
     }
 
@@ -153,6 +149,12 @@ public class SpatialManager : MonoBehaviour
     }
 
     #region Helpers
+
+    public void SetPositionAndOrientation(Transform target, Bounds spawnbox, bool moderateOrientation)
+    {
+        target.position = new Vector2(Random.Range(spawnbox.min.x, spawnbox.max.x), Random.Range(spawnbox.min.y, spawnbox.max.y));
+        target.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
+    }
 
     public float TranslateDropdownTimeLimit(int val)
     {

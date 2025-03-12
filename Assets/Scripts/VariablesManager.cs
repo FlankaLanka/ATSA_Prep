@@ -123,7 +123,7 @@ public class VariablesManager : MonoBehaviour
             timer = 0f;
             while (timer < timePerVariable)
             {
-                KeyCode? key = GetCurrentKeypadPressed();
+                KeyCode? key = KeyCheckHelpers.GetCurrentKeypadPressed();
                 if (key != null)
                 {
                     if (key - KeyCode.Keypad0 == abc[randOrder[i]])
@@ -273,18 +273,6 @@ public class VariablesManager : MonoBehaviour
         }
     }
 
-    private KeyCode? GetCurrentKeypadPressed()
-    {
-        for (KeyCode key = KeyCode.Keypad0; key <= KeyCode.Keypad9; key++)
-        {
-            if (Input.GetKeyDown(key))
-            {
-                return key;
-            }
-        }
-
-        return null;
-    }
 
     private (bool,int) IsOperationValid(int start, int op, int val)
     {

@@ -78,18 +78,14 @@ public class SpatialManager : MonoBehaviour
         leftRightText.text = textLR == false ? "Left" : "Right";
 
         //planes
-        SetPositionAndOrientation(redPlane.transform, spawnbox.bounds, false);
-        SetPositionAndOrientation(blackPlane.transform, spawnbox.bounds, true);
+        SetPositionAndOrientation(redPlane.transform, spawnbox.bounds);
+        SetPositionAndOrientation(blackPlane.transform, spawnbox.bounds);
         bool actualLR = Vector2.Dot(blackPlane.transform.right, redPlane.transform.position) >= 0; //false = L, true = R
 
         //eye
         if (Random.Range(0, 9) <= 3) //40% chance for eye to appear
         {
-            SetPositionAndOrientation(eye.transform, spawnbox.bounds, false);
-            Vector3 direction = blackPlane.transform.position - eye.transform.position;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            eye.transform.rotation = Quaternion.Euler(0, 0, angle);
-
+            SetPositionAndOrientation(eye.transform, spawnbox.bounds);
             //the eye changes the correct answer
             actualLR = Vector2.Dot(eye.transform.right, redPlane.transform.position) >= 0; //false = L, true = R
         }
@@ -150,10 +146,50 @@ public class SpatialManager : MonoBehaviour
 
     #region Helpers
 
-    public void SetPositionAndOrientation(Transform target, Bounds spawnbox, bool moderateOrientation)
+    public void SetPositionAndOrientation(Transform target, Bounds spawnbox)
     {
-        target.position = new Vector2(Random.Range(spawnbox.min.x, spawnbox.max.x), Random.Range(spawnbox.min.y, spawnbox.max.y));
+        CircleCollider2D circleCollider = target.GetComponent<CircleCollider2D>();
+        Debug.Assert(circleCollider != null);
+
+        //keep testing random positions until valid
+        Vector2 randomPos;
+        do
+        {
+            randomPos = new Vector2(Random.Range(spawnbox.min.x, spawnbox.max.x), Random.Range(spawnbox.min.y, spawnbox.max.y));
+        } while (Physics2D.OverlapCircle(randomPos, circleCollider.radius * target.lossyScale.x));
+
+        target.position = randomPos;
         target.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
+
+        //remove cases where answer is hard to visually tell
+        if (target == blackPlane.transform)
+        {
+            while (WithinAngleRange(target, redPlane.transform))
+            {
+                target.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
+            }
+        }
+        else if (target == eye.transform)
+        {
+            LookAtTarget2D(target, blackPlane.transform);
+            //TODO: sometimes the eye may line up with the black and red plane making it hard to tell L/R, try to remove these cases
+        }
+
+        Physics2D.SyncTransforms();
+    }
+
+    public bool WithinAngleRange(Transform obj1, Transform obj2)
+    {
+        Vector2 directionToTarget = obj2.position - obj1.position;
+        float angle = Vector2.SignedAngle(obj1.up, directionToTarget);
+        return (angle >= -15f && angle <= 15f) || angle >= 165f || angle <= -165f;
+    }
+
+    public void LookAtTarget2D(Transform obj, Transform target)
+    {
+        Vector2 direction = (target.position - obj.position).normalized;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        obj.rotation = Quaternion.Euler(0f, 0f, angle - 90f); // -90f to make up vector point to airplane
     }
 
     public float TranslateDropdownTimeLimit(int val)

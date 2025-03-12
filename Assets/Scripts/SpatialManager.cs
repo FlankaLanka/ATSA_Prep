@@ -24,7 +24,7 @@ public class SpatialManager : MonoBehaviour
     public GameObject eye;
     public TMP_Text leftRightText;
 
-    [Header("Game Related")]
+    [Header("Game Loop Related")]
     public float totalTime = 30f;
     public float totalTimer = 0f;
     public float timePerPicture = 2f;
@@ -32,7 +32,7 @@ public class SpatialManager : MonoBehaviour
     public bool gameRunning = false;
 
     [Header("Game Logic Related")]
-    public int score = 0, total = 0;
+    public int score, total;
     public bool correctAnswer = false;
     public SpriteRenderer spawnbox;
 
@@ -80,14 +80,14 @@ public class SpatialManager : MonoBehaviour
         //planes
         SetPositionAndOrientation(redPlane.transform, spawnbox.bounds);
         SetPositionAndOrientation(blackPlane.transform, spawnbox.bounds);
-        bool actualLR = Vector2.Dot(blackPlane.transform.right, redPlane.transform.position) >= 0; //false = L, true = R
+        bool actualLR = Vector2.Dot(blackPlane.transform.right, redPlane.transform.position - blackPlane.transform.position) >= 0; //false = L, true = R
 
         //eye
         if (Random.Range(0, 9) <= 3) //40% chance for eye to appear
         {
             SetPositionAndOrientation(eye.transform, spawnbox.bounds);
             //the eye changes the correct answer
-            actualLR = Vector2.Dot(eye.transform.right, redPlane.transform.position) >= 0; //false = L, true = R
+            actualLR = Vector2.Dot(eye.transform.right, redPlane.transform.position - eye.transform.position) >= 0; //false = L, true = R
         }
 
         correctAnswer = textLR == actualLR;

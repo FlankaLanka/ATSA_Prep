@@ -17,19 +17,19 @@ public class DifferencesManager : MonoBehaviour
     public GameObject SettingsMenu;
 
 
-    [Header("Game Logic Related")]
-    [HideInInspector]
+    [Header("Game Loop Related")]
     public float totalTime = 30f;
     public float timer = 0f;
-
-    public int score = 0, total = 0;
-    public int num1 = 0, num2 = 0;
     public bool gameRunning = false;
-
     private Coroutine timerCoroutine;
     private Coroutine nextNumberCoroutine;
 
-    
+
+    [Header("Game Logic Related")]
+    public int score = 0, total = 0;
+    public int num1 = 0, num2 = 0;
+
+
     //TODO: stats
     private string logOutput = "| prevNum | curNum | difference | keypressed | rxn_time | timer_val_on_answer |";
 

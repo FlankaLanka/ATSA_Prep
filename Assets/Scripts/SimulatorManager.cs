@@ -25,6 +25,8 @@ public class SimulatorManager : MonoBehaviour
 
     public List<GameObject> allPlanes;
     public int numCollisions;
+    [Range(1f,5f)]
+    public float distanceSpawnThreshold = 0.3f;
 
 
     public void StartSimulator()
@@ -83,7 +85,14 @@ public class SimulatorManager : MonoBehaviour
         int numPlanes = Math2DHelpers.GetBiasedRandomNumber();
         for(int i = 0; i < numPlanes; i++)
         {
-            GameObject g = Instantiate(planePrefab, GetRandomPointOnBounds(bg.bounds), Quaternion.identity);
+            int j = 10;
+            Vector2 randSpawnPos = GetRandomPointOnBounds(bg.bounds);
+            while(TooCloseToOtherPlanes(allPlanes, randSpawnPos, distanceSpawnThreshold) && j > 0)
+            {
+                randSpawnPos = GetRandomPointOnBounds(bg.bounds);
+                j--;
+            }
+            GameObject g = Instantiate(planePrefab, randSpawnPos, Quaternion.identity);
             allPlanes.Add(g);
             PlaneInstance p = g.GetComponent<PlaneInstance>();
             p.planeID = i;
@@ -115,6 +124,18 @@ public class SimulatorManager : MonoBehaviour
             default:
                 return bounds.center;
         }
+    }
+
+    public bool TooCloseToOtherPlanes(List<GameObject> planes, Vector2 spawnPoint, float distanceThreshold)
+    {
+        foreach (GameObject p in planes)
+        {
+            //manhattan distance
+            if (Mathf.Abs(p.transform.position.x - spawnPoint.x) + Mathf.Abs(p.transform.position.y - spawnPoint.y) > distanceThreshold)
+                return true;
+        }
+
+        return false;
     }
 
     private KeyCode? GetCurrentKeypadPressed()

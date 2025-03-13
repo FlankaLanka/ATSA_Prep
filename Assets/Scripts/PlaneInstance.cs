@@ -46,7 +46,7 @@ public class PlaneInstance : MonoBehaviour
         //check user input
         if(Input.GetKeyDown(keyID) && !collided)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 

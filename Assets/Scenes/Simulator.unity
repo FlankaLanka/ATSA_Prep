@@ -513,7 +513,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3876826941680773481, guid: 4ef1eacbbc3454d4883de85343746ec4, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5332378161732950647, guid: 4ef1eacbbc3454d4883de85343746ec4, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -537,11 +537,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7123866046508741219, guid: 4ef1eacbbc3454d4883de85343746ec4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.147
+      value: -5.93
       objectReference: {fileID: 0}
     - target: {fileID: 7123866046508741219, guid: 4ef1eacbbc3454d4883de85343746ec4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.518
+      value: 4.11
       objectReference: {fileID: 0}
     - target: {fileID: 7123866046508741219, guid: 4ef1eacbbc3454d4883de85343746ec4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -850,7 +850,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   question: {fileID: 615773298}
-  answers:
+  answersBoxes:
   - {fileID: 386881615}
   - {fileID: 1204740040}
   - {fileID: 871867792}
@@ -861,6 +861,7 @@ MonoBehaviour:
   total: 0
   correctAnswer: 0
   answerAttempted: 0
+  answeredQColor: {r: 0.23137255, g: 0.84705883, b: 1, a: 1}
 --- !u!1 &726095762
 GameObject:
   m_ObjectHideFlags: 0
@@ -1197,13 +1198,14 @@ MonoBehaviour:
   curSession: 0
   totalSessions: 0
   timer: 0
-  timePerRound: 7
+  timePerRound: 3
   gameRunning: 0
   instanceRunning: 0
   planePrefab: {fileID: 3876826941680773481, guid: 4ef1eacbbc3454d4883de85343746ec4, type: 3}
   bg: {fileID: 810364041}
   allPlanes: []
   numCollisions: 0
+  distanceSpawnThreshold: 1.99
 --- !u!4 &1079878463
 Transform:
   m_ObjectHideFlags: 0

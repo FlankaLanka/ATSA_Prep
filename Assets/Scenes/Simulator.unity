@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Padding: {x: 0.49, y: 0, z: 0, w: 0.41}
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
   m_Softness: {x: 0, y: 0}
 --- !u!1 &38218400
 GameObject:
@@ -537,11 +537,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7123866046508741219, guid: 4ef1eacbbc3454d4883de85343746ec4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.93
+      value: -5.71
       objectReference: {fileID: 0}
     - target: {fileID: 7123866046508741219, guid: 4ef1eacbbc3454d4883de85343746ec4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.11
+      value: 4.38
       objectReference: {fileID: 0}
     - target: {fileID: 7123866046508741219, guid: 4ef1eacbbc3454d4883de85343746ec4, type: 3}
       propertyPath: m_LocalPosition.z

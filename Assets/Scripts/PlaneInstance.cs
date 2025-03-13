@@ -73,18 +73,31 @@ public class PlaneInstance : MonoBehaviour
 
         //the canvas is a square so height and width are same
         float widthLen = sp.bounds.max.x - sp.bounds.min.x;
-        float dist = Math2DHelpers.SignedDistanceFromPointToLine(transform.position, bg.bounds.max, new Vector2(1,0));
-        Debug.Log(dist);
-        dist = Mathf.Clamp(dist, -widthLen, widthLen);
-        float normalizedPadding = Math2DHelpers.NormalizeValue(dist / widthLen, 0.5f, 1f);
 
-        Vector4 newPadding = canvasMask.padding;
-        newPadding.w = normalizedPadding;
-        canvasMask.padding = newPadding;
+        //top padding
+        float topDist = Math2DHelpers.SignedDistanceFromPointToLine(transform.position, bg.bounds.max, new Vector2(1, 0));
+        topDist = Mathf.Clamp(topDist + widthLen / 2, 0, widthLen);
+        topDist = Math2DHelpers.NormalizeValue(topDist / widthLen, 0f, 1f);
+
+        //bottom padding
+        float botDist = Math2DHelpers.SignedDistanceFromPointToLine(transform.position, bg.bounds.min, new Vector2(-1, 0));
+        botDist = Mathf.Clamp(botDist + widthLen / 2, 0, widthLen);
+        botDist = Math2DHelpers.NormalizeValue(botDist / widthLen, 0f, 1f);
+
+        //left padding
+        float leftDist = Math2DHelpers.SignedDistanceFromPointToLine(transform.position, bg.bounds.min, new Vector2(0, 1));
+        leftDist = Mathf.Clamp(leftDist + widthLen / 2, 0, widthLen);
+        leftDist = Math2DHelpers.NormalizeValue(leftDist / widthLen, 0f, 1f);
+
+        //right padding
+        float rightDist = Math2DHelpers.SignedDistanceFromPointToLine(transform.position, bg.bounds.max, new Vector2(0, -1));
+        rightDist = Mathf.Clamp(rightDist + widthLen / 2, 0, widthLen);
+        rightDist = Math2DHelpers.NormalizeValue(rightDist / widthLen, 0f, 1f);
+
+        //xyzw = lbrt
+        canvasMask.padding = new Vector4(leftDist, botDist, rightDist, topDist);
     }
 
-    //private float ClampVectorValue()
-    //{
 
-    //}
 }
+

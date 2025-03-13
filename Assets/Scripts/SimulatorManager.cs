@@ -34,8 +34,12 @@ public class SimulatorManager : MonoBehaviour
         settingsMenu.SetActive(false);
         mathManager.SetActive(mathQuestionsToggle.isOn);
 
+        curSession = 0;
         int.TryParse(numSessionsDropdown.options[numSessionsDropdown.value].text, out totalSessions);
+        instanceRunning = false;
+        timer = 0;
         numCollisions = 0;
+
         gameRunning = true;
     }
 
@@ -43,6 +47,13 @@ public class SimulatorManager : MonoBehaviour
     {
         settingsMenu.SetActive(true);
         mathManager.SetActive(false);
+
+        foreach(GameObject g in allPlanes)
+        {
+            Destroy(g);
+        }
+        allPlanes.Clear();
+
         gameRunning = false;
     }
 

@@ -24,6 +24,12 @@ public class SimMathManager : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
+    private void OnEnable()
+    {
+        score = 0;
+        total = 0;
+    }
+
     private void Update()
     {
         if(mathCoroutine == null)
@@ -89,7 +95,10 @@ public class SimMathManager : MonoBehaviour
     private void OnDisable()
     {
         if(mathCoroutine != null)
+        {
             StopCoroutine(mathCoroutine);
+            mathCoroutine = null;
+        }
         ToggleUI(false);
     }
 

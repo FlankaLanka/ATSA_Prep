@@ -11,6 +11,7 @@ public class SimulatorManager : MonoBehaviour
     public Toggle mathQuestionsToggle;
 
     public GameObject settingsMenu;
+    public GameObject mathManager;
 
     [Header("Game Loop Related")]
     public int curSession, totalSessions;
@@ -29,6 +30,7 @@ public class SimulatorManager : MonoBehaviour
     public void StartSimulator()
     {
         settingsMenu.SetActive(false);
+        mathManager.SetActive(mathQuestionsToggle.isOn);
 
         int.TryParse(numSessionsDropdown.options[numSessionsDropdown.value].text, out totalSessions);
         numCollisions = 0;
@@ -38,6 +40,7 @@ public class SimulatorManager : MonoBehaviour
     public void StopSimulator()
     {
         settingsMenu.SetActive(true);
+        mathManager.SetActive(false);
         gameRunning = false;
     }
 
@@ -48,7 +51,7 @@ public class SimulatorManager : MonoBehaviour
         if (!gameRunning)
             return;
 
-        if(curSession > totalSessions)
+        if(curSession > totalSessions || Input.GetKeyDown(KeyCode.Escape))
         {
             StopSimulator();
             return;

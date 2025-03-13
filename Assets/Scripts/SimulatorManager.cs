@@ -96,7 +96,8 @@ public class SimulatorManager : MonoBehaviour
         int numPlanes = Math2DHelpers.GetBiasedRandomNumber();
         for(int i = 0; i < numPlanes; i++)
         {
-            int j = 10;
+            //TODO: find a better spawning algorithm instead of randomly spawning and checking if too close
+            int j = 100;
             Vector2 randSpawnPos = GetRandomPointOnBounds(bg.bounds);
             while(TooCloseToOtherPlanes(allPlanes, randSpawnPos, distanceSpawnThreshold) && j > 0)
             {
@@ -142,7 +143,7 @@ public class SimulatorManager : MonoBehaviour
         foreach (GameObject p in planes)
         {
             //manhattan distance
-            if (Mathf.Abs(p.transform.position.x - spawnPoint.x) + Mathf.Abs(p.transform.position.y - spawnPoint.y) > distanceThreshold)
+            if (Mathf.Abs(p.transform.position.x - spawnPoint.x) + Mathf.Abs(p.transform.position.y - spawnPoint.y) < distanceThreshold)
                 return true;
         }
 

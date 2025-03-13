@@ -38,7 +38,6 @@ public class PlaneInstance : MonoBehaviour
 
         direction = Math2DHelpers.GetRandomUnitVectorWithinAngle(bg.transform.position - transform.position, randAngleThreshold);
         speed = Random.Range(1f, 2.5f);
-        speed = 0;
     }
 
     // Update is called once per frame

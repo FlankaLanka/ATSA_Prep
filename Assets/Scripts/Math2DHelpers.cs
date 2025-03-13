@@ -23,6 +23,35 @@ public static class Math2DHelpers
         return rotatedVector.normalized; // Ensure it remains a unit vector
     }
 
+    public static Vector2 GetRandomUnitVector2D()
+    {
+        float angle = Random.Range(0f, Mathf.PI * 2);
+        return new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+    }
+
+    public static float NormalizeValue(float value, float min, float max)
+    {
+        return (value - min) / (max - min);
+    }
+
+    public static float SignedDistanceFromPointToLine(Vector2 point, Vector2 linePoint, Vector2 lineDirection)
+    {
+        // Normalize the direction vector
+        lineDirection.Normalize();
+
+        // Find the vector from the line point to the given point
+        Vector2 pointToLine = point - linePoint;
+
+        // Compute the perpendicular vector to the line direction
+        Vector2 perpendicular = new Vector2(-lineDirection.y, lineDirection.x);
+
+        // Signed distance (dot product projects onto the perpendicular vector)
+        float signedDistance = Vector2.Dot(pointToLine, perpendicular);
+
+        return signedDistance;
+    }
+
+
     public static int GetBiasedRandomNumber()
     {
         int[] numbers = { 2, 3, 4, 5, 6, 7, 8, 9 };

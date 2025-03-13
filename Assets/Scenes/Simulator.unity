@@ -513,7 +513,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3876826941680773481, guid: 4ef1eacbbc3454d4883de85343746ec4, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5332378161732950647, guid: 4ef1eacbbc3454d4883de85343746ec4, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -859,7 +859,6 @@ MonoBehaviour:
   timePerQ: 5
   score: 0
   total: 0
-  correctAnswer: 0
   answerAttempted: 0
   answeredQColor: {r: 0.23137255, g: 0.84705883, b: 1, a: 1}
 --- !u!1 &726095762
@@ -1008,7 +1007,7 @@ GameObject:
   m_Component:
   - component: {fileID: 810364042}
   - component: {fileID: 810364041}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}

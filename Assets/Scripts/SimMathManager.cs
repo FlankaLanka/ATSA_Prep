@@ -6,14 +6,17 @@ using TMPro;
 
 public class SimMathManager : MonoBehaviour
 {
-    public float timer = 0f, timePerQ = 5f;
-
-    public int score = 0, total = 0;
+    [Header("Objects")]
     public GameObject question;
     public GameObject[] answers; //assigned in inspector, size 4
+
+    [Header("Game Loop Related")]
+    public float timer = 0f, timePerQ = 5f;
+
+    [Header("Game Logic Related")]
+    public int score = 0, total = 0;
     public int correctAnswer = 0;
     public bool answerAttempted = false;
-
     private Coroutine mathCoroutine;
 
     private void Awake()

@@ -3,20 +3,28 @@ using TMPro;
 
 public class PlaneInstance : MonoBehaviour
 {
-    public SimulatorManager sm;
+    private SimulatorManager sm;
+    private SpriteRenderer bg;
+    private SpriteRenderer sp;
 
-    public SpriteRenderer sp;
     public int planeID;
-    public KeyCode keyID;
-    public TMP_Text numberText;
-    public Vector2 direction;
-    public float speed;
-    public bool collided = false;
+    private KeyCode keyID;
+    private TMP_Text numberText;
+    private Vector2 direction;
+    private float speed;
+    private bool collided = false;
 
+    public float randAngleThreshold = 70f;
 
     private void Start()
     {
         sm = FindFirstObjectByType<SimulatorManager>();
+        if (sm == null)
+        {
+            Debug.LogWarning("Cannot run plane without SimulatorManager, destroying this.");
+            Destroy(gameObject);
+        }
+        bg = sm.bg;
 
         sp = GetComponent<SpriteRenderer>();
 
@@ -25,8 +33,8 @@ public class PlaneInstance : MonoBehaviour
         if (numberText != null)
             numberText.text = planeID.ToString();
 
-        direction = GetRandomUnitVector2D();
-        speed = Random.Range(0.5f, 3f);
+        direction = Math2DHelpers.GetRandomUnitVectorWithinAngle(bg.transform.position - transform.position, randAngleThreshold);
+        speed = Random.Range(1f, 2.5f);
     }
 
     // Update is called once per frame

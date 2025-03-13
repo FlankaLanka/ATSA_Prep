@@ -21,7 +21,7 @@ public class SimulatorManager : MonoBehaviour
 
     [Header("Game Logic Related")]
     public GameObject planePrefab;
-    public SpriteRenderer spawnbox;
+    public SpriteRenderer bg;
 
     public List<GameObject> allPlanes;
     public int numCollisions;
@@ -76,22 +76,19 @@ public class SimulatorManager : MonoBehaviour
             return;
         }
         timer += Time.deltaTime;
-
-
     }
 
     public void CreatePlanes()
     {
-        int numPlanes = GetBiasedRandomNumber();
+        int numPlanes = Math2DHelpers.GetBiasedRandomNumber();
         for(int i = 0; i < numPlanes; i++)
         {
-            GameObject g = Instantiate(planePrefab, GetRandomPointOnBounds(spawnbox.bounds), Quaternion.identity);
+            GameObject g = Instantiate(planePrefab, GetRandomPointOnBounds(bg.bounds), Quaternion.identity);
             allPlanes.Add(g);
             PlaneInstance p = g.GetComponent<PlaneInstance>();
             p.planeID = i;
         }
     }
-
 
 
     #region Helpers
@@ -118,27 +115,6 @@ public class SimulatorManager : MonoBehaviour
             default:
                 return bounds.center;
         }
-    }
-
-    public int GetBiasedRandomNumber()
-    {
-        int[] numbers = { 2, 3, 4, 5, 6, 7, 8, 9 };
-        float[] weights = { 0.05f, 0.10f, 0.15f, 0.20f, 0.20f, 0.15f, 0.10f, 0.05f }; // Higher chance for 5 and 6
-
-        float totalWeight = 0;
-        foreach (float weight in weights) totalWeight += weight;
-
-        float randomValue = Random.Range(0f, totalWeight);
-        float cumulative = 0;
-
-        for (int i = 0; i < numbers.Length; i++)
-        {
-            cumulative += weights[i];
-            if (randomValue <= cumulative)
-                return numbers[i];
-        }
-
-        return 5;
     }
 
     private KeyCode? GetCurrentKeypadPressed()

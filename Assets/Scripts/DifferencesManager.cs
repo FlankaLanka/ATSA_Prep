@@ -102,26 +102,45 @@ public class DifferencesManager : MonoBehaviour
             StopDifferences();
         }
 
-        for (KeyCode key = KeyCode.Keypad1; key <= KeyCode.Keypad9; key++)
+        KeyCode? key = KeyCheckHelpers.GetCurrentKeypadPressed();
+        if(key != null)
         {
-            if (Input.GetKeyDown(key))
+            Debug.Log("Pressed: " + key);
+            int calculatedDiff = key.Value - KeyCode.Keypad0;
+            if (Mathf.Abs(num1 - num2) == calculatedDiff)
             {
-                Debug.Log("Pressed: " + key);
-                int calculatedDiff = key - KeyCode.Keypad0;
-                if (Mathf.Abs(num1 - num2) == calculatedDiff)
-                {
-                    score++;
-                    correctnessIndicator.color = Color.green;
-                }
-                else
-                {
-                    correctnessIndicator.color = Color.red;
-                }
-                total++;
-                SetNextNumber();
-                break;
+                score++;
+                correctnessIndicator.color = Color.green;
             }
+            else
+            {
+                correctnessIndicator.color = Color.red;
+            }
+            total++;
+            SetNextNumber();
         }
+
+        
+        //for (KeyCode key = KeyCode.Keypad1; key <= KeyCode.Keypad9; key++)
+        //{
+        //    if (Input.GetKeyDown(key))
+        //    {
+        //        Debug.Log("Pressed: " + key);
+        //        int calculatedDiff = key - KeyCode.Keypad0;
+        //        if (Mathf.Abs(num1 - num2) == calculatedDiff)
+        //        {
+        //            score++;
+        //            correctnessIndicator.color = Color.green;
+        //        }
+        //        else
+        //        {
+        //            correctnessIndicator.color = Color.red;
+        //        }
+        //        total++;
+        //        SetNextNumber();
+        //        break;
+        //    }
+        //}
     }
 
 

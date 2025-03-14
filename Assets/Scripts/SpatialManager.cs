@@ -60,9 +60,14 @@ public class SpatialManager : MonoBehaviour
     {
         gameRunning = false;
 
-        blackPlane.SetActive(false);
-        redPlane.SetActive(false);
-        eye.SetActive(false);
+        leftRightText.text = "";
+        totalTimeText.text = "Session Time";
+        timePerPicText.text = "Per Image Time";
+        correctnessIndicator.color = Color.white;
+
+        redPlane.transform.position = new Vector2(1000, 1000);
+        blackPlane.transform.position = new Vector2(2000, 1000);
+        eye.transform.position = new Vector2(3000, 1000);
         settingsMenu.SetActive(true);
     }
 

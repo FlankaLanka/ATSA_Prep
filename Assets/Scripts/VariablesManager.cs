@@ -51,6 +51,7 @@ public class VariablesManager : MonoBehaviour
 
         int.TryParse(numQuestionsDropdown.options[numQuestionsDropdown.value].text, out totalQuestions);
         timePerVariable = TranslateDropdownTimeVariable(timePerVariableDropdown.value);
+        curQuestion = 0;
         score = 0;
         total = 0;
         EnableAppropriateUI();
@@ -59,7 +60,12 @@ public class VariablesManager : MonoBehaviour
 
     public void StopVariables()
     {
-        StopCoroutine(gameLoopCoroutine);
+        if(gameLoopCoroutine != null)
+        {
+            StopCoroutine(gameLoopCoroutine);
+            gameLoopCoroutine = null;
+        }
+
         gameRunning = false;
 
         timerText.gameObject.SetActive(true);

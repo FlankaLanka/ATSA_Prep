@@ -14,6 +14,8 @@ public class DifferencesManager : MonoBehaviour
     public Toggle showTimeLimit;
     public Toggle showCorrectnessIndicator;
 
+    public TMP_Text statsText;
+
     public GameObject SettingsMenu;
 
 
@@ -28,10 +30,6 @@ public class DifferencesManager : MonoBehaviour
     [Header("Game Logic Related")]
     public int score = 0, total = 0;
     public int num1 = 0, num2 = 0;
-
-
-    //TODO: stats
-    private string logOutput = "| prevNum | curNum | difference | keypressed | rxn_time | timer_val_on_answer |";
 
 
     public void StartDifferences()
@@ -88,6 +86,8 @@ public class DifferencesManager : MonoBehaviour
         StopCoroutine(nextNumberCoroutine);
 
         UpdateStats();
+
+        statsText.text = $"You got {score} / {total} correct with a {((float)score / total) * 100:F2}% accuracy in {totalTime:F0} seconds.";
         SettingsMenu.SetActive(true);
     }
 

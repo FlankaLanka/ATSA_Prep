@@ -5,7 +5,7 @@ using TMPro;
 public class SpatialManager : MonoBehaviour
 {
     [Header("UI")]
-    public TMP_Text totalTimeText;
+    public TMP_Text questionNumText;
     public TMP_Text timePerPicText;
     public Image correctnessIndicator;
 
@@ -14,6 +14,8 @@ public class SpatialManager : MonoBehaviour
     public Toggle totalTimeToggle;
     public Toggle timePerPicToggle;
     public Toggle indicatiorToggle;
+
+    public TMP_Text statsText;
 
     public GameObject settingsMenu;
 
@@ -25,14 +27,14 @@ public class SpatialManager : MonoBehaviour
     public TMP_Text leftRightText;
 
     [Header("Game Loop Related")]
-    public float totalTime = 30f;
-    public float totalTimer = 0f;
+    public int totalQuestions = 60;
+    public int curQuestion = 0;
     public float timePerPicture = 2f;
     public float curPicTimer = 0f;
     public bool gameRunning = false;
 
     [Header("Game Logic Related")]
-    public int score, total;
+    public int score;
     public bool correctAnswer = false;
     public SpriteRenderer spawnbox;
 
@@ -42,16 +44,14 @@ public class SpatialManager : MonoBehaviour
         settingsMenu.SetActive(false);
 
         score = 0;
-        total = 0;
-        totalTimer = 0f;
-        timePerPicture = 0f;
-
-        totalTime = TranslateDropdownTimeLimit(totalTimeDropdown.value);
+        curQuestion = 0;
+        int.TryParse(totalTimeDropdown.options[totalTimeDropdown.value].text, out totalQuestions);
         timePerPicture = TranslateDropdownTimePerPic(timePerPicDropdown.value);
 
         EnableAppropriateUI();
 
-        LoadNewOrientations();
+        //basically LoadNewOrientations();
+        curPicTimer = timePerPicture + 1;
 
         gameRunning = true;
     }
@@ -61,13 +61,15 @@ public class SpatialManager : MonoBehaviour
         gameRunning = false;
 
         leftRightText.text = "";
-        totalTimeText.text = "Session Time";
-        timePerPicText.text = "Per Image Time";
+        questionNumText.text = "QuestionNum";
+        timePerPicText.text = "Time Per Image";
         correctnessIndicator.color = Color.white;
 
         redPlane.transform.position = new Vector2(1000, 1000);
         blackPlane.transform.position = new Vector2(2000, 1000);
         eye.transform.position = new Vector2(3000, 1000);
+
+        statsText.text = $"You scored {score} / {Mathf.Min(curQuestion, totalQuestions)}.";
         settingsMenu.SetActive(true);
     }
 
@@ -96,7 +98,8 @@ public class SpatialManager : MonoBehaviour
         }
 
         correctAnswer = textLR == actualLR;
-        total++;
+        curQuestion++;
+        questionNumText.text = $"{curQuestion} / {totalQuestions}";
         curPicTimer = 0f;
     }
 
@@ -106,20 +109,19 @@ public class SpatialManager : MonoBehaviour
         if (!gameRunning)
             return;
 
-        if(totalTimer >= totalTime || Input.GetKeyDown(KeyCode.Escape))
-        {
-            StopSpatial();
-            return;
-        }
-        totalTimer += Time.deltaTime;
-        totalTimeText.text = GlobalFormatter.FormatTimeMinSec(totalTime - totalTimer);
-
         if(curPicTimer >= timePerPicture)
         {
             LoadNewOrientations();
         }
         curPicTimer += Time.deltaTime;
         timePerPicText.text = GlobalFormatter.FormatTimeSecMilli(timePerPicture - curPicTimer);
+
+
+        if (curQuestion > totalQuestions || Input.GetKeyDown(KeyCode.Escape))
+        {
+            StopSpatial();
+            return;
+        }
 
         if (Input.GetKeyDown(KeyCode.T))
         {
@@ -258,9 +260,9 @@ public class SpatialManager : MonoBehaviour
     public void EnableAppropriateUI()
     {
         if (totalTimeToggle.isOn)
-            totalTimeText.gameObject.SetActive(true);
+            questionNumText.gameObject.SetActive(true);
         else
-            totalTimeText.gameObject.SetActive(false);
+            questionNumText.gameObject.SetActive(false);
 
         if (timePerPicToggle.isOn)
             timePerPicText.gameObject.SetActive(true);

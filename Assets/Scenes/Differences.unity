@@ -555,6 +555,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 871971136}
   m_CullTransparentMesh: 1
+--- !u!114 &1055773472 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6471852690358991691, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
+  m_PrefabInstance: {fileID: 1993524715}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1155569609
 GameObject:
   m_ObjectHideFlags: 0
@@ -590,6 +601,7 @@ MonoBehaviour:
   timeLimitDropdown: {fileID: 1993524720}
   showTimeLimit: {fileID: 1993524719}
   showCorrectnessIndicator: {fileID: 1993524718}
+  statsText: {fileID: 1055773472}
   SettingsMenu: {fileID: 1993524717}
   totalTime: 120
   timer: 0

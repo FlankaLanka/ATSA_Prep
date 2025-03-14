@@ -14,7 +14,7 @@ public class SimMathManager : MonoBehaviour
     public float timer = 0f, timePerQ = 5f;
 
     [Header("Game Logic Related")]
-    public int score = 0, total = 0;
+    public int score = 0, totalAttempted = 0, total = 0;
     public bool answerAttempted = false;
     private Coroutine mathCoroutine;
     public Color answeredQColor;
@@ -27,6 +27,7 @@ public class SimMathManager : MonoBehaviour
     private void OnEnable()
     {
         score = 0;
+        totalAttempted = 0;
         total = 0;
     }
 
@@ -84,6 +85,7 @@ public class SimMathManager : MonoBehaviour
                     answersBoxes[3].GetComponent<Image>().color = answeredQColor;
                     score += answerChoices[4] == 3 ? 1 : 0;
                 }
+                totalAttempted++;
                 answerAttempted = true;
             }
             yield return null;

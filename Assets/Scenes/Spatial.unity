@@ -189,7 +189,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 2 seconds
+  m_Text: 2s
 --- !u!222 &11893121
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -706,17 +706,61 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -106.9
       objectReference: {fileID: 0}
+    - target: {fileID: 733964322783367693, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
+      propertyPath: m_Name
+      value: NumQuestions
+      objectReference: {fileID: 0}
     - target: {fileID: 2110600412819785085, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1894251298}
+    - target: {fileID: 2575219035715401356, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[0].m_Text
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2575219035715401356, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[1].m_Text
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2575219035715401356, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[2].m_Text
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2575219035715401356, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[3].m_Text
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2575219035715401356, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[4].m_Text
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2575219035715401356, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[5].m_Text
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2575219035715401356, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[6].m_Text
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 2575219035715401356, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[7].m_Text
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2575219035715401356, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[8].m_Text
+      value: 999
+      objectReference: {fileID: 0}
     - target: {fileID: 3199561875483232146, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_Text
-      value: Session Time
+      value: Num Questions
+      objectReference: {fileID: 0}
+    - target: {fileID: 3199561875483232146, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
+      propertyPath: m_FontData.m_MaxSize
+      value: 112
       objectReference: {fileID: 0}
     - target: {fileID: 3199561875483232146, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_FontData.m_FontSize
-      value: 14
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3976414903025390759, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -907,6 +951,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d0b652f32a2cc243917e4028fa0f046, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &481770390 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6471852690358991691, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
+  m_PrefabInstance: {fileID: 475831940}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &614875442
@@ -1200,29 +1255,29 @@ MonoBehaviour:
   m_Value: 4
   m_Options:
     m_Options:
-    - m_Text: 1 second
+    - m_Text: 1s
       m_Image: {fileID: 0}
-    - m_Text: 1.25 second
+    - m_Text: 1.25s
       m_Image: {fileID: 0}
-    - m_Text: 1.5 second
+    - m_Text: 1.5s
       m_Image: {fileID: 0}
-    - m_Text: 1.75 second
+    - m_Text: 1.75s
       m_Image: {fileID: 0}
-    - m_Text: 2 seconds
+    - m_Text: 2s
       m_Image: {fileID: 0}
-    - m_Text: 2.25 seconds
+    - m_Text: 2.25s
       m_Image: {fileID: 0}
-    - m_Text: 2.5 seconds
+    - m_Text: 2.5s
       m_Image: {fileID: 0}
-    - m_Text: 2.75 seconds
+    - m_Text: 2.75s
       m_Image: {fileID: 0}
-    - m_Text: 3 seconds
+    - m_Text: 3s
       m_Image: {fileID: 0}
-    - m_Text: 5 seconds
+    - m_Text: 5s
       m_Image: {fileID: 0}
-    - m_Text: 8 seconds
+    - m_Text: 8s
       m_Image: {fileID: 0}
-    - m_Text: 99 seconds
+    - m_Text: 99s
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1695,7 +1750,7 @@ GameObject:
   - component: {fileID: 1088689056}
   - component: {fileID: 1088689055}
   m_Layer: 5
-  m_Name: TotalTimer
+  m_Name: NumQuestions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1740,7 +1795,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Session Time
+  m_text: Question Num
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2613,7 +2668,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Per Image Time
+  m_Text: Time Per Image
 --- !u!222 &1446494424
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2766,7 +2821,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Per Image Time
+  m_text: Time Per Image
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3569,7 +3624,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cc4870fb873441a8a958ed37b23d547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalTimeText: {fileID: 1088689055}
+  questionNumText: {fileID: 1088689055}
   timePerPicText: {fileID: 1531156522}
   correctnessIndicator: {fileID: 1934538764}
   totalTimeDropdown: {fileID: 475831946}
@@ -3577,19 +3632,19 @@ MonoBehaviour:
   totalTimeToggle: {fileID: 475831945}
   timePerPicToggle: {fileID: 614875444}
   indicatiorToggle: {fileID: 475831944}
+  statsText: {fileID: 481770390}
   settingsMenu: {fileID: 475831943}
   background: {fileID: 1329375976}
   redPlane: {fileID: 1010991492}
   blackPlane: {fileID: 1239439677}
   eye: {fileID: 1273081934}
   leftRightText: {fileID: 427540228}
-  totalTime: 30
-  totalTimer: 0
+  totalQuestions: 60
+  curQuestion: 0
   timePerPicture: 2
   curPicTimer: 0
   gameRunning: 0
   score: 0
-  total: 0
   correctAnswer: 0
   spawnbox: {fileID: 1868633343}
 --- !u!4 &2039394411

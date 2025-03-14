@@ -27,6 +27,8 @@ public class VariablesManager : MonoBehaviour
     public Toggle showTimerToggle;
     public Toggle showIndicatorToggle;
 
+    public TMP_Text statsText;
+
     public GameObject settingsMenu;
 
     [Header("Game Loop Related")]
@@ -41,9 +43,10 @@ public class VariablesManager : MonoBehaviour
     public VariableStateMachine prevState = VariableStateMachine.NullState;
 
     [Header("Game Logic Related")]
-    public int score, total;
+    public int score;
     public int[] abc = new int[3];
     public string[] abcExp = new string[3];
+
 
     public void StartVariables()
     {
@@ -53,7 +56,6 @@ public class VariablesManager : MonoBehaviour
         timePerVariable = TranslateDropdownTimeVariable(timePerVariableDropdown.value);
         curQuestion = 0;
         score = 0;
-        total = 0;
         EnableAppropriateUI();
         gameRunning = true;
     }
@@ -74,6 +76,8 @@ public class VariablesManager : MonoBehaviour
         correctnessIndicator.gameObject.SetActive(true);
         correctnessIndicator.color = Color.white;
 
+        int total = Mathf.Min(curQuestion, totalQuestions); // curQuestions becomes 1 more than totalQuestions to stop the loop
+        statsText.text = $"Questions challenged: {total}. Score: {score} / {total * 3}.";
         settingsMenu.SetActive(true);
     }
 
@@ -97,13 +101,15 @@ public class VariablesManager : MonoBehaviour
 
     private IEnumerator RunGameCoroutine()
     {
-        curQuestion++;
         CalculateABC();
 
         //whitespace step
         timerText.text = "--:---";
         expression.text = "";
         yield return new WaitForSeconds(1f);
+
+        //the moment you see next variable, you start challenging the next question
+        curQuestion++;
 
         //showing abc
         correctnessIndicator.color = Color.white;
@@ -118,7 +124,6 @@ public class VariablesManager : MonoBehaviour
                 yield return null;
             }
         }
-        total += 3;
 
         //waiting for answer
         List<int> randOrder = new List<int> { 0, 1, 2 }; //find a random order to ask for ABC

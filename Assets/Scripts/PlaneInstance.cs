@@ -47,8 +47,9 @@ public class PlaneInstance : MonoBehaviour
         transform.position += speed * Time.deltaTime * (Vector3)direction;
 
         //check user input
-        if(Input.GetKeyDown(keyID) && !collided)
+        if(Input.GetKeyDown(keyID) && !collided && !sm.freezeDeletion)
         {
+            sm.planesDeleted++;
             gameObject.SetActive(false);
         }
 
@@ -62,6 +63,7 @@ public class PlaneInstance : MonoBehaviour
         {
             collided = true;
             sp.color = Color.red;
+            sm.numCollisions++;
         }
     }
 

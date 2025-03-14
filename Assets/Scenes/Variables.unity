@@ -1571,6 +1571,7 @@ MonoBehaviour:
   numQuestionsDropdown: {fileID: 1101112744}
   showTimerToggle: {fileID: 1347580107}
   showIndicatorToggle: {fileID: 1347580106}
+  statsText: {fileID: 1852615860}
   settingsMenu: {fileID: 1347580105}
   totalQuestions: 20
   curQuestion: 0
@@ -2214,6 +2215,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1852615860 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6471852690358991691, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
+  m_PrefabInstance: {fileID: 1347580102}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1889857985
 GameObject:
   m_ObjectHideFlags: 0

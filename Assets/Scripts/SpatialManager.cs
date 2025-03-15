@@ -179,7 +179,7 @@ public class SpatialManager : MonoBehaviour
         else if (target == eye.transform)
         {
             LookAtTarget2D(target, blackPlane.transform);
-            //TODO: sometimes the eye may line up with the black and red plane making it hard to tell L/R, try to remove these cases
+            //TODO: perhaps find a better algorithm, instead of randomly checking points
             while (WithinAngleRange(target, redPlane.transform))
             {
                 SetPositionAndOrientation(redPlane.transform, spawnbox);
@@ -193,7 +193,7 @@ public class SpatialManager : MonoBehaviour
     {
         Vector2 directionToTarget = obj2.position - obj1.position;
         float angle = Vector2.SignedAngle(obj1.up, directionToTarget);
-        return (angle >= -15f && angle <= 15f) || angle >= 165f || angle <= -165f;
+        return (angle >= -20f && angle <= 20f) || angle >= 160f || angle <= -160f;
     }
 
     public void LookAtTarget2D(Transform obj, Transform target)

@@ -119,28 +119,6 @@ public class DifferencesManager : MonoBehaviour
             total++;
             SetNextNumber();
         }
-
-        
-        //for (KeyCode key = KeyCode.Keypad1; key <= KeyCode.Keypad9; key++)
-        //{
-        //    if (Input.GetKeyDown(key))
-        //    {
-        //        Debug.Log("Pressed: " + key);
-        //        int calculatedDiff = key - KeyCode.Keypad0;
-        //        if (Mathf.Abs(num1 - num2) == calculatedDiff)
-        //        {
-        //            score++;
-        //            correctnessIndicator.color = Color.green;
-        //        }
-        //        else
-        //        {
-        //            correctnessIndicator.color = Color.red;
-        //        }
-        //        total++;
-        //        SetNextNumber();
-        //        break;
-        //    }
-        //}
     }
 
 
@@ -149,7 +127,7 @@ public class DifferencesManager : MonoBehaviour
     private void SetNextNumber()
     {
         num2 = num1;
-        while (num1 == num2)
+        while (Mathf.Abs(num1 - num2) > 4 || Mathf.Abs(num1 - num2) < 1)
         {
             num1 = Random.Range(1, 10);
         }

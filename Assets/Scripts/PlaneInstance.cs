@@ -37,7 +37,7 @@ public class PlaneInstance : MonoBehaviour
             numberText.text = planeID.ToString();
 
         direction = Math2DHelpers.GetRandomUnitVectorWithinAngle(bg.transform.position - transform.position, randAngleThreshold);
-        speed = Random.Range(0.75f, 2.75f);
+        speed = GetRandomPlaneSpeed(sm.difficultySlider.value);
     }
 
     // Update is called once per frame
@@ -47,7 +47,7 @@ public class PlaneInstance : MonoBehaviour
         transform.position += speed * Time.deltaTime * (Vector3)direction;
 
         //check user input
-        if(Input.GetKeyDown(keyID) && !collided && !sm.freezeDeletion)
+        if(Input.GetKeyDown(keyID) && !sm.freezeDeletion)
         {
             sm.planesDeleted++;
             gameObject.SetActive(false);
@@ -59,11 +59,20 @@ public class PlaneInstance : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collided)
+        if (!collided && collision.GetComponent<PlaneInstance>() != null)
         {
             collided = true;
             sp.color = Color.red;
             sm.numCollisions++;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        //this is the condition for checking when to start a new session of planes, see SimulatorManager
+        if (collision.gameObject.GetComponent<SimulatorBackground>() != null)
+        {
+            gameObject.SetActive(false);
         }
     }
 
@@ -100,5 +109,13 @@ public class PlaneInstance : MonoBehaviour
     }
 
 
+
+    private float GetRandomPlaneSpeed(float difficulty)
+    {
+        float minspeed = 0.5f, maxspeed = 1.25f;
+        minspeed += difficulty * .25f;
+        maxspeed += difficulty * .25f;
+        return Random.Range(minspeed, maxspeed);
+    }
 }
 

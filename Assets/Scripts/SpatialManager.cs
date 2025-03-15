@@ -180,6 +180,10 @@ public class SpatialManager : MonoBehaviour
         {
             LookAtTarget2D(target, blackPlane.transform);
             //TODO: sometimes the eye may line up with the black and red plane making it hard to tell L/R, try to remove these cases
+            while (WithinAngleRange(target, redPlane.transform))
+            {
+                SetPositionAndOrientation(redPlane.transform, spawnbox);
+            }
         }
 
         Physics2D.SyncTransforms();

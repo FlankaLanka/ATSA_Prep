@@ -8,6 +8,7 @@ public class SimulatorManager : MonoBehaviour
 {
     [Header("UI")]
     public Dropdown numSessionsDropdown;
+    public Slider difficultySlider;
     public Toggle mathQuestionsToggle;
 
     public TMP_Text statsText;
@@ -115,12 +116,19 @@ public class SimulatorManager : MonoBehaviour
             freezeCounter++;
         }
 
-        if (timer >= timePerRound)
+        
+        //if (timer >= timePerRound)
+        //{
+        //    instanceRunning = false;
+        //    return;
+        //}
+        //timer += Time.deltaTime;
+
+        if (AllPlanesInactive())
         {
             instanceRunning = false;
             return;
         }
-        timer += Time.deltaTime;
     }
 
     public void CreatePlanes()
@@ -141,6 +149,16 @@ public class SimulatorManager : MonoBehaviour
             PlaneInstance p = g.GetComponent<PlaneInstance>();
             p.planeID = i;
         }
+    }
+
+    private bool AllPlanesInactive()
+    {
+        foreach(GameObject plane in allPlanes)
+        {
+            if (plane.activeInHierarchy)
+                return false;
+        }
+        return true;
     }
 
 

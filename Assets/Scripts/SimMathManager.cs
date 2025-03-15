@@ -53,7 +53,10 @@ public class SimMathManager : MonoBehaviour
         for(int i = 0; i < answersBoxes.Length; i++)
         {
             answersBoxes[i].GetComponent<Image>().color = Color.white;
-            answersBoxes[i].GetComponentInChildren<TMP_Text>().text = answerChoices[i].ToString("F1");
+            if(op == '/')
+                answersBoxes[i].GetComponentInChildren<TMP_Text>().text = answerChoices[i].ToString("F1");
+            else
+                answersBoxes[i].GetComponentInChildren<TMP_Text>().text = answerChoices[i].ToString("F0");
         }
         total++;
         ToggleUI(true);

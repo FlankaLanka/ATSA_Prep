@@ -5,6 +5,16 @@ using TMPro;
 
 public class DifferencesManager : MonoBehaviour
 {
+    public struct DifferencesStat
+    {
+        int prevNum;
+        int curNum;
+        int correctAnswer;
+        int inputAnswer;
+        bool gotCorrect;
+        float answerSpeed;
+    }
+
     [Header("UI")]
     public TMP_Text displayedNumber;
     public TMP_Text timeLimitText;
@@ -18,24 +28,24 @@ public class DifferencesManager : MonoBehaviour
 
     public GameObject SettingsMenu;
 
-
     [Header("Game Loop Related")]
-    public float totalTime = 30f;
-    public float timer = 0f;
-    public bool gameRunning = false;
+    private float timer = 0f, totalTime = 30f;
+    private bool gameRunning = false;
     private Coroutine timerCoroutine;
     private Coroutine nextNumberCoroutine;
 
-
     [Header("Game Logic Related")]
-    public int score = 0, total = 0;
-    public int num1 = 0, num2 = 0;
+    private int score = 0, total = 0;
+    private int num1 = 0, num2 = 0;
+
+    [Header("Stats")]
+    private DifferencesStat stats;
+    private float fastestCorrectAnswer;
+    private float slowestCorrectAnswer;
 
 
     public void StartDifferences()
     {
-        Debug.Log("Started");
-
         SettingsMenu.SetActive(false);
 
         totalTime = TranslateDropdownTimeLimit(timeLimitDropdown.value);
@@ -65,15 +75,12 @@ public class DifferencesManager : MonoBehaviour
     private IEnumerator CalculateSecondNumber()
     {
         yield return new WaitForSeconds(1.5f);
-
         SetNextNumber();
         gameRunning = true;
     }
 
     public void StopDifferences()
     {
-        Debug.Log("Stopped");
-
         //reset
         gameRunning = false;
         displayedNumber.text = "-";
@@ -105,7 +112,6 @@ public class DifferencesManager : MonoBehaviour
         KeyCode? key = KeyCheckHelpers.GetCurrentKeypadPressed();
         if(key != null)
         {
-            Debug.Log("Pressed: " + key);
             int calculatedDiff = key.Value - KeyCode.Keypad0;
             if (Mathf.Abs(num1 - num2) == calculatedDiff)
             {

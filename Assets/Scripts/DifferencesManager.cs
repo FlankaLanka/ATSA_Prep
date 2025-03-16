@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -7,12 +8,22 @@ public class DifferencesManager : MonoBehaviour
 {
     public struct DifferencesStat
     {
-        int prevNum;
-        int curNum;
-        int correctAnswer;
-        int inputAnswer;
-        bool gotCorrect;
-        float answerSpeed;
+        public int questionNum;
+        public int prevNum;
+        public int curNum;
+        public int correctAnswer;
+        public int inputAnswer;
+        public float answerSpeed;
+
+        public DifferencesStat(int questionNum, int prevNum, int curNum, int correctAnswer, int inputAnswer, float answerSpeed)
+        {
+            this.questionNum = questionNum;
+            this.prevNum = prevNum;
+            this.curNum = curNum;
+            this.correctAnswer = correctAnswer;
+            this.inputAnswer = inputAnswer;
+            this.answerSpeed = answerSpeed;
+        }
     }
 
     [Header("UI")]
@@ -24,12 +35,10 @@ public class DifferencesManager : MonoBehaviour
     public Toggle showTimeLimit;
     public Toggle showCorrectnessIndicator;
 
-    public TMP_Text statsText;
-
     public GameObject SettingsMenu;
 
     [Header("Game Loop Related")]
-    private float timer = 0f, totalTime = 30f;
+    private float timer = 0f, totalTime = 30f, speedTimer = 0f;
     private bool gameRunning = false;
     private Coroutine timerCoroutine;
     private Coroutine nextNumberCoroutine;
@@ -39,24 +48,31 @@ public class DifferencesManager : MonoBehaviour
     private int num1 = 0, num2 = 0;
 
     [Header("Stats")]
-    private DifferencesStat stats;
-    private float fastestCorrectAnswer;
-    private float slowestCorrectAnswer;
+    public TMP_Text statsText;
+    public TMP_Text advancedStatsText;
+    public Transform statsGroup;
+    public GameObject rowStatPrefab;
+
+    private List<DifferencesStat> stats = new();
+    private float fastestCorrectAnswer, fastestQuestionNum;
+    private float slowestCorrectAnswer, slowestQuestionNum;
+    private float averageSpeed;
 
 
     public void StartDifferences()
     {
         SettingsMenu.SetActive(false);
 
+        score = 0;
+        total = 0;
         totalTime = TranslateDropdownTimeLimit(timeLimitDropdown.value);
         timerCoroutine = StartCoroutine(StartTimer(totalTime));
 
         EnableAppropriateUI();
 
-        score = 0;
-        total = 0;
-        SetNextNumber();
+        ResetAdvancedStats();
 
+        SetNextNumber();
         nextNumberCoroutine = StartCoroutine(CalculateSecondNumber());
     }
 
@@ -92,9 +108,11 @@ public class DifferencesManager : MonoBehaviour
         StopCoroutine(timerCoroutine);
         StopCoroutine(nextNumberCoroutine);
 
-        UpdateStats();
-
         statsText.text = $"You got {score} / {total} correct with a {((float)score / total) * 100:F2}% accuracy in {totalTime:F0} seconds.";
+        advancedStatsText.text = $"You got {score} / {total} correct with a {((float)score / total) * 100:F2}% accuracy in {totalTime:F0} seconds. " +
+            $"Fastest correct: {fastestCorrectAnswer:F3}s on Q{fastestQuestionNum}. Slowest correct: {slowestCorrectAnswer:F3}s on Q{slowestQuestionNum}. " +
+            $"Average speed per answer: {averageSpeed/total:F3}s.";
+
         SettingsMenu.SetActive(true);
     }
 
@@ -109,11 +127,14 @@ public class DifferencesManager : MonoBehaviour
             StopDifferences();
         }
 
+        speedTimer += Time.deltaTime;
+
         KeyCode? key = KeyCheckHelpers.GetCurrentKeypadPressed();
         if(key != null)
         {
             int calculatedDiff = key.Value - KeyCode.Keypad0;
-            if (Mathf.Abs(num1 - num2) == calculatedDiff)
+            int correctAns = Mathf.Abs(num1 - num2);
+            if (correctAns == calculatedDiff)
             {
                 score++;
                 correctnessIndicator.color = Color.green;
@@ -123,6 +144,10 @@ public class DifferencesManager : MonoBehaviour
                 correctnessIndicator.color = Color.red;
             }
             total++;
+
+            DifferencesStat roundStats = new DifferencesStat(total, num2, num1, correctAns, calculatedDiff, speedTimer);
+            UpdateAdvancedStats(roundStats);
+
             SetNextNumber();
         }
     }
@@ -138,6 +163,8 @@ public class DifferencesManager : MonoBehaviour
             num1 = Random.Range(1, 10);
         }
         displayedNumber.text = num1.ToString();
+
+        speedTimer = 0f;
     }
 
     private float TranslateDropdownTimeLimit(int val)
@@ -182,10 +209,63 @@ public class DifferencesManager : MonoBehaviour
         }
     }
 
+    #endregion
 
-    private void UpdateStats()
+    #region advanced_stats
+
+    private void ResetAdvancedStats()
     {
+        fastestCorrectAnswer = 99999f;
+        slowestCorrectAnswer = 0f;
+        fastestQuestionNum = -1;
+        slowestQuestionNum = -1;
+        averageSpeed = 0f;
 
+        foreach (Transform child in statsGroup.transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
+
+    private void UpdateAdvancedStats(DifferencesStat roundStat)
+    {
+        GameObject g = Instantiate(rowStatPrefab, statsGroup);
+        TMP_Text[] roundStatText = g.GetComponentsInChildren<TMP_Text>();
+
+        if (roundStatText.Length < 6)
+        {
+            Debug.LogWarning("AdvancedStats cannot be displayed properly. See calling method.");
+            return;
+        }
+
+        roundStatText[0].text = "#" + roundStat.questionNum.ToString();
+        roundStatText[1].text = roundStat.prevNum.ToString();
+        roundStatText[2].text = roundStat.curNum.ToString();
+        roundStatText[3].text = roundStat.correctAnswer.ToString();
+        roundStatText[4].text = roundStat.inputAnswer.ToString();
+        roundStatText[5].text = roundStat.answerSpeed.ToString("F3") + "s";
+
+        bool gotCorrect = roundStat.correctAnswer == roundStat.inputAnswer;
+        foreach(TMP_Text t in roundStatText)
+        {
+            if (gotCorrect)
+                t.color = Color.blue;
+            else
+                t.color = Color.red;
+        }
+
+        if (gotCorrect && fastestCorrectAnswer > roundStat.answerSpeed)
+        {
+            fastestCorrectAnswer = roundStat.answerSpeed;
+            fastestQuestionNum = roundStat.questionNum;
+        }
+        if (gotCorrect && slowestCorrectAnswer < roundStat.answerSpeed)
+        {
+            slowestCorrectAnswer = roundStat.answerSpeed;
+            slowestQuestionNum = roundStat.questionNum;
+        }
+        averageSpeed += roundStat.answerSpeed;
     }
 
     #endregion

@@ -3,19 +3,17 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 
 public class VariablesManager : MonoBehaviour
 {
-    public enum VariableStateMachine{
-        NullState,
-        WhitespaceBeforeStart,
-        ShowingABC,
-        AnsweringA,
-        AnsweringB,
-        AnsweringC
+    public class VariablesStat
+    {
+        public int questionNum;
+        public string[] expressions = new string[3];
+        public string[] correctAnswers = new string[3];
+        public string[] inputAnswers = new string[3];
+        public float[] speed = new float[3];
     }
-
 
     [Header("UI")]
     public TMP_Text timerText;
@@ -27,8 +25,6 @@ public class VariablesManager : MonoBehaviour
     public Toggle showTimerToggle;
     public Toggle showIndicatorToggle;
 
-    public TMP_Text statsText;
-
     public GameObject settingsMenu;
 
     [Header("Game Loop Related")]
@@ -39,24 +35,31 @@ public class VariablesManager : MonoBehaviour
     public bool gameRunning = false;
     public Coroutine gameLoopCoroutine;
 
-    public VariableStateMachine state = VariableStateMachine.NullState;
-    public VariableStateMachine prevState = VariableStateMachine.NullState;
-
     [Header("Game Logic Related")]
-    public int score;
+    public int score, total; //total is calculated upon end of a question, meaning a question only counts towards stats if fully completed (all ABC for that question attempted)
     public int[] abc = new int[3];
     public string[] abcExp = new string[3];
+
+    [Header("Stats")]
+    public TMP_Text statsText;
+    public TMP_Text advancedStatsText;
+    public Transform statsGroup;
+    public GameObject rowStatPrefab;
+
+    private float cumulativeSpeed;
 
 
     public void StartVariables()
     {
         settingsMenu.SetActive(false);
 
-        int.TryParse(numQuestionsDropdown.options[numQuestionsDropdown.value].text, out totalQuestions);
-        timePerVariable = TranslateDropdownTimeVariable(timePerVariableDropdown.value);
         curQuestion = 0;
         score = 0;
+        total = 0;
+        int.TryParse(numQuestionsDropdown.options[numQuestionsDropdown.value].text, out totalQuestions);
+        timePerVariable = TranslateDropdownTimeVariable(timePerVariableDropdown.value);
         EnableAppropriateUI();
+        ResetAdvancedStats();
         gameRunning = true;
     }
 
@@ -76,8 +79,8 @@ public class VariablesManager : MonoBehaviour
         correctnessIndicator.gameObject.SetActive(true);
         correctnessIndicator.color = Color.white;
 
-        int total = Mathf.Min(curQuestion, totalQuestions); // curQuestions becomes 1 more than totalQuestions to stop the loop
         statsText.text = $"Questions challenged: {total}. Score: {score} / {total * 3}.";
+        advancedStatsText.text = $"Questions challenged: {total}. Score: {score} / {total * 3}. The average speed of your responses is {(cumulativeSpeed / total / 3):F3}.";
         settingsMenu.SetActive(true);
     }
 
@@ -125,11 +128,20 @@ public class VariablesManager : MonoBehaviour
             }
         }
 
+        //create advanced stats
+        VariablesStat roundStat = new();
+        roundStat.questionNum = curQuestion;
+        for(int i = 0; i < roundStat.expressions.Length; i++)
+            roundStat.expressions[i] = (char)('A' + i) + " = " + abcExp[i];
+
         //waiting for answer
         List<int> randOrder = new List<int> { 0, 1, 2 }; //find a random order to ask for ABC
         Shuffle(randOrder);
         for (int i = 0; i < 3; i++)
         {
+            //adv stats
+            bool answerAttempted = false;
+
             expression.text = (char)('A' + randOrder[i]) + " = ?";
             timer = 0f;
             while (timer < timePerVariable)
@@ -137,6 +149,8 @@ public class VariablesManager : MonoBehaviour
                 KeyCode? key = KeyCheckHelpers.GetCurrentKeypadPressed();
                 if (key != null)
                 {
+                    answerAttempted = true;
+
                     if (key - KeyCode.Keypad0 == abc[randOrder[i]])
                     {
                         score++;
@@ -147,6 +161,11 @@ public class VariablesManager : MonoBehaviour
                         correctnessIndicator.color = Color.red;
                     }
 
+                    //adv stats
+                    roundStat.correctAnswers[i] = (char)('A' + randOrder[i]) + " = " + abc[randOrder[i]].ToString();
+                    roundStat.inputAnswers[i] = (char)('A' + randOrder[i]) + " = " + (key - KeyCode.Keypad0).Value.ToString();
+                    roundStat.speed[i] = timer;
+
                     timer = timePerVariable; //if recieved an answer, use timer to immediately go to next
                 }
                 else
@@ -156,8 +175,19 @@ public class VariablesManager : MonoBehaviour
                 timerText.text = GlobalFormatter.FormatTimeSecMilli(timePerVariable - timer);
                 yield return null;
             }
+
+            //if no answer, fill. adv stats
+            if(!answerAttempted)
+            {
+                roundStat.correctAnswers[i] = (char)('A' + randOrder[i]) + " = " + abc[randOrder[i]].ToString();
+                roundStat.inputAnswers[i] = (char)('A' + randOrder[i]) + " = N/A";
+                roundStat.speed[i] = timePerVariable;
+            }
         }
 
+        UpdateAdvancedStats(roundStat);
+
+        total++;
         //helps move on to next question in Update
         gameLoopCoroutine = null;
     }
@@ -190,20 +220,6 @@ public class VariablesManager : MonoBehaviour
             abcExp[r[1]] = abc[r[1]].ToString();
 
             GenerateWorkingEquation(r, 0, 2);
-
-            ////loop until we find a possible fit for the equation
-            //int op;
-            //int val;
-            //(bool, int) result;
-            //do
-            //{
-            //    op = Random.Range(0, 4);
-            //    val = Random.Range(1, 3);
-            //    result = IsOperationValid(abc[r[0]], op, val);
-            //} while (!result.Item1) ;
-
-            //abc[r[2]] = result.Item2;
-            //abcExp[r[2]] = ((char)(65 + r[0])).ToString() + GetOperationCharacter(op).ToString() + val.ToString();
         }
         else //2 algebra
         {
@@ -318,6 +334,47 @@ public class VariablesManager : MonoBehaviour
                 return '?';
         }
     }
+
+    #endregion
+
+
+    #region advanced_stats
+
+    private void ResetAdvancedStats()
+    {
+        cumulativeSpeed = 0f;
+
+        foreach (Transform child in statsGroup.transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
+
+
+    private void UpdateAdvancedStats(VariablesStat roundStat)
+    {
+        GameObject g = Instantiate(rowStatPrefab, statsGroup);
+        TMP_Text[] roundStatText = g.GetComponentsInChildren<TMP_Text>();
+
+        if (roundStatText.Length != 5)
+        {
+            Debug.LogWarning("AdvancedStats cannot be displayed properly. See calling method.");
+            return;
+        }
+
+        roundStatText[0].text = "#" + roundStat.questionNum;
+        roundStatText[1].text = roundStat.expressions[0] + "\n" + roundStat.expressions[1] + "\n" + roundStat.expressions[2];
+        roundStatText[2].text = roundStat.correctAnswers[0] + "\n" + roundStat.correctAnswers[1] + "\n" + roundStat.correctAnswers[2];
+        roundStatText[3].text = $"<color={(roundStat.inputAnswers[0] == roundStat.correctAnswers[0] ? "blue" : "red")}>{roundStat.inputAnswers[0]}</color>\n" +
+                                $"<color={(roundStat.inputAnswers[1] == roundStat.correctAnswers[1] ? "blue" : "red")}>{roundStat.inputAnswers[1]}</color>\n" +
+                                $"<color={(roundStat.inputAnswers[2] == roundStat.correctAnswers[2] ? "blue" : "red")}>{roundStat.inputAnswers[2]}</color>\n";
+        roundStatText[4].text = roundStat.speed[0].ToString("F3") + "\n" + roundStat.speed[1].ToString("F3") + "\n" + roundStat.speed[2].ToString("F3");
+
+        for (int i = 0; i < roundStat.speed.Length; i++)
+            cumulativeSpeed += roundStat.speed[i];
+    }
+
 
     #endregion
 

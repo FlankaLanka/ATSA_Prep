@@ -6,7 +6,7 @@ using TMPro;
 
 public class DifferencesManager : MonoBehaviour
 {
-    public struct DifferencesStat
+    public class DifferencesStat
     {
         public int questionNum;
         public int prevNum;
@@ -53,10 +53,9 @@ public class DifferencesManager : MonoBehaviour
     public Transform statsGroup;
     public GameObject rowStatPrefab;
 
-    private List<DifferencesStat> stats = new();
     private float fastestCorrectAnswer, fastestQuestionNum;
     private float slowestCorrectAnswer, slowestQuestionNum;
-    private float averageSpeed;
+    private float cumulativeSpeed;
 
 
     public void StartDifferences()
@@ -67,11 +66,8 @@ public class DifferencesManager : MonoBehaviour
         total = 0;
         totalTime = TranslateDropdownTimeLimit(timeLimitDropdown.value);
         timerCoroutine = StartCoroutine(StartTimer(totalTime));
-
         EnableAppropriateUI();
-
         ResetAdvancedStats();
-
         SetNextNumber();
         nextNumberCoroutine = StartCoroutine(CalculateSecondNumber());
     }
@@ -111,7 +107,7 @@ public class DifferencesManager : MonoBehaviour
         statsText.text = $"You got {score} / {total} correct with a {((float)score / total) * 100:F2}% accuracy in {totalTime:F0} seconds.";
         advancedStatsText.text = $"You got {score} / {total} correct with a {((float)score / total) * 100:F2}% accuracy in {totalTime:F0} seconds. " +
             $"Fastest correct: {fastestCorrectAnswer:F3}s on Q{fastestQuestionNum}. Slowest correct: {slowestCorrectAnswer:F3}s on Q{slowestQuestionNum}. " +
-            $"Average speed per answer: {averageSpeed/total:F3}s.";
+            $"Average speed per answer: {cumulativeSpeed/total:F3}s.";
 
         SettingsMenu.SetActive(true);
     }
@@ -219,7 +215,7 @@ public class DifferencesManager : MonoBehaviour
         slowestCorrectAnswer = 0f;
         fastestQuestionNum = -1;
         slowestQuestionNum = -1;
-        averageSpeed = 0f;
+        cumulativeSpeed = 0f;
 
         foreach (Transform child in statsGroup.transform)
         {
@@ -233,7 +229,7 @@ public class DifferencesManager : MonoBehaviour
         GameObject g = Instantiate(rowStatPrefab, statsGroup);
         TMP_Text[] roundStatText = g.GetComponentsInChildren<TMP_Text>();
 
-        if (roundStatText.Length < 6)
+        if (roundStatText.Length != 6)
         {
             Debug.LogWarning("AdvancedStats cannot be displayed properly. See calling method.");
             return;
@@ -265,7 +261,7 @@ public class DifferencesManager : MonoBehaviour
             slowestCorrectAnswer = roundStat.answerSpeed;
             slowestQuestionNum = roundStat.questionNum;
         }
-        averageSpeed += roundStat.answerSpeed;
+        cumulativeSpeed += roundStat.answerSpeed;
     }
 
     #endregion

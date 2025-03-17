@@ -9,12 +9,12 @@ public class SpatialManager : MonoBehaviour
     public TMP_Text questionNumText;
     public TMP_Text timePerPicText;
     public Image correctnessIndicator;
-
     public Dropdown totalTimeDropdown;
     public Dropdown timePerPicDropdown;
     public Toggle totalTimeToggle;
     public Toggle timePerPicToggle;
     public Toggle indicatiorToggle;
+    public Dropdown eyePOVDropdown;
 
     public GameObject settingsMenu;
 
@@ -105,7 +105,23 @@ public class SpatialManager : MonoBehaviour
         bool actualLR = Vector2.Dot(blackPlane.transform.right, redPlane.transform.position - blackPlane.transform.position) >= 0; //false = L, true = R
 
         //eye
-        if (Random.Range(0, 9) <= 3) //40% chance for eye to appear
+        float probabilityOfEye = 0;
+        switch(eyePOVDropdown.value)
+        {
+            case 0:
+                probabilityOfEye = -1; //0% trigger
+                break;
+            case 1:
+                probabilityOfEye = 3; //40% trigger
+                break;
+            case 2:
+                probabilityOfEye = 10; //100% trigger
+                break;
+            default:
+                break;
+
+        }
+        if (Random.Range(0, 10) <= probabilityOfEye)
         {
             SetPositionAndOrientation(eye.transform, spawnbox.bounds);
             //the eye changes the correct answer

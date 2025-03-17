@@ -19,11 +19,11 @@ public class VariablesManager : MonoBehaviour
     public TMP_Text timerText;
     public TMP_Text expression;
     public Image correctnessIndicator;
-
     public Dropdown timePerVariableDropdown;
     public Dropdown numQuestionsDropdown;
     public Toggle showTimerToggle;
     public Toggle showIndicatorToggle;
+    public Dropdown algebraDropdown;
 
     public GameObject settingsMenu;
 
@@ -199,7 +199,10 @@ public class VariablesManager : MonoBehaviour
 
     private void CalculateABC()
     {
-        int qType = Random.Range(0, 3);
+        int qType = algebraDropdown.value;
+        if(qType == 3)
+            qType = Random.Range(0, 3);
+
         if(qType == 0) //no algebra
         {
             abc[0] = Random.Range(1, 5);
@@ -232,8 +235,6 @@ public class VariablesManager : MonoBehaviour
             GenerateWorkingEquation(r, 0, 1);
             GenerateWorkingEquation(r, 1, 2);
         }
-
-
     }
 
     #region Helpers

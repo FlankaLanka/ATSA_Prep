@@ -1603,6 +1603,45 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7744348901775307247, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
+      propertyPath: m_text
+      value: '<b>Inputs</b>: Numpad keys and ASDF
+
+
+        <b>Objective</b>: Avoid
+        collisions by removing planes while solving math problems.
+
+
+        In part
+        1, planes (numbers) will fly across the screen. You can press the numpad
+        number corresponding to the circle on screen to delete them. The task is
+        to delete planes that are going to collide. The goal is to minimize the number
+        of collisions while also minimizing the number of deletions. In each round,
+        if you are confident no additional collisions will occur, press 0.
+
+
+        In
+        part 2, math questions will appear. The same rules from part 1 apply in addition
+        to math questions that can be attempted. Use keys ASDF to pick your answer
+        choice for the math problems.
+
+
+        <b>Exam</b>: The exam will consist
+        of two ~5-minute sessions of this exercise. In the first session, there will
+        be no math questions. In the second session, there will be math questions.
+        The difficulty of the plane simulators in both sessions are roughly identical.
+
+
+        <b>Tips</b>:
+        Always watch out for collisions before attempting math problems. It is theorized
+        that avoiding collisions is more important than solving math problems.
+
+
+        Solve
+        for the last digit of the math problem. Sometimes only one answer choice
+        will have a matching last digit. For example 49 x 189. The last digit is
+        1 and your choices may be 9839, 9261, 9265, 9313. The answer is 9261.'
+      objectReference: {fileID: 0}
     - target: {fileID: 9219179413467633553, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_Text
       value: 20

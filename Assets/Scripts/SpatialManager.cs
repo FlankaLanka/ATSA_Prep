@@ -45,7 +45,9 @@ public class SpatialManager : MonoBehaviour
     public GameObject rowStatPrefab;
 
     private float cumulativeSpeed = 0f;
-    public List<Texture2D> questionSnapshots = new();
+
+    public Dictionary<GameObject, Sprite> questionSnapshots = new();
+    //public List<Texture2D> questionSnapshots = new();
 
 
 
@@ -80,7 +82,8 @@ public class SpatialManager : MonoBehaviour
         eye.transform.position = new Vector2(3000, 1000);
 
         statsText.text = $"You scored {score} / {Mathf.Min(curQuestion, totalQuestions)}.";
-        advancedStatsText.text = $"You scored {score} / {Mathf.Min(curQuestion, totalQuestions)}. Average speed of correct answers: {cumulativeSpeed / score}s. Hover over a question to see the image.";
+        advancedStatsText.text = $"You scored {score} / {Mathf.Min(curQuestion, totalQuestions)}. Average speed of correct answers: {(cumulativeSpeed / score):F3}s. " +
+            $"Hover over a question to see the image.";
 
         settingsMenu.SetActive(true);
     }
@@ -330,7 +333,6 @@ public class SpatialManager : MonoBehaviour
         roundStatText[0].text = "#" + questionNum;
         roundStatText[1].text = correctAnswer;
         roundStatText[2].text = inputAnswer;
-        //roundStatText[2].color = correctAnswer == inputAnswer ? Color.blue : Color.red;
         roundStatText[3].text = speed.ToString("F3") + "s";
 
         Color outputColor = correctAnswer == inputAnswer ? Color.blue : Color.red;
@@ -342,10 +344,10 @@ public class SpatialManager : MonoBehaviour
         if (correctAnswer == inputAnswer)
             cumulativeSpeed += speed;
 
-        questionSnapshots.Add(TakeSnapshot(Camera.main));
+        questionSnapshots.Add(g, TakeSnapshot(Camera.main));
     }
 
-    private Texture2D TakeSnapshot(Camera cam)
+    private Sprite TakeSnapshot(Camera cam)
     {
         if (cam == null)
         {
@@ -369,7 +371,12 @@ public class SpatialManager : MonoBehaviour
         RenderTexture.active = null;
         Destroy(rt);
 
-        return snapshot;
+        return TextureToSprite(snapshot);
+    }
+
+    private Sprite TextureToSprite(Texture2D tex)
+    {
+        return Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
     }
 
     #endregion

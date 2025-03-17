@@ -5,42 +5,43 @@ using TMPro;
 
 public class HoverRevealSpatial : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    private Image image;
+    private Image rowBackground;
     private Color originalColor;
+    private Color hoverColor = Color.yellow;
+    private SpatialManager sm;
+    private SpatialSnapshotImage si;
+    private Image snapshotImage;
 
-    [SerializeField] private Color hoverColor = Color.yellow; // Change to desired hover color
 
-    private void Start()
+    private void Awake()
     {
-        image = GetComponent<Image>();
-        if (image != null)
-        {
-            originalColor = image.color;
-        }
+        sm = FindFirstObjectByType<SpatialManager>();
+        si = FindFirstObjectByType<SpatialSnapshotImage>();
+        if(sm == null || si == null)
+            Debug.Log("Required SpatialManager and SpatialSnapshotImage for advanced stats to exist. Destroying this.");
+
+        snapshotImage = si.gameObject.GetComponent<Image>();
+        if(snapshotImage == null)
+            Debug.Log("Required SpatialSnapshotImage to contain Image. Destroying this.");
+
+        rowBackground = GetComponent<Image>();
+        originalColor = rowBackground.color;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (image != null)
+        rowBackground.color = hoverColor;
+
+        if (sm.questionSnapshots.ContainsKey(gameObject))
         {
-            image.color = hoverColor;
-        }
-        foreach(TMP_Text text in transform.GetComponentsInChildren<TMP_Text>())
-        {
-            text.color = Color.magenta;
+            snapshotImage.sprite = sm.questionSnapshots[gameObject];
+            snapshotImage.color = new Color(1, 1, 1, 1);
         }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (image != null)
-        {
-            image.color = originalColor;
-        }
-
-        foreach (TMP_Text text in transform.GetComponentsInChildren<TMP_Text>())
-        {
-            text.color = Color.yellow;
-        }
+        rowBackground.color = originalColor;
+        snapshotImage.color = new Color(1, 1, 1, 0);
     }
 }

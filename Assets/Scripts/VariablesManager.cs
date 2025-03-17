@@ -369,7 +369,7 @@ public class VariablesManager : MonoBehaviour
         roundStatText[3].text = $"<color={(roundStat.inputAnswers[0] == roundStat.correctAnswers[0] ? "blue" : "red")}>{roundStat.inputAnswers[0]}</color>\n" +
                                 $"<color={(roundStat.inputAnswers[1] == roundStat.correctAnswers[1] ? "blue" : "red")}>{roundStat.inputAnswers[1]}</color>\n" +
                                 $"<color={(roundStat.inputAnswers[2] == roundStat.correctAnswers[2] ? "blue" : "red")}>{roundStat.inputAnswers[2]}</color>\n";
-        roundStatText[4].text = roundStat.speed[0].ToString("F3") + "\n" + roundStat.speed[1].ToString("F3") + "\n" + roundStat.speed[2].ToString("F3");
+        roundStatText[4].text = roundStat.speed[0].ToString("F3") + "s\n" + roundStat.speed[1].ToString("F3") + "s\n" + roundStat.speed[2].ToString("F3") + "s";
 
         for (int i = 0; i < roundStat.speed.Length; i++)
             cumulativeSpeed += roundStat.speed[i];

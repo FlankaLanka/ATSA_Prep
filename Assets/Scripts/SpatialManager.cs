@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
 public class SpatialManager : MonoBehaviour
 {
@@ -14,8 +15,6 @@ public class SpatialManager : MonoBehaviour
     public Toggle totalTimeToggle;
     public Toggle timePerPicToggle;
     public Toggle indicatiorToggle;
-
-    public TMP_Text statsText;
 
     public GameObject settingsMenu;
 
@@ -34,9 +33,20 @@ public class SpatialManager : MonoBehaviour
     public bool gameRunning = false;
 
     [Header("Game Logic Related")]
-    public int score;
+    public int score, total;
     public bool correctAnswer = false;
     public SpriteRenderer spawnbox;
+
+
+    [Header("Stats")]
+    public TMP_Text statsText;
+    public TMP_Text advancedStatsText;
+    public Transform statsGroup;
+    public GameObject rowStatPrefab;
+
+    private float cumulativeSpeed = 0f;
+    public List<Texture2D> questionSnapshots = new();
+
 
 
     public void StartSpatial()
@@ -44,15 +54,15 @@ public class SpatialManager : MonoBehaviour
         settingsMenu.SetActive(false);
 
         score = 0;
+        total = 0;
         curQuestion = 0;
         int.TryParse(totalTimeDropdown.options[totalTimeDropdown.value].text, out totalQuestions);
         timePerPicture = TranslateDropdownTimePerPic(timePerPicDropdown.value);
-
         EnableAppropriateUI();
+        ResetAdvancedStats();
 
         //basically LoadNewOrientations();
         curPicTimer = timePerPicture + 1;
-
         gameRunning = true;
     }
 
@@ -70,6 +80,8 @@ public class SpatialManager : MonoBehaviour
         eye.transform.position = new Vector2(3000, 1000);
 
         statsText.text = $"You scored {score} / {Mathf.Min(curQuestion, totalQuestions)}.";
+        advancedStatsText.text = $"You scored {score} / {Mathf.Min(curQuestion, totalQuestions)}. Average speed of correct answers: {cumulativeSpeed / score}s. Hover over a question to see the image.";
+
         settingsMenu.SetActive(true);
     }
 
@@ -111,14 +123,21 @@ public class SpatialManager : MonoBehaviour
 
         if(curPicTimer >= timePerPicture)
         {
+            if (curQuestion >= 1 && curQuestion <= totalQuestions)
+                UpdateAdvancedStats(curQuestion, correctAnswer ? "T" : "F", "N/A", timePerPicture);
             LoadNewOrientations();
         }
-        curPicTimer += Time.deltaTime;
+        else
+        {
+            curPicTimer += Time.deltaTime;
+        }
         timePerPicText.text = GlobalFormatter.FormatTimeSecMilli(timePerPicture - curPicTimer);
 
 
         if (curQuestion > totalQuestions || Input.GetKeyDown(KeyCode.Escape))
         {
+            if (Input.GetKeyDown(KeyCode.Escape) && !(curQuestion > totalQuestions))
+                UpdateAdvancedStats(curQuestion, correctAnswer ? "T" : "F", "N/A", timePerPicture);
             StopSpatial();
             return;
         }
@@ -134,6 +153,7 @@ public class SpatialManager : MonoBehaviour
             {
                 correctnessIndicator.color = Color.red;
             }
+            UpdateAdvancedStats(curQuestion, correctAnswer ? "T" : "F", "T", curPicTimer - Time.deltaTime);
             LoadNewOrientations();
         }
         else if (Input.GetKeyDown(KeyCode.F))
@@ -147,6 +167,7 @@ public class SpatialManager : MonoBehaviour
             {
                 correctnessIndicator.color = Color.red;
             }
+            UpdateAdvancedStats(curQuestion, correctAnswer ? "T" : "F", "F", curPicTimer - Time.deltaTime);
             LoadNewOrientations();
         }
     }
@@ -277,6 +298,78 @@ public class SpatialManager : MonoBehaviour
             correctnessIndicator.gameObject.SetActive(true);
         else
             correctnessIndicator.gameObject.SetActive(false);
+    }
+
+    #endregion
+
+    #region advanced_stats
+        
+    private void ResetAdvancedStats()
+    {
+        cumulativeSpeed = 0f;
+        questionSnapshots.Clear();
+        foreach (Transform child in statsGroup.transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
+    private void UpdateAdvancedStats(int questionNum, string correctAnswer, string inputAnswer, float speed)
+    {
+        //Q: when do you update advancedstats? A: when you press T/F, when timer runs out, or when user presses Esc
+
+        GameObject g = Instantiate(rowStatPrefab, statsGroup);
+        TMP_Text[] roundStatText = g.GetComponentsInChildren<TMP_Text>();
+
+        if (roundStatText.Length != 4)
+        {
+            Debug.LogWarning("AdvancedStats cannot be displayed properly. See calling method.");
+            return;
+        }
+
+        roundStatText[0].text = "#" + questionNum;
+        roundStatText[1].text = correctAnswer;
+        roundStatText[2].text = inputAnswer;
+        //roundStatText[2].color = correctAnswer == inputAnswer ? Color.blue : Color.red;
+        roundStatText[3].text = speed.ToString("F3") + "s";
+
+        Color outputColor = correctAnswer == inputAnswer ? Color.blue : Color.red;
+        for (int i = 0; i < roundStatText.Length; i++)
+        {
+            roundStatText[i].color = outputColor;
+        }
+
+        if (correctAnswer == inputAnswer)
+            cumulativeSpeed += speed;
+
+        questionSnapshots.Add(TakeSnapshot(Camera.main));
+    }
+
+    private Texture2D TakeSnapshot(Camera cam)
+    {
+        if (cam == null)
+        {
+            Debug.LogError("Camera is null! Cannot take a snapshot.");
+            return null;
+        }
+
+        // Set the render texture
+        RenderTexture rt = new RenderTexture(Screen.width, Screen.height, 24);
+        cam.targetTexture = rt;
+        cam.Render();
+
+        // Read pixels from the render texture
+        Texture2D snapshot = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+        RenderTexture.active = rt;
+        snapshot.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
+        snapshot.Apply();
+
+        // Clean up
+        cam.targetTexture = null;
+        RenderTexture.active = null;
+        Destroy(rt);
+
+        return snapshot;
     }
 
     #endregion

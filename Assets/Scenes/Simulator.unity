@@ -2042,7 +2042,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2273333440114189550, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2529991412026333502, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_SizeDelta.y
@@ -2106,11 +2106,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2803266367344426168, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.70336235
+      value: 0.6868621
       objectReference: {fileID: 0}
     - target: {fileID: 2803266367344426168, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.2966377
+      value: 0.3131379
       objectReference: {fileID: 0}
     - target: {fileID: 2803266367344426168, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2174,27 +2174,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4057819966492976040, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4057819966492976040, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4057819966492976040, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: -17
       objectReference: {fileID: 0}
     - target: {fileID: 4057819966492976040, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -17
       objectReference: {fileID: 0}
     - target: {fileID: 4057819966492976040, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -200
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4057819966492976040, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 150
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4149311383080140486, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -2214,11 +2214,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4170837983624328583, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.000022888
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4170837983624328583, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 48.224945
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4283995757201227277, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_AnchorMax.y
@@ -2290,11 +2290,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4887555159321518454, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4887555159321518454, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4959335182612255524, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_Name
@@ -2378,19 +2378,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5938527132954638064, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5938527132954638064, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -17
       objectReference: {fileID: 0}
     - target: {fileID: 5938527132954638064, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 200
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5938527132954638064, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 150
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6281370651045907293, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_AnchorMax.y
@@ -2438,7 +2438,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6699728977275171114, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 703.16
+      value: 765.25
       objectReference: {fileID: 0}
     - target: {fileID: 6699728977275171114, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2482,19 +2482,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7405641799696568966, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7405641799696568966, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: -17
       objectReference: {fileID: 0}
     - target: {fileID: 7405641799696568966, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -200
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7405641799696568966, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -150
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7553318679316630011, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_Pivot.x
@@ -2578,11 +2578,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7605180502509108619, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7605180502509108619, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7744348901775307247, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_text
@@ -2595,10 +2595,12 @@ PrefabInstance:
 
         In part
         1, planes (numbers) will fly across the screen. You can press the numpad
-        number corresponding to the circle on screen to delete them. The task is
-        to delete planes that are going to collide. The goal is to minimize the number
-        of collisions while also minimizing the number of deletions. In each round,
-        if you are confident no additional collisions will occur, press 0.
+        number corresponding to the plane''s number on screen to delete them. The
+        task is to delete planes that are going to collide. The goal is to minimize
+        the number of collisions while also minimizing the number of deletions. In
+        each round, if you are confident no additional collisions will occur, press
+        ''0''. The earlier you press ''0'' the better. Note that when you do press
+        ''0'', you will not be allowed to delete planes for the rest of that round.
 
 
         In
@@ -2610,12 +2612,13 @@ PrefabInstance:
         <b>Exam</b>: The exam will consist
         of two ~5-minute sessions of this exercise. In the first session, there will
         be no math questions. In the second session, there will be math questions.
-        The difficulty of the plane simulators in both sessions are roughly identical.
+        The difficulty of the plane simulators in both sessions are roughly identical
+        to difficulity 4/10 on this simulator.
 
 
-        <b>Tips</b>:
-        Always watch out for collisions before attempting math problems. It is theorized
-        that avoiding collisions is more important than solving math problems.
+        <b>Tips</b>: Always watch
+        out for collisions before attempting math problems. It is theorized that
+        avoiding collisions is more important than solving math problems.
 
 
         Solve
@@ -3725,9 +3728,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1013280643}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 188.2, y: -10}
   m_SizeDelta: {x: 70, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1692289643
@@ -3861,9 +3864,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1013280643}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 111.6, y: -10}
   m_SizeDelta: {x: 70, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1742500932
@@ -4084,9 +4087,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1013280643}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 341.4, y: -10}
   m_SizeDelta: {x: 70, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1817152339
@@ -4426,9 +4429,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1013280643}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 264.8, y: -10}
   m_SizeDelta: {x: 70, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1848948844
@@ -4944,9 +4947,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1013280643}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 35, y: -10}
   m_SizeDelta: {x: 70, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2002353901

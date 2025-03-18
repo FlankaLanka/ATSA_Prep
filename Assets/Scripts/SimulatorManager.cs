@@ -117,13 +117,6 @@ public class SimulatorManager : MonoBehaviour
         }
 
         
-        //if (timer >= timePerRound)
-        //{
-        //    instanceRunning = false;
-        //    return;
-        //}
-        //timer += Time.deltaTime;
-
         if (AllPlanesInactive())
         {
             instanceRunning = false;

@@ -62,9 +62,10 @@ public class SimMathManager : MonoBehaviour
         int a = Random.Range(1, 100);
         int b = Random.Range(1, 100);
         char op = GetRandomOperation();
+        string questionStr = a + " " + op + " " + b;
         List<float> answerChoices = GenerateAnswers(a, b, op); //NOTE: length is 5, 4 answers and last index represents the correct answer index
 
-        question.GetComponent<TMP_Text>().text = a + " " + op + " " + b;
+        question.GetComponent<TMP_Text>().text = questionStr;
         for(int i = 0; i < answersBoxes.Length; i++)
         {
             answersBoxes[i].GetComponent<Image>().color = Color.white;
@@ -120,7 +121,7 @@ public class SimMathManager : MonoBehaviour
             yield return null;
         }
 
-        UpdateAdvancedStats(total, answerChoices, userInputAnswer, timeAnswered, op);
+        UpdateAdvancedStats(total, questionStr, answerChoices, userInputAnswer, timeAnswered, op);
         mathCoroutine = null;
     }
 
@@ -233,35 +234,36 @@ public class SimMathManager : MonoBehaviour
 
     #region advanced_stats
 
-    public void UpdateAdvancedStats(int questionNum, List<float> choices, int inputAnswer, float speed, char op)
+    public void UpdateAdvancedStats(int questionNum, string questionStr, List<float> choices, int inputAnswer, float speed, char op)
     {
         GameObject g = Instantiate(rowStatPrefab, statsGroup);
         TMP_Text[] roundStatText = g.GetComponentsInChildren<TMP_Text>();
 
-        if (roundStatText.Length != 5)
+        if (roundStatText.Length != 6)
         {
             Debug.LogWarning("AdvancedStats cannot be displayed properly. See calling method.");
             return;
         }
 
         roundStatText[0].text = "#" + questionNum;
+        roundStatText[1].text = questionStr;
         string precision = op == '/' ? "F2" : "F0";
-        roundStatText[1].text = "A=" + choices[0].ToString(precision) + "\n" +
+        roundStatText[2].text = "A=" + choices[0].ToString(precision) + "\n" +
                                 "S=" + choices[1].ToString(precision) + "\n" +
                                 "D=" + choices[2].ToString(precision) + "\n" +
                                 "F=" + choices[3].ToString(precision);
-        roundStatText[2].text = choices[(int)choices[4]].ToString(precision);
+        roundStatText[3].text = choices[(int)choices[4]].ToString(precision);
         if (inputAnswer == -1)
         {
-            roundStatText[3].text = "N/A";
-            roundStatText[3].color = Color.red;
+            roundStatText[4].text = "N/A";
+            roundStatText[4].color = Color.red;
         }
         else
         {
-            roundStatText[3].text = choices[inputAnswer].ToString(precision);
-            roundStatText[3].color = (int)choices[4] == inputAnswer ? Color.blue : Color.red;
+            roundStatText[4].text = choices[inputAnswer].ToString(precision);
+            roundStatText[4].color = (int)choices[4] == inputAnswer ? Color.blue : Color.red;
         }
-        roundStatText[4].text = speed.ToString("F3") + "s";
+        roundStatText[5].text = speed.ToString("F3") + "s";
     }
 
     #endregion

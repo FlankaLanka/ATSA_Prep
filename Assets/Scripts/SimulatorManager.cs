@@ -57,7 +57,8 @@ public class SimulatorManager : MonoBehaviour
     public GameObject planePrefab;
     public SpriteRenderer bg;
     public List<GameObject> allPlanes;
-    public int numCollisions, totalPlanes, planesDeleted, freezeCounter;
+    public int numCollisions, planesDeleted, freezeCounter;
+    public int potentialCollisions, optimalPlanesDeleted, badFreezeCounter;
     public List<(int, int)> inputCollisions = new();
     public bool freezeDeletion;
     [Range(1f,5f)]
@@ -68,8 +69,11 @@ public class SimulatorManager : MonoBehaviour
     [Header("Stats")]
     public TMP_Text statsText;
     public TMP_Text statsMathText;
+    public TMP_Text advancedStatsText;
+    public TMP_Text advancedStatsMathText;
     public Transform statsGroup;
     public GameObject rowStatPrefab;
+
 
     private Dictionary<GameObject, List<GameObject>> collisionsGraph;
     private List<GameObject> planesToDelete;
@@ -91,9 +95,11 @@ public class SimulatorManager : MonoBehaviour
         instanceRunning = false;
 
         numCollisions = 0;
-        totalPlanes = 0;
         planesDeleted = 0;
         freezeCounter = 0;
+        potentialCollisions = 0;
+        optimalPlanesDeleted = 0;
+        badFreezeCounter = 0;
 
         ResetAdvancedStats();
         mathManager.ResetAdvancedStats();
@@ -103,18 +109,20 @@ public class SimulatorManager : MonoBehaviour
 
     public void StopSimulator()
     {
-        foreach (GameObject g in allPlanes)
-        {
-            Destroy(g);
-            totalPlanes++;
-        }
-        allPlanes.Clear();
+        ClearPlanes();
 
-        statsText.text = $"You got {numCollisions} red planes from a total of {totalPlanes}. You deleted {planesDeleted} planes. You pressed '0' {freezeCounter} times.";
-        if(mathQuestionsToggle.isOn)
+        statsText.text = $"You got {numCollisions} red planes from a total of. You deleted {planesDeleted} planes. You pressed '0' {freezeCounter} times.";
+        advancedStatsText.text = $"Num Collisions: {numCollisions}. NumDeletes:";
+        if (mathQuestionsToggle.isOn)
+        {
             statsMathText.text = $"You got {mathManager.score} / {mathManager.totalAttempted} correct out of {mathManager.total} math questions.";
+            advancedStatsMathText.text = $"You got {mathManager.score} / {mathManager.totalAttempted} correct out of {mathManager.total} math questions.";
+        }
         else
+        {
             statsMathText.text = "No math questions this session.";
+            advancedStatsMathText.text = "No math questions this session.";
+        }
 
         mathManager.gameObject.SetActive(false);
         settingsMenu.SetActive(true);
@@ -131,18 +139,16 @@ public class SimulatorManager : MonoBehaviour
 
         if(curSession > totalSessions || Input.GetKeyDown(KeyCode.Escape))
         {
+            if(Input.GetKeyDown(KeyCode.Escape))
+                UpdateAdvancedStats(Mathf.Min(curSession, totalSessions), collisionsGraph, planesToDelete, inputDeletes, inputCollisions, freezeDeletion, 99f, 99f);
+
             StopSimulator();
             return;
         }
 
         if (!instanceRunning) // each instance refers to one wave of planes spawning and flying across
         {
-            foreach (GameObject g in allPlanes)
-            {
-                Destroy(g);
-                totalPlanes++;
-            }
-            allPlanes.Clear();
+            ClearPlanes();
 
             CreatePlanes();
             freezeDeletion = false;
@@ -173,6 +179,15 @@ public class SimulatorManager : MonoBehaviour
             instanceRunning = false;
             return;
         }
+    }
+
+    public void ClearPlanes()
+    {
+        foreach (GameObject g in allPlanes)
+        {
+            Destroy(g);
+        }
+        allPlanes.Clear();
     }
 
     public void CreatePlanes()
@@ -321,8 +336,8 @@ public class SimulatorManager : MonoBehaviour
         {
             roundStatText[4].text += input + ", ";
         }
-        roundStatText[5].text = (freezeDeletion ? zeroTimer.ToString("F3") : "N/A") + "s / " + roundTimer.ToString("F3") + "s";
-
+        roundStatText[5].text = (freezeDeletion ? zeroTimer.ToString("F3") + "s" : "N/A") + " / " +
+                                (roundTimer >= 99f ? roundTimer.ToString("F3") + "s" : "KeyESC");
     }
 
     public string LogPossibleCollisions(Dictionary<GameObject, List<GameObject>> graph)
@@ -456,8 +471,7 @@ public class SimulatorManager : MonoBehaviour
             toDelete.Add(maxNode);
 
             // Remove isolated nodes (nodes with no edges left)
-            List<GameObject> isolatedNodes = graph.Where(kvp => kvp.Value.Count == 0)
-                                                  .Select(kvp => kvp.Key).ToList();
+            List<GameObject> isolatedNodes = graph.Where(kvp => kvp.Value.Count == 0).Select(kvp => kvp.Key).ToList();
             foreach (var node in isolatedNodes)
             {
                 graph.Remove(node);
@@ -499,7 +513,7 @@ public class SimulatorManager : MonoBehaviour
             }
             else if (replayType == 1) //timeOfDelete for optimal delete is set in CreatePlanes() here
             {
-                    fpInst.timeOfDelete = replaySessions[curReplaySession].optimalDeletes.Contains(fakePlaneInfo.planeID) ? 0.5f : 99999f;
+                fpInst.timeOfDelete = replaySessions[curReplaySession].optimalDeletes.Contains(fakePlaneInfo.planeID) ? 0.25f : 99999f;
             }
             else if (replayType == 2)
             {

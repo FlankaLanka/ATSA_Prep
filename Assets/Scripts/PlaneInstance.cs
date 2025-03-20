@@ -22,6 +22,11 @@ public class PlaneInstance : MonoBehaviour
     public float timer = 0f, timeOfDelete = 99999f;
     public SimulatorManager.FakePlaneInfoStats fakePlaneReference;
 
+    //TODO: use contructor to assign values instead of manual inputs in SimulatorManager.cs
+    //public PlaneInstance(bool fake)
+    //{
+    //}
+
     private void Awake()
     {
         sm = FindFirstObjectByType<SimulatorManager>();
@@ -40,6 +45,7 @@ public class PlaneInstance : MonoBehaviour
             direction = Math2DHelpers.GetRandomUnitVectorWithinAngle(bg.transform.position - transform.position, randAngleThreshold);
             speed = GetRandomPlaneSpeed(sm.difficultySlider.value);
         }
+
     }
 
     private void Start()
@@ -47,6 +53,12 @@ public class PlaneInstance : MonoBehaviour
         keyID = KeyCode.Keypad0 + planeID;
         numberText = GetComponentInChildren<TMP_Text>();
         numberText.text = planeID.ToString();
+
+        if(isFake)
+        {
+            //render invisible to main camera
+            SetLayerRecursively(gameObject, "FakePlanes");
+        }
     }
 
     // Update is called once per frame
@@ -132,14 +144,21 @@ public class PlaneInstance : MonoBehaviour
         canvasMask.padding = new Vector4(leftDist, botDist, rightDist, topDist);
     }
 
-
-
     private float GetRandomPlaneSpeed(float difficulty)
     {
         float minspeed = 0.5f, maxspeed = 1.25f;
         minspeed += difficulty * .25f;
         maxspeed += difficulty * .25f;
         return Random.Range(minspeed, maxspeed);
+    }
+
+    void SetLayerRecursively(GameObject obj, string newLayer)
+    {
+        obj.layer = LayerMask.NameToLayer(newLayer);
+        foreach (Transform child in obj.transform)
+        {
+            SetLayerRecursively(child.gameObject, newLayer);
+        }
     }
 }
 

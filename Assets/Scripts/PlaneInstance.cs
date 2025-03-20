@@ -19,7 +19,7 @@ public class PlaneInstance : MonoBehaviour
     private bool collided = false;
 
     public bool isFake = false; //used for replay
-    public float timer = 0f, timeOfDelete = 99999f;
+    public float timer = 0f, timeOfDelete = 99999f; //timeOfDelete is actually only referenced by case 0 of InitiateReplay(int replayType) in SimulatorManager.cs
     public SimulatorManager.FakePlaneInfoStats fakePlaneReference;
 
     //TODO: use contructor to assign values instead of manual inputs in SimulatorManager.cs
@@ -70,10 +70,9 @@ public class PlaneInstance : MonoBehaviour
         if(!isFake)
         {
             //check user input
-            if (Input.GetKeyDown(keyID) && !sm.freezeDeletion)
+            if (Input.GetKeyDown(keyID) && !sm.replaySessions[sm.curSession].freezeDeletion)
             {
-                sm.planesDeleted++;
-                sm.inputDeletes.Add(planeID);
+                sm.replaySessions[sm.curSession].actualDeletes.Add(planeID);
                 gameObject.SetActive(false);
                 fakePlaneReference.timeOfDelete = timer;
             }
@@ -98,8 +97,10 @@ public class PlaneInstance : MonoBehaviour
         {
             collided = true;
             sp.color = Color.red;
-            sm.numCollisions++;
-            sm.inputCollisions.Add((planeID, otherPlaneInst.planeID));
+            sm.replaySessions[sm.curSession].actualCollisions.Add((planeID, otherPlaneInst.planeID));
+
+            if (sm.replaySessions[sm.curSession].freezeDeletion)
+                sm.replaySessions[sm.curSession].wasGoodFreeze = false;
         }
     }
 

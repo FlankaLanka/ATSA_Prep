@@ -9,13 +9,13 @@ public class HoverRevealCollisions : MonoBehaviour, IPointerEnterHandler, IPoint
     private Color originalColor;
     private Color hoverColor = Color.yellow;
     private SimulatorManager sm;
-    private CollisionSessionVideoImage sv;
+    private ReplaySystemTab replaySystem;
 
     private void Awake()
     {
         sm = FindFirstObjectByType<SimulatorManager>();
-        sv = FindFirstObjectByType<CollisionSessionVideoImage>(findObjectsInactive: FindObjectsInactive.Include);
-        if (sm == null || sv == null)
+        replaySystem = FindFirstObjectByType<ReplaySystemTab>(findObjectsInactive: FindObjectsInactive.Include);
+        if (sm == null || replaySystem == null)
             Debug.Log("Required SimulatorManager and CollisionSessionVideoImage for advanced stats to exist. Destroying this.");
 
 
@@ -40,6 +40,6 @@ public class HoverRevealCollisions : MonoBehaviour, IPointerEnterHandler, IPoint
         int.TryParse(sessionText.text, out sessionNum);
         sm.curReplaySession = sessionNum - 1;
 
-        sv.gameObject.SetActive(true);
+        replaySystem.gameObject.SetActive(true);
     }
 }

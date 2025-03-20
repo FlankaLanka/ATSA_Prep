@@ -10,14 +10,18 @@ public class SimulatorManager : MonoBehaviour
     //these 2 classes are used for running the replay systems
     public class ReplaySessionInfoStats
     {
-        public int sessionNum;
-        public List<int> optimalDeletes = new();
-        public List<FakePlaneInfoStats> currentPlanesInfo = new();
+        public float zeroPressedTimer = 0f; //updated in Update()
+        public float roundTimer = 0f; //updated in Update()
+        public bool freezeDeletion = false; //check Update()
+        public bool wasGoodFreeze = true; //updated in PlaneInstance.cs
 
-        public ReplaySessionInfoStats(int sn)
-        {
-            sessionNum = sn;
-        }
+        public Dictionary<GameObject, List<GameObject>> collisionsGraph; //updated at start of session when CreatePlanes()
+        public List<int> optimalDeletes = new(); //updated at start of session when CreatePlanes()
+        public List<(int, int)> potentialCollisions = new(); //updated at start of session when CreatePlanes()
+        public List<int> actualDeletes = new(); //updated in PlaneInstance.cs
+        public List<(int, int)> actualCollisions = new(); //updated in PlaneInstance.cs
+
+        public List<FakePlaneInfoStats> currentPlanesInfo = new(); //updated at start of session when CreatePlanes()
     }
 
     public class FakePlaneInfoStats
@@ -43,24 +47,19 @@ public class SimulatorManager : MonoBehaviour
     public Dropdown numSessionsDropdown;
     public Slider difficultySlider;
     public Toggle mathQuestionsToggle;
-
     public TMP_Text frozenText;
+    public ReplaySystemTab replaySystemTab;
 
     public GameObject settingsMenu;
 
     [Header("Game Loop Related")]
     public int curSession, totalSessions;
-    public float zeroTimer, roundTimer;
     public bool gameRunning, instanceRunning;
 
     [Header("Game Logic Related")]
     public GameObject planePrefab;
     public SpriteRenderer bg;
     public List<GameObject> allPlanes;
-    public int numCollisions, planesDeleted, freezeCounter;
-    public int potentialCollisions, optimalPlanesDeleted, badFreezeCounter;
-    public List<(int, int)> inputCollisions = new();
-    public bool freezeDeletion;
     [Range(1f,5f)]
     public float distanceSpawnThreshold = 0.3f;
 
@@ -74,11 +73,6 @@ public class SimulatorManager : MonoBehaviour
     public Transform statsGroup;
     public GameObject rowStatPrefab;
 
-
-    private Dictionary<GameObject, List<GameObject>> collisionsGraph;
-    private List<GameObject> planesToDelete;
-    public List<int> inputDeletes = new();
-
     [Header("For visual replay system")]
     public List<ReplaySessionInfoStats> replaySessions = new();
     public List<GameObject> fakePlanesGameObjects = new(); //stores the physical fake planes on screen, use this to destroy
@@ -90,16 +84,9 @@ public class SimulatorManager : MonoBehaviour
         settingsMenu.SetActive(false);
         mathManager.gameObject.SetActive(mathQuestionsToggle.isOn);
 
-        curSession = 0;
+        curSession = -1;
         int.TryParse(numSessionsDropdown.options[numSessionsDropdown.value].text, out totalSessions);
         instanceRunning = false;
-
-        numCollisions = 0;
-        planesDeleted = 0;
-        freezeCounter = 0;
-        potentialCollisions = 0;
-        optimalPlanesDeleted = 0;
-        badFreezeCounter = 0;
 
         ResetAdvancedStats();
         mathManager.ResetAdvancedStats();
@@ -111,8 +98,9 @@ public class SimulatorManager : MonoBehaviour
     {
         ClearPlanes();
 
-        statsText.text = $"You got {numCollisions} red planes from a total of. You deleted {planesDeleted} planes. You pressed '0' {freezeCounter} times.";
-        advancedStatsText.text = $"Num Collisions: {numCollisions}. NumDeletes:";
+        statsText.text = LogGeneralStatsCollision(false);
+        advancedStatsText.text = LogGeneralStatsCollision(true);
+
         if (mathQuestionsToggle.isOn)
         {
             statsMathText.text = $"You got {mathManager.score} / {mathManager.totalAttempted} correct out of {mathManager.total} math questions.";
@@ -132,15 +120,28 @@ public class SimulatorManager : MonoBehaviour
         gameRunning = false;
     }
 
+    private void OnEnable()
+    {
+        replaySystemTab.OnTargetDisabled += ClearPlanes;
+    }
+
+    private void OnDisable()
+    {
+        replaySystemTab.OnTargetDisabled -= ClearPlanes;
+    }
+
     void Update()
     {
         if (!gameRunning)
             return;
 
-        if(curSession > totalSessions || Input.GetKeyDown(KeyCode.Escape))
+        if(curSession >= totalSessions || Input.GetKeyDown(KeyCode.Escape))
         {
-            if(Input.GetKeyDown(KeyCode.Escape))
-                UpdateAdvancedStats(Mathf.Min(curSession, totalSessions), collisionsGraph, planesToDelete, inputDeletes, inputCollisions, freezeDeletion, 99f, 99f);
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                int sessionNum = Mathf.Min(curSession, totalSessions - 1);
+                UpdateAdvancedStats(sessionNum);
+            }
 
             StopSimulator();
             return;
@@ -148,34 +149,27 @@ public class SimulatorManager : MonoBehaviour
 
         if (!instanceRunning) // each instance refers to one wave of planes spawning and flying across
         {
-            ClearPlanes();
-
-            CreatePlanes();
-            freezeDeletion = false;
-            frozenText.gameObject.SetActive(false);
             curSession++;
-            zeroTimer = 0f;
-            roundTimer = 0f;
-            inputCollisions = new();
-            inputDeletes = new();
+            ClearPlanes();
+            CreatePlanes();
+            frozenText.gameObject.SetActive(false);
 
             instanceRunning = true;
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.Keypad0) && !freezeDeletion)
+        if (Input.GetKeyDown(KeyCode.Keypad0) && !replaySessions[curSession].freezeDeletion)
         {
-            freezeDeletion = true;
+            replaySessions[curSession].freezeDeletion = true;
             frozenText.gameObject.SetActive(true);
-            freezeCounter++;
         }
-        if (!freezeDeletion)
-            zeroTimer += Time.deltaTime;
-        roundTimer += Time.deltaTime;
+        if (!replaySessions[curSession].freezeDeletion)
+            replaySessions[curSession].zeroPressedTimer += Time.deltaTime;
+        replaySessions[curSession].roundTimer += Time.deltaTime;
 
         if (AllPlanesInactive())
         {
-            UpdateAdvancedStats(curSession, collisionsGraph, planesToDelete, inputDeletes, inputCollisions, freezeDeletion, zeroTimer, roundTimer);
+            UpdateAdvancedStats(curSession);
             instanceRunning = false;
             return;
         }
@@ -192,7 +186,7 @@ public class SimulatorManager : MonoBehaviour
 
     public void CreatePlanes()
     {
-        replaySessions.Add(new ReplaySessionInfoStats(curSession));
+        replaySessions.Add(new ReplaySessionInfoStats());
 
         int numPlanes = Math2DHelpers.GetBiasedRandomNumber();
         for(int i = 1; i <= numPlanes; i++)
@@ -215,9 +209,9 @@ public class SimulatorManager : MonoBehaviour
             p.fakePlaneReference = newFakePlane;
             replaySessions[curSession].currentPlanesInfo.Add(newFakePlane);
         }
-        collisionsGraph = CalculateCollisionsMap(allPlanes);
-        planesToDelete = GetOptimalDeletions(collisionsGraph);
-        replaySessions[curSession].optimalDeletes = planesToDelete.Select(plane => plane.GetComponent<PlaneInstance>().planeID).ToList();
+        replaySessions[curSession].collisionsGraph = CalculateCollisionsMap(allPlanes);
+        replaySessions[curSession].optimalDeletes = GetOptimalDeletions(replaySessions[curSession].collisionsGraph);
+        replaySessions[curSession].potentialCollisions = GetPossibleCollisions(replaySessions[curSession].collisionsGraph);
     }
 
     private bool AllPlanesInactive()
@@ -302,8 +296,7 @@ public class SimulatorManager : MonoBehaviour
     }
 
 
-    public void UpdateAdvancedStats(int curSession, Dictionary<GameObject, List<GameObject>> collisionsGraph, List<GameObject> planesToDelete,
-        List<int> inputDeletes, List<(int, int)> inputCollisions, bool freezeDeletion, float zeroTimer, float roundTimer)
+    public void UpdateAdvancedStats(int curSession)
     {
         //Q: when do you update advancedstats? A: when round ends or when esc pressed
 
@@ -316,10 +309,27 @@ public class SimulatorManager : MonoBehaviour
             return;
         }
 
-        roundStatText[0].text = curSession.ToString();
+        //assign variables for readability
+        bool freezeDeletion = replaySessions[curSession].freezeDeletion;
+        float zeroPressedTimer = replaySessions[curSession].zeroPressedTimer;
+        float roundTimer = replaySessions[curSession].roundTimer;
+        Dictionary<GameObject, List<GameObject>> collisionsGraph = replaySessions[curSession].collisionsGraph;
+        List<int> optimalDeletes = replaySessions[curSession].optimalDeletes;
+        List<int> inputDeletes = replaySessions[curSession].actualDeletes;
+        List<(int, int)> actualCollisions = replaySessions[curSession].actualCollisions;
+
+        //for later replay use
+        foreach (FakePlaneInfoStats fakePlaneInfo in replaySessions[curSession].currentPlanesInfo)
+        {
+            //check amongst time when input-deleted vs roundtime for life cycle
+            fakePlaneInfo.timeOfDelete = Mathf.Min(fakePlaneInfo.timeOfDelete, replaySessions[curSession].roundTimer);
+        }
+
+        //fill in text
+        roundStatText[0].text = (curSession + 1).ToString();
         roundStatText[1].text = LogPossibleCollisions(collisionsGraph);
         roundStatText[2].text = "";
-        foreach ((int, int) collidedPair in inputCollisions)
+        foreach ((int, int) collidedPair in actualCollisions)
         {
             if (collidedPair.Item1 < collidedPair.Item2) //ensure that we only write to text once per pair
             {
@@ -327,17 +337,16 @@ public class SimulatorManager : MonoBehaviour
             }
         }
         roundStatText[3].text = "";
-        foreach (GameObject d in planesToDelete)
+        foreach (int d in optimalDeletes)
         {
-            roundStatText[3].text += d.GetComponent<PlaneInstance>().planeID + ", ";
+            roundStatText[3].text += d + ", ";
         }
         roundStatText[4].text = "";
         foreach (int input in inputDeletes)
         {
             roundStatText[4].text += input + ", ";
         }
-        roundStatText[5].text = (freezeDeletion ? zeroTimer.ToString("F3") + "s" : "N/A") + " / " +
-                                (roundTimer >= 99f ? roundTimer.ToString("F3") + "s" : "KeyESC");
+        roundStatText[5].text = (freezeDeletion ? zeroPressedTimer.ToString("F3") + "s" : "Not pressed") + " / " + roundTimer.ToString("F3") + "s";
     }
 
     public string LogPossibleCollisions(Dictionary<GameObject, List<GameObject>> graph)
@@ -366,6 +375,30 @@ public class SimulatorManager : MonoBehaviour
 
         return output;
     }
+
+    public List<(int, int)> GetPossibleCollisions(Dictionary<GameObject, List<GameObject>> graph)
+    {
+        HashSet<(int, int)> reportedConnections = new();
+
+        foreach (var kvp in graph)
+        {
+            int nodeX = kvp.Key.GetComponent<PlaneInstance>().planeID;
+            foreach (GameObject connectedNode in kvp.Value)
+            {
+                int nodeY = connectedNode.GetComponent<PlaneInstance>().planeID;
+                (int, int) edge = (nodeX, nodeY);
+                (int, int) reverseEdge = (nodeY, nodeX);
+
+                if (!reportedConnections.Contains(reverseEdge))
+                {
+                    reportedConnections.Add(edge);
+                }
+            }
+        }
+
+        return reportedConnections.ToList();
+    }
+
 
 
     public Dictionary<GameObject, List<GameObject>> CalculateCollisionsMap(List<GameObject> allPlanes)
@@ -439,7 +472,7 @@ public class SimulatorManager : MonoBehaviour
         Vector2 collisionPointA = posA + velocityA * t;
         Vector2 collisionPointB = posB + velocityB * t;
         Vector2 collisionPoint = (collisionPointA + collisionPointB) / 2;
-        Debug.Log(collisionPoint);
+        //Debug.Log(collisionPoint);
 
         // Check if the collision point is within bounds
         if (bounds.Contains(new Vector3(collisionPoint.x, collisionPoint.y, 0)))
@@ -449,7 +482,7 @@ public class SimulatorManager : MonoBehaviour
     }
 
 
-    private List<GameObject> GetOptimalDeletions(Dictionary<GameObject, List<GameObject>> collisionsGraph)
+    private List<int> GetOptimalDeletions(Dictionary<GameObject, List<GameObject>> collisionsGraph)
     {
         List<GameObject> toDelete = new();
         Dictionary<GameObject, HashSet<GameObject>> graph = collisionsGraph.ToDictionary(
@@ -478,9 +511,47 @@ public class SimulatorManager : MonoBehaviour
             }
         }
 
-        return toDelete;
+        List<int> toDeleteInt = toDelete.Select(plane => plane.GetComponent<PlaneInstance>().planeID).ToList();
+
+        return toDeleteInt;
     }
 
+
+    public string LogGeneralStatsCollision(bool advanced)
+    {
+        int totalPotentialCollisions = 0;
+        int totalActualCollisions = 0;
+
+        int minDeletionsRequired = 0;
+        int excessDeletions = 0;
+        int actualDeletions = 0;
+
+        foreach (ReplaySessionInfoStats session in replaySessions)
+        {
+            totalPotentialCollisions += session.potentialCollisions.Count;
+            totalActualCollisions += session.actualCollisions.Count;
+
+            minDeletionsRequired += session.optimalDeletes.Count;
+            excessDeletions += Mathf.Max(session.actualDeletes.Count - session.optimalDeletes.Count, 0);
+            actualDeletions += session.actualDeletes.Count;
+        }
+
+        float collisionsScore = totalPotentialCollisions == 0 ? 100 : (float)totalActualCollisions / totalPotentialCollisions * 100;
+        float deletionScore = minDeletionsRequired == 0 ? 100 : (float)minDeletionsRequired / actualDeletions * 100;
+
+        if(advanced)
+        {
+            return $"You had {totalActualCollisions}/{totalPotentialCollisions} possible collisions. Score: {collisionsScore:F2}. " +
+                   $"You removed {actualDeletions} planes. You removed {excessDeletions} more than the optimal solution." +
+                   $"Score: (IDK, still figuring out the math lol). " +
+                   $"<color=yellow>Hightlight and click a round to see your replay.</color>.";
+        }
+        else
+        {
+            return $"You had {totalActualCollisions}/{totalPotentialCollisions} possible collisions. Score: {((float)totalActualCollisions / totalPotentialCollisions):F2}.";
+        }
+
+    }
 
 
     #endregion
@@ -496,6 +567,9 @@ public class SimulatorManager : MonoBehaviour
         //2 -> NoDelete
 
         ClearFakePlanes();
+
+        if (curReplaySession < 0 || curReplaySession >= replaySessions.Count)
+            return;
 
         foreach (FakePlaneInfoStats fakePlaneInfo in replaySessions[curReplaySession].currentPlanesInfo)
         {
@@ -524,12 +598,8 @@ public class SimulatorManager : MonoBehaviour
         }
     }
 
-
-    private void ClearFakePlanes()
+    public void ClearFakePlanes()
     {
-        if (curReplaySession < 0 || curReplaySession >= replaySessions.Count)
-            return;
-
         foreach (GameObject g in fakePlanesGameObjects)
             Destroy(g);
         fakePlanesGameObjects.Clear();

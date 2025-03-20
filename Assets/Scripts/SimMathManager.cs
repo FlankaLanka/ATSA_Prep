@@ -234,6 +234,15 @@ public class SimMathManager : MonoBehaviour
 
     #region advanced_stats
 
+    public void ResetAdvancedStats()
+    {
+        foreach (Transform child in statsGroup.transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
+
     public void UpdateAdvancedStats(int questionNum, string questionStr, List<float> choices, int inputAnswer, float speed, char op)
     {
         GameObject g = Instantiate(rowStatPrefab, statsGroup);

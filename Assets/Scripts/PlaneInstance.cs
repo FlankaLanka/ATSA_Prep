@@ -18,7 +18,7 @@ public class PlaneInstance : MonoBehaviour
 
     public float randAngleThreshold = 70f;
 
-    private void Start()
+    private void Awake()
     {
         sm = FindFirstObjectByType<SimulatorManager>();
         if (sm == null)
@@ -31,13 +31,15 @@ public class PlaneInstance : MonoBehaviour
         canvasMask = GetComponentInChildren<RectMask2D>();
         sp = GetComponent<SpriteRenderer>();
 
-        keyID = KeyCode.Keypad0 + planeID;
-        numberText = GetComponentInChildren<TMP_Text>();
-        if (numberText != null)
-            numberText.text = planeID.ToString();
-
         direction = Math2DHelpers.GetRandomUnitVectorWithinAngle(bg.transform.position - transform.position, randAngleThreshold);
         speed = GetRandomPlaneSpeed(sm.difficultySlider.value);
+    }
+
+    private void Start()
+    {
+        keyID = KeyCode.Keypad0 + planeID;
+        numberText = GetComponentInChildren<TMP_Text>();
+        numberText.text = planeID.ToString();
     }
 
     // Update is called once per frame
@@ -50,6 +52,7 @@ public class PlaneInstance : MonoBehaviour
         if(Input.GetKeyDown(keyID) && !sm.freezeDeletion)
         {
             sm.planesDeleted++;
+            sm.inputDeletes.Add(planeID);
             gameObject.SetActive(false);
         }
 
@@ -59,11 +62,13 @@ public class PlaneInstance : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collided && collision.GetComponent<PlaneInstance>() != null)
+        PlaneInstance otherPlaneInst = collision.GetComponent<PlaneInstance>();
+        if (!collided && otherPlaneInst != null)
         {
             collided = true;
             sp.color = Color.red;
             sm.numCollisions++;
+            sm.inputCollisions.Add((planeID, otherPlaneInst.planeID));
         }
     }
 

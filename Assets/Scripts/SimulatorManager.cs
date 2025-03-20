@@ -7,6 +7,24 @@ using System.Linq;
 
 public class SimulatorManager : MonoBehaviour
 {
+    //these 2 classes are used for running the replay systems
+    public class SessionInfoStats
+    {
+        public int sessionNum;
+        public List<PlaneInfoStats> currentPlanesInfo = new();
+    }
+
+    public class PlaneInfoStats
+    {
+        public int planeID;
+        public Vector2 spawnPos;
+        public float speed;
+        public Vector2 direction;
+        public float timeOfDelete;
+    }
+
+
+
     [Header("UI")]
     public Dropdown numSessionsDropdown;
     public Slider difficultySlider;

@@ -9,6 +9,8 @@ public class PlaneInstance : MonoBehaviour
     private RectMask2D canvasMask;
     private SpriteRenderer sp;
 
+    public float randAngleThreshold = 70f;
+
     public int planeID;
     private KeyCode keyID;
     private TMP_Text numberText;
@@ -16,7 +18,9 @@ public class PlaneInstance : MonoBehaviour
     public float speed;
     private bool collided = false;
 
-    public float randAngleThreshold = 70f;
+    public bool isFake = false; //used for replay
+    public float timer = 0f, timeOfDelete = 99999f;
+    public SimulatorManager.FakePlaneInfoStats fakePlaneReference;
 
     private void Awake()
     {
@@ -31,8 +35,11 @@ public class PlaneInstance : MonoBehaviour
         canvasMask = GetComponentInChildren<RectMask2D>();
         sp = GetComponent<SpriteRenderer>();
 
-        direction = Math2DHelpers.GetRandomUnitVectorWithinAngle(bg.transform.position - transform.position, randAngleThreshold);
-        speed = GetRandomPlaneSpeed(sm.difficultySlider.value);
+        if(!isFake)
+        {
+            direction = Math2DHelpers.GetRandomUnitVectorWithinAngle(bg.transform.position - transform.position, randAngleThreshold);
+            speed = GetRandomPlaneSpeed(sm.difficultySlider.value);
+        }
     }
 
     private void Start()
@@ -48,13 +55,25 @@ public class PlaneInstance : MonoBehaviour
         //move plane
         transform.position += speed * Time.deltaTime * (Vector3)direction;
 
-        //check user input
-        if(Input.GetKeyDown(keyID) && !sm.freezeDeletion)
+        if(!isFake)
         {
-            sm.planesDeleted++;
-            sm.inputDeletes.Add(planeID);
-            gameObject.SetActive(false);
+            //check user input
+            if (Input.GetKeyDown(keyID) && !sm.freezeDeletion)
+            {
+                sm.planesDeleted++;
+                sm.inputDeletes.Add(planeID);
+                gameObject.SetActive(false);
+                fakePlaneReference.timeOfDelete = timer;
+            }
         }
+        else
+        {
+            if(timer >= timeOfDelete)
+            {
+                gameObject.SetActive(false);
+            }
+        }
+        timer += Time.deltaTime;
 
         //update sprite mask (for canvas rect mask, spriteRenderer sprite mask is done with bg)
         UpdateCanvasSpriteMask();

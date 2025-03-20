@@ -8,21 +8,35 @@ using System.Linq;
 public class SimulatorManager : MonoBehaviour
 {
     //these 2 classes are used for running the replay systems
-    public class SessionInfoStats
+    public class ReplaySessionInfoStats
     {
         public int sessionNum;
-        public List<PlaneInfoStats> currentPlanesInfo = new();
+        public List<int> optimalDeletes = new();
+        public List<FakePlaneInfoStats> currentPlanesInfo = new();
+
+        public ReplaySessionInfoStats(int sn)
+        {
+            sessionNum = sn;
+        }
     }
 
-    public class PlaneInfoStats
+    public class FakePlaneInfoStats
     {
         public int planeID;
         public Vector2 spawnPos;
         public float speed;
         public Vector2 direction;
-        public float timeOfDelete;
-    }
+        public float timeOfDelete = 99999f;
 
+        public FakePlaneInfoStats(int planeID, Vector2 spawnPos, float speed, Vector2 direction, float timeOfDelete = 99999f)
+        {
+            this.planeID = planeID;
+            this.spawnPos = spawnPos;
+            this.speed = speed;
+            this.direction = direction;
+            this.timeOfDelete = timeOfDelete;
+        }
+    }
 
 
     [Header("UI")]
@@ -60,6 +74,11 @@ public class SimulatorManager : MonoBehaviour
     private Dictionary<GameObject, List<GameObject>> collisionsGraph;
     private List<GameObject> planesToDelete;
     public List<int> inputDeletes = new();
+
+    [Header("For visual replay system")]
+    public List<ReplaySessionInfoStats> replaySessions = new();
+    public List<GameObject> fakePlanesGameObjects = new(); //stores the physical fake planes on screen, use this to destroy
+    public int curReplaySession = 0;
 
 
     public void StartSimulator()
@@ -126,7 +145,6 @@ public class SimulatorManager : MonoBehaviour
             allPlanes.Clear();
 
             CreatePlanes();
-            instanceRunning = true;
             freezeDeletion = false;
             frozenText.gameObject.SetActive(false);
             curSession++;
@@ -134,6 +152,8 @@ public class SimulatorManager : MonoBehaviour
             roundTimer = 0f;
             inputCollisions = new();
             inputDeletes = new();
+
+            instanceRunning = true;
             return;
         }
 
@@ -157,6 +177,8 @@ public class SimulatorManager : MonoBehaviour
 
     public void CreatePlanes()
     {
+        replaySessions.Add(new ReplaySessionInfoStats(curSession));
+
         int numPlanes = Math2DHelpers.GetBiasedRandomNumber();
         for(int i = 1; i <= numPlanes; i++)
         {
@@ -172,9 +194,15 @@ public class SimulatorManager : MonoBehaviour
             allPlanes.Add(g);
             PlaneInstance p = g.GetComponent<PlaneInstance>();
             p.planeID = i;
+
+            //for replay stats
+            FakePlaneInfoStats newFakePlane = new(p.planeID, randSpawnPos, p.speed, p.direction);
+            p.fakePlaneReference = newFakePlane;
+            replaySessions[curSession].currentPlanesInfo.Add(newFakePlane);
         }
         collisionsGraph = CalculateCollisionsMap(allPlanes);
         planesToDelete = GetOptimalDeletions(collisionsGraph);
+        replaySessions[curSession].optimalDeletes = planesToDelete.Select(plane => plane.GetComponent<PlaneInstance>().planeID).ToList();
     }
 
     private bool AllPlanesInactive()
@@ -246,6 +274,12 @@ public class SimulatorManager : MonoBehaviour
 
     public void ResetAdvancedStats()
     {
+        replaySessions = new();
+        foreach (GameObject child in fakePlanesGameObjects)
+        {
+            Destroy(child);
+        }
+        fakePlanesGameObjects.Clear();
         foreach (Transform child in statsGroup.transform)
         {
             Destroy(child.gameObject);
@@ -267,7 +301,7 @@ public class SimulatorManager : MonoBehaviour
             return;
         }
 
-        roundStatText[0].text = "#" + curSession;
+        roundStatText[0].text = curSession.ToString();
         roundStatText[1].text = LogPossibleCollisions(collisionsGraph);
         roundStatText[2].text = "";
         foreach ((int, int) collidedPair in inputCollisions)
@@ -434,6 +468,58 @@ public class SimulatorManager : MonoBehaviour
     }
 
 
+
     #endregion
 
+
+    #region replay_system
+
+    public void InitiateReplay(int replayType)
+    {
+        //replayType
+        //0 -> User
+        //1 -> Optimal
+        //2 -> NoDelete
+
+        ClearFakePlanes();
+
+        foreach (FakePlaneInfoStats fakePlaneInfo in replaySessions[curReplaySession].currentPlanesInfo)
+        {
+            GameObject fplane = Instantiate(planePrefab, fakePlaneInfo.spawnPos, Quaternion.identity);
+            PlaneInstance fpInst = fplane.GetComponent<PlaneInstance>();
+
+            fpInst.isFake = true;
+            fpInst.planeID = fakePlaneInfo.planeID;
+            fpInst.speed = fakePlaneInfo.speed;
+            fpInst.direction = fakePlaneInfo.direction;
+
+            if (replayType == 0) //timeOfDelete for manual delete is set in PlaneInstance
+            {
+                fpInst.timeOfDelete = fakePlaneInfo.timeOfDelete;
+            }
+            else if (replayType == 1) //timeOfDelete for optimal delete is set in CreatePlanes() here
+            {
+                    fpInst.timeOfDelete = replaySessions[curReplaySession].optimalDeletes.Contains(fakePlaneInfo.planeID) ? 0.5f : 99999f;
+            }
+            else if (replayType == 2)
+            {
+                fpInst.timeOfDelete = 99999f;
+            }
+
+            fakePlanesGameObjects.Add(fplane);
+        }
+    }
+
+
+    private void ClearFakePlanes()
+    {
+        if (curReplaySession < 0 || curReplaySession >= replaySessions.Count)
+            return;
+
+        foreach (GameObject g in fakePlanesGameObjects)
+            Destroy(g);
+        fakePlanesGameObjects.Clear();
+    }
+
+    #endregion
 }

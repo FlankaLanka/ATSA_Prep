@@ -9,13 +9,13 @@ public class SimMathManager : MonoBehaviour
 {
     public class SimMathStat
     {
-        int questionNum;
-        float[] choices = new float[4];
-        float correctAnswer;
-        float inputAnswer;
-        float speed;
+        public int a, b;
+        public char op;
+        public string questionStr;
+        public List<float> choices = new(); //size 5. 4 answer choices + last value is the index of correct answer
+        public int inputAnswer;
+        public float timeAnswered;
     }
-
 
     [Header("Objects")]
     public GameObject question;
@@ -25,14 +25,18 @@ public class SimMathManager : MonoBehaviour
     public float timer = 0f, timePerQ = 5f;
 
     [Header("Game Logic Related")]
-    public int score = 0, totalAttempted = 0, total = 0;
-    public bool answerAttempted = false;
+    public int questionNum;
     private Coroutine mathCoroutine;
     public Color answeredQColor;
 
     [Header("Stats")]
     public Transform statsGroup;
     public GameObject rowStatPrefab;
+    private bool displayingMath = false;
+
+    private List<SimMathStat> allMathQuestions = new();
+    public int score, total, totalAttempted;
+    public float cumulativeSpeed;
 
     private void Awake()
     {
@@ -41,9 +45,8 @@ public class SimMathManager : MonoBehaviour
 
     private void OnEnable()
     {
-        score = 0;
-        totalAttempted = 0;
-        total = 0;
+        questionNum = -1;
+        allMathQuestions = new();
     }
 
     private void Update()
@@ -56,73 +59,71 @@ public class SimMathManager : MonoBehaviour
 
     private IEnumerator MathGameLoop()
     {
+        displayingMath = false;
         ToggleUI(false);
         yield return new WaitForSeconds(1f);
 
-        int a = Random.Range(1, 100);
-        int b = Random.Range(1, 100);
-        char op = GetRandomOperation();
-        string questionStr = a + " " + op + " " + b;
-        List<float> answerChoices = GenerateAnswers(a, b, op); //NOTE: length is 5, 4 answers and last index represents the correct answer index
+        questionNum++;
+        allMathQuestions.Add(new SimMathStat());
+        SimMathStat curQuestion = allMathQuestions[questionNum];
 
-        question.GetComponent<TMP_Text>().text = questionStr;
+        curQuestion.a = Random.Range(1, 100);
+        curQuestion.b = Random.Range(1, 100);
+        curQuestion.op = GetRandomOperation();
+        curQuestion.questionStr = curQuestion.a + " " + curQuestion.op + " " + curQuestion.b;
+        curQuestion.choices = GenerateAnswers(curQuestion.a, curQuestion.b, curQuestion.op); //size 5, 4 answers and last index represents the correct answer index
+
+        question.GetComponent<TMP_Text>().text = curQuestion.questionStr;
         for(int i = 0; i < answersBoxes.Length; i++)
         {
             answersBoxes[i].GetComponent<Image>().color = Color.white;
-            if(op == '/')
-                answersBoxes[i].GetComponentInChildren<TMP_Text>().text = answerChoices[i].ToString("F2");
+            if(curQuestion.op == '/')
+                answersBoxes[i].GetComponentInChildren<TMP_Text>().text = curQuestion.choices[i].ToString("F2");
             else
-                answersBoxes[i].GetComponentInChildren<TMP_Text>().text = answerChoices[i].ToString("F0");
+                answersBoxes[i].GetComponentInChildren<TMP_Text>().text = curQuestion.choices[i].ToString("F0");
         }
-        total++;
         ToggleUI(true);
+        displayingMath = true;
 
         //for adv stat
-        int userInputAnswer = -1;
-        float timeAnswered = 5f;
+        curQuestion.inputAnswer = -1;
+        curQuestion.timeAnswered = timePerQ;
 
         timer = 0f;
-        answerAttempted = false;
         while(timer < timePerQ)
         {
-            if(!answerAttempted && (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)|| Input.GetKeyDown(KeyCode.F)))
+            //while unanswered and input press
+            if(curQuestion.inputAnswer == -1 && (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)|| Input.GetKeyDown(KeyCode.F)))
             {
                 if(Input.GetKeyDown(KeyCode.A))
                 {
                     answersBoxes[0].GetComponent<Image>().color = answeredQColor;
-                    score += answerChoices[4] == 0 ? 1 : 0;
-                    userInputAnswer = 0;
+                    curQuestion.inputAnswer = 0;
                 }
                 else if (Input.GetKeyDown(KeyCode.S))
                 {
                     answersBoxes[1].GetComponent<Image>().color = answeredQColor;
-                    score += answerChoices[4] == 1 ? 1 : 0;
-                    userInputAnswer = 1;
+                    curQuestion.inputAnswer = 1;
                 }
                 else if (Input.GetKeyDown(KeyCode.D))
                 {
                     answersBoxes[2].GetComponent<Image>().color = answeredQColor;
-                    score += answerChoices[4] == 2 ? 1 : 0;
-                    userInputAnswer = 2;
+                    curQuestion.inputAnswer = 2;
                 }
                 else if (Input.GetKeyDown(KeyCode.F))
                 {
                     answersBoxes[3].GetComponent<Image>().color = answeredQColor;
-                    score += answerChoices[4] == 3 ? 1 : 0;
-                    userInputAnswer = 3;
+                    curQuestion.inputAnswer = 3;
                 }
-                totalAttempted++;
-                answerAttempted = true;
-
-                //for adv stats
-                timeAnswered = timer;
+                curQuestion.timeAnswered = timer;
             }
             timer += Time.deltaTime;
             yield return null;
         }
 
-        UpdateAdvancedStats(total, questionStr, answerChoices, userInputAnswer, timeAnswered, op);
+        UpdateAdvancedStats(questionNum, curQuestion);
         mathCoroutine = null;
+        displayingMath = false;
     }
 
     private void OnDisable()
@@ -131,6 +132,12 @@ public class SimMathManager : MonoBehaviour
         {
             StopCoroutine(mathCoroutine);
             mathCoroutine = null;
+        }
+
+        if(displayingMath)
+        {
+            UpdateAdvancedStats(questionNum, allMathQuestions[questionNum]);
+            displayingMath = false;
         }
         ToggleUI(false);
     }
@@ -243,7 +250,7 @@ public class SimMathManager : MonoBehaviour
     }
 
 
-    public void UpdateAdvancedStats(int questionNum, string questionStr, List<float> choices, int inputAnswer, float speed, char op)
+    public void UpdateAdvancedStats(int questionNum, SimMathStat curQuestion)
     {
         GameObject g = Instantiate(rowStatPrefab, statsGroup);
         TMP_Text[] roundStatText = g.GetComponentsInChildren<TMP_Text>();
@@ -253,6 +260,14 @@ public class SimMathManager : MonoBehaviour
             Debug.LogWarning("AdvancedStats cannot be displayed properly. See calling method.");
             return;
         }
+
+        //assign variables for readability
+        string questionStr = curQuestion.questionStr;
+        List<float> choices = curQuestion.choices;
+        int inputAnswer = curQuestion.inputAnswer;
+        float speed = curQuestion.timeAnswered;
+        char op = curQuestion.op;
+
 
         roundStatText[0].text = "#" + questionNum;
         roundStatText[1].text = questionStr;
@@ -272,7 +287,27 @@ public class SimMathManager : MonoBehaviour
             roundStatText[4].text = choices[inputAnswer].ToString(precision);
             roundStatText[4].color = (int)choices[4] == inputAnswer ? Color.blue : Color.red;
         }
-        roundStatText[5].text = speed.ToString("F3") + "s";
+        roundStatText[5].text = inputAnswer == -1 ? "N/A" : speed.ToString("F3") + "s";
+    }
+
+    public void CalculateScore()
+    {
+        score = 0;
+        total = 0;
+        totalAttempted = 0;
+        cumulativeSpeed = 0;
+
+        foreach(SimMathStat curQuestion in allMathQuestions)
+        {
+            if (curQuestion.inputAnswer == (int)curQuestion.choices[4])
+                score++;
+            total++;
+            if (curQuestion.inputAnswer != -1)
+            {
+                totalAttempted++;
+                cumulativeSpeed += curQuestion.timeAnswered;
+            }
+        }
     }
 
     #endregion

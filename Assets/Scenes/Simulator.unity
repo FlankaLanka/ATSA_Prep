@@ -1991,13 +1991,14 @@ MonoBehaviour:
   - {fileID: 1973631194}
   timer: 0
   timePerQ: 5
-  score: 0
-  totalAttempted: 0
-  total: 0
-  answerAttempted: 0
+  questionNum: 0
   answeredQColor: {r: 0.23137255, g: 0.84705883, b: 1, a: 1}
   statsGroup: {fileID: 1011155155}
   rowStatPrefab: {fileID: 6594660664281037470, guid: 1ac1c98fc4cf348389ffb028a3b7c026, type: 3}
+  score: 0
+  total: 0
+  totalAttempted: 0
+  cumulativeSpeed: 0
 --- !u!1 &720597218
 GameObject:
   m_ObjectHideFlags: 0
@@ -4388,11 +4389,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4170837983624328583, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.000022888
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4170837983624328583, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 48.224945
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4283995757201227277, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_AnchorMax.y

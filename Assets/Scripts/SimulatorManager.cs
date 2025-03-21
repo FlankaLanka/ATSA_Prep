@@ -103,8 +103,10 @@ public class SimulatorManager : MonoBehaviour
 
         if (mathQuestionsToggle.isOn)
         {
+            mathManager.CalculateScore();
             statsMathText.text = $"You got {mathManager.score} / {mathManager.totalAttempted} correct out of {mathManager.total} math questions.";
-            advancedStatsMathText.text = $"You got {mathManager.score} / {mathManager.totalAttempted} correct out of {mathManager.total} math questions.";
+            advancedStatsMathText.text = $"You got {mathManager.score} / {mathManager.totalAttempted} correct out of {mathManager.total} math questions.\n\n" +
+                $"AvgSpeed of answered questions / Time per question : {(mathManager.cumulativeSpeed / mathManager.totalAttempted):F3}s/{mathManager.timePerQ}s.";
         }
         else
         {
@@ -570,7 +572,7 @@ public class SimulatorManager : MonoBehaviour
         if(advanced)
         {
             return $"Collisions Avoided: {totalPotentialCollisions - totalActualCollisions}/{totalPotentialCollisions} ({collisionsScore:F2}%).\n\n" +
-                   $"You pressed '0' {numFreezes}/{replaySessions.Count} rounds. {correctFreezes} were correct and no collisions after pressing '0'. " +
+                   $"You pressed '0' {numFreezes}/{replaySessions.Count} rounds. {correctFreezes} were correct having no collisions after pressing '0'. " +
                    $"AvgSpeed of '0' press: {(cumulativeFreezeSpeed/numFreezes):F3}s.\n\n" +
                    $"Check individual rounds for optimal deletions. Note: There may be multiple optimal solutions. This tool provides just one.\n\n" +
                    $"<color=yellow>Hightlight and mouse click on a round to see your replay.</color>";

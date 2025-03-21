@@ -2,37 +2,37 @@
     "passages": [
         {
             "title": "Urban Green Infrastructure",
-            "content": "Modern cities increasingly employ vegetation to combat rising temperatures and air pollution. Urban forests and green roofs can reduce heat island effects by up to 9°F, while strategically placed trees mitigate stormwater runoff. However, these solutions require careful planning - non-native species may disrupt ecosystems, and maintenance costs often burden municipal budgets.\n\nRecent initiatives prioritize 'adaptive greening' that combines environmental benefits with community needs. Philadelphia's Green City Plan demonstrates this approach, converting vacant lots into pocket parks while training local residents as landscape technicians. Such programs address criticism that traditional urban greening disproportionately benefits wealthy neighborhoods through increased property values.",
+            "content": "Modern cities increasingly employ vegetation to combat rising temperatures and air pollution. Urban forests and green roofs can reduce heat island effects by up to 9\u00b0F, while strategically placed trees mitigate stormwater runoff. However, these solutions require careful planning - non-native species may disrupt ecosystems, and maintenance costs often burden municipal budgets.\n\nRecent initiatives prioritize 'adaptive greening' that combines environmental benefits with community needs. Philadelphia's Green City Plan demonstrates this approach, converting vacant lots into pocket parks while training local residents as landscape technicians. Such programs address criticism that traditional urban greening disproportionately benefits wealthy neighborhoods through increased property values.",
             "questions": [
                 {
                     "questionText": "The primary purpose of the passage is to:",
                     "answers": [
-                        "Advocate for increased urban tree planting",
                         "Analyze balanced approaches to environmental solutions",
+                        "Advocate for increased urban tree planting",
                         "Criticize historical approaches to city planning",
                         "Explain the ecological benefits of green roofs"
                     ],
-                    "correctAnswerIndex": 1
+                    "correctAnswerIndex": 0
                 },
                 {
                     "questionText": "As used in paragraph 1, 'mitigate' most nearly means:",
                     "answers": [
-                        "Intensify",
                         "Alleviate",
+                        "Evaluate",
                         "Complicate",
-                        "Evaluate"
+                        "Intensify"
                     ],
-                    "correctAnswerIndex": 1
+                    "correctAnswerIndex": 0
                 },
                 {
                     "questionText": "The Philadelphia example primarily demonstrates:",
                     "answers": [
-                        "Technological innovation in landscaping",
                         "Community-integrated urban planning",
+                        "Technological innovation in landscaping",
                         "Corporate sponsorship of public spaces",
                         "Historical preservation efforts"
                     ],
-                    "correctAnswerIndex": 1
+                    "correctAnswerIndex": 0
                 }
             ]
         },
@@ -43,32 +43,32 @@
                 {
                     "questionText": "The passage suggests Renaissance humanists viewed classical texts as:",
                     "answers": [
-                        "Outdated scientific theories",
-                        "Historical cultural products",
                         "Political propaganda tools",
-                        "Religious doctrine sources"
+                        "Religious doctrine sources",
+                        "Historical cultural products",
+                        "Outdated scientific theories"
                     ],
-                    "correctAnswerIndex": 1
+                    "correctAnswerIndex": 2
                 },
                 {
                     "questionText": "The reference to 'palimpsests' serves to:",
                     "answers": [
                         "Demonstrate medieval literacy rates",
-                        "Illustrate textual reinterpretation",
+                        "Compare writing materials",
                         "Criticize religious institutions",
-                        "Compare writing materials"
+                        "Illustrate textual reinterpretation"
                     ],
-                    "correctAnswerIndex": 1
+                    "correctAnswerIndex": 3
                 },
                 {
                     "questionText": "The author discusses Erasmus to show:",
                     "answers": [
-                        "Humanism's anti-religious agenda",
                         "Reformation's political motivations",
                         "Humanism's compatibility with faith",
-                        "Printing's role in spreading ideas"
+                        "Printing's role in spreading ideas",
+                        "Humanism's anti-religious agenda"
                     ],
-                    "correctAnswerIndex": 2
+                    "correctAnswerIndex": 1
                 }
             ]
         },
@@ -80,31 +80,31 @@
                     "questionText": "The $1 vs $20 experiment demonstrates:",
                     "answers": [
                         "Financial incentives improve task enjoyment",
+                        "Stress improves decision-making",
                         "Behavior shapes belief systems",
-                        "Memory accuracy is unreliable",
-                        "Stress improves decision-making"
+                        "Memory accuracy is unreliable"
                     ],
-                    "correctAnswerIndex": 1
+                    "correctAnswerIndex": 2
                 },
                 {
                     "questionText": "As used in paragraph 2, 'mediated' most nearly means:",
                     "answers": [
-                        "Intensified",
-                        "Influenced",
+                        "Predicted",
                         "Eliminated",
-                        "Predicted"
+                        "Intensified",
+                        "Influenced"
                     ],
-                    "correctAnswerIndex": 1
+                    "correctAnswerIndex": 3
                 },
                 {
                     "questionText": "Which finding would challenge the passage's claims?",
                     "answers": [
-                        "Subjects changed opinions when given financial incentives",
-                        "Brain scans showed increased prefrontal cortex activity",
                         "Cultural group showed no discomfort with contradictions",
-                        "Memory recall improved after conscious reflection"
+                        "Brain scans showed increased prefrontal cortex activity",
+                        "Memory recall improved after conscious reflection",
+                        "Subjects changed opinions when given financial incentives"
                     ],
-                    "correctAnswerIndex": 2
+                    "correctAnswerIndex": 0
                 }
             ]
         },
@@ -115,32 +115,32 @@
                 {
                     "questionText": "The passage's central thesis is:",
                     "answers": [
-                        "Solar power will replace fossil fuels by 2030",
                         "Energy transitions require systemic changes",
+                        "Nuclear energy remains the safest option",
                         "Wind power is more reliable than solar",
-                        "Nuclear energy remains the safest option"
+                        "Solar power will replace fossil fuels by 2030"
                     ],
-                    "correctAnswerIndex": 1
+                    "correctAnswerIndex": 0
                 },
                 {
                     "questionText": "The reference to 'energy density' emphasizes:",
                     "answers": [
-                        "Battery storage limitations",
+                        "Solar panel efficiency",
                         "Fuel transportation costs",
                         "Urban population density",
-                        "Solar panel efficiency"
+                        "Battery storage limitations"
                     ],
-                    "correctAnswerIndex": 0
+                    "correctAnswerIndex": 3
                 },
                 {
                     "questionText": "Which evidence supports renewable energy's economic viability?",
                     "answers": [
-                        "Falling photovoltaic production costs",
+                        "Rising coal employment rates",
                         "Increased oil company profits",
                         "Stable government subsidies",
-                        "Rising coal employment rates"
+                        "Falling photovoltaic production costs"
                     ],
-                    "correctAnswerIndex": 0
+                    "correctAnswerIndex": 3
                 }
             ]
         },
@@ -151,19 +151,19 @@
                 {
                     "questionText": "The passage primarily discusses the Silk Road's:",
                     "answers": [
-                        "Military conquests",
                         "Cultural exchanges",
                         "Technological superiority",
-                        "Religious persecution"
+                        "Religious persecution",
+                        "Military conquests"
                     ],
-                    "correctAnswerIndex": 1
+                    "correctAnswerIndex": 0
                 },
                 {
                     "questionText": "As used in paragraph 1, 'cosmopolitan' most nearly means:",
                     "answers": [
-                        "Wealth-focused",
-                        "Internationally diverse",
                         "Mathematically precise",
+                        "Internationally diverse",
+                        "Wealth-focused",
                         "Architecturally grand"
                     ],
                     "correctAnswerIndex": 1
@@ -171,12 +171,12 @@
                 {
                     "questionText": "The author cites paper money primarily to:",
                     "answers": [
+                        "Explain inflation causes",
                         "Demonstrate economic innovation",
                         "Criticize monetary systems",
-                        "Compare Eastern/Western technologies",
-                        "Explain inflation causes"
+                        "Compare Eastern/Western technologies"
                     ],
-                    "correctAnswerIndex": 0
+                    "correctAnswerIndex": 1
                 }
             ]
         },
@@ -187,30 +187,30 @@
                 {
                     "questionText": "Modernist poets primarily sought to:",
                     "answers": [
-                        "Revive classical forms",
                         "Challenge linguistic conventions",
                         "Promote political ideologies",
+                        "Revive classical forms",
                         "Imitate natural speech patterns"
                     ],
-                    "correctAnswerIndex": 1
+                    "correctAnswerIndex": 0
                 },
                 {
                     "questionText": "The 'objective correlative' refers to:",
                     "answers": [
+                        "Biographical references",
                         "Political symbolism",
                         "Emotional representation through objects",
-                        "Grammatical structure",
-                        "Biographical references"
+                        "Grammatical structure"
                     ],
-                    "correctAnswerIndex": 1
+                    "correctAnswerIndex": 2
                 },
                 {
                     "questionText": "Which technique appears in both Imagist and Symbolist poetry?",
                     "answers": [
-                        "Rhyming couplets",
+                        "Regional dialect",
                         "Visual imagery",
                         "First-person narration",
-                        "Regional dialect"
+                        "Rhyming couplets"
                     ],
                     "correctAnswerIndex": 1
                 }

@@ -1,0 +1,221 @@
+{
+    "passages": [
+        {
+            "title": "The Rise of Electric Vehicles",
+            "content": "Electric vehicles (EVs) have seen a dramatic rise in adoption over the past decade. While early models suffered from limited range and high costs, advances in battery technology have significantly improved efficiency and affordability. Governments worldwide are pushing for EV adoption through tax incentives and infrastructure development, with countries like Norway aiming to phase out gasoline-powered cars entirely by 2030.",
+            "questions": [
+                {
+                    "questionText": "What is the primary focus of the passage?",
+                    "answers": [
+                        "The decline of gasoline cars",
+                        "The environmental benefits of EVs",
+                        "The history of electric vehicles",
+                        "The technological and policy-driven rise of EVs"
+
+                    ],
+                    "correctAnswerIndex": 3
+                },
+                {
+                    "questionText": "Which factor is NOT mentioned as contributing to EV adoption?",
+                    "answers": [
+                        "Battery technology improvements",
+                        "Government incentives",
+                        "Declining consumer interest",
+                        "Charging infrastructure"
+                    ],
+                    "correctAnswerIndex": 2
+                },
+                {
+                    "questionText": "The mention of Norway suggests:",
+                    "answers": [
+                        "Some countries are leading in EV adoption",
+                        "Norway has banned gasoline cars",
+                        "Gasoline prices are highest in Norway",
+                        "EV technology was invented in Norway"
+                    ],
+                    "correctAnswerIndex": 0
+                }
+            ]
+        },
+        {
+            "title": "The Printing Press Revolution",
+            "content": "Johannes Gutenberg\u2019s 15th-century printing press revolutionized communication, making books widely accessible for the first time. This invention helped spread literacy, contributed to the Protestant Reformation, and led to the rise of modern journalism. Before the printing press, books were laboriously copied by hand, limiting their availability to elites.",
+            "questions": [
+                {
+                    "questionText": "What was one major impact of the printing press?",
+                    "answers": [
+                        "Increased book production and literacy",
+                        "The decline of religion in Europe",
+                        "The invention of the typewriter",
+                        "The elimination of spoken language traditions"
+                    ],
+                    "correctAnswerIndex": 0
+                },
+                {
+                    "questionText": "Why were books rare before the printing press?",
+                    "answers": [
+                        "They were not considered important",
+                        "Only religious leaders were allowed to own them",
+                        "They were copied by hand, making them expensive",
+                        "The materials used to make books were unavailable"
+                    ],
+                    "correctAnswerIndex": 2
+                },
+                {
+                    "questionText": "The passage implies that journalism:",
+                    "answers": [
+                        "Relies on rapid information distribution",
+                        "Existed before the printing press",
+                        "Was a primary goal of Gutenberg",
+                        "Began declining after books became common"
+                    ],
+                    "correctAnswerIndex": 0
+                }
+            ]
+        },
+        {
+            "title": "Origins of the Internet",
+            "content": "The internet began as a military project in the 1960s, designed to ensure communication continuity during wartime. Over time, it expanded into academic institutions before becoming a global tool for commerce, entertainment, and social interaction. The creation of the World Wide Web in the 1990s made internet access user-friendly, transforming it into an indispensable part of modern life.",
+            "questions": [
+                {
+                    "questionText": "What was the internet's original purpose?",
+                    "answers": [
+                        "Social networking",
+                        "Military communication resilience",
+                        "Academic research",
+                        "E-commerce"
+                    ],
+                    "correctAnswerIndex": 1
+                },
+                {
+                    "questionText": "How did the World Wide Web impact internet use?",
+                    "answers": [
+                        "It limited access to government agencies",
+                        "It made the internet easier for the general public to use",
+                        "It increased internet costs",
+                        "It replaced traditional communication entirely"
+                    ],
+                    "correctAnswerIndex": 1
+                },
+                {
+                    "questionText": "The passage suggests that the internet:",
+                    "answers": [
+                        "Was created by a single scientist",
+                        "Was originally developed for e-commerce",
+                        "Has remained unchanged since the 1960s",
+                        "Evolved from a defense project into a global tool"
+                    ],
+                    "correctAnswerIndex": 3
+                }
+            ]
+        },
+        {
+            "title": "The Psychology of Procrastination",
+            "content": "Procrastination is not merely a matter of laziness, but a complex psychological behavior influenced by emotional regulation and fear of failure. Studies show that people procrastinate more when they associate tasks with negative emotions. Time management strategies, while helpful, often fail unless individuals address the underlying emotional factors driving procrastination.",
+            "questions": [
+                {
+                    "questionText": "What does the passage primarily argue about procrastination?",
+                    "answers": [
+                        "It is caused by laziness",
+                        "It results from deeper psychological factors",
+                        "Time management can completely eliminate procrastination",
+                        "It is an unavoidable human trait"
+                    ],
+                    "correctAnswerIndex": 1
+                },
+                {
+                    "questionText": "Which factor is mentioned as contributing to procrastination?",
+                    "answers": [
+                        "Fear of success",
+                        "Lack of intelligence",
+                        "Genetics",
+                        "Emotional responses to tasks"
+                    ],
+                    "correctAnswerIndex": 3
+                },
+                {
+                    "questionText": "What does the passage suggest about time management strategies?",
+                    "answers": [
+                        "They are always effective",
+                        "They fail unless deeper psychological issues are addressed",
+                        "They are irrelevant to procrastination",
+                        "They only work in structured environments"
+                    ],
+                    "correctAnswerIndex": 1
+                }
+            ]
+        },
+        {
+            "title": "The Role of Bees in Agriculture",
+            "content": "Bees play a crucial role in agriculture through pollination, enabling the reproduction of many crops. Without pollinators, food production would drastically decline. However, in recent years, bee populations have dropped due to habitat loss, pesticides, and disease. Conservation efforts are now focused on protecting natural habitats and promoting sustainable farming practices.",
+            "questions": [
+                {
+                    "questionText": "What is the main topic of the passage?",
+                    "answers": [
+                        "The dangers of pesticides",
+                        "The importance of bees in agriculture",
+                        "The process of honey production",
+                        "The diet of bees"
+                    ],
+                    "correctAnswerIndex": 1
+                },
+                {
+                    "questionText": "Which is NOT listed as a threat to bee populations?",
+                    "answers": [
+                        "Pesticides",
+                        "Habitat loss",
+                        "Climate change",
+                        "Disease"
+                    ],
+                    "correctAnswerIndex": 2
+                },
+                {
+                    "questionText": "How are conservation efforts helping bees?",
+                    "answers": [
+                        "By increasing honey production",
+                        "By protecting natural habitats",
+                        "By reducing the number of beekeepers",
+                        "By replacing bees with mechanical pollinators"
+                    ],
+                    "correctAnswerIndex": 1
+                }
+            ]
+        },
+        {
+            "title": "The Concept of Artificial Intelligence",
+            "content": "Artificial intelligence (AI) refers to the simulation of human intelligence in machines. AI systems can learn from data, recognize patterns, and make decisions. While AI enhances industries like healthcare and finance, ethical concerns remain about job displacement and decision-making biases.",
+            "questions": [
+                {
+                    "questionText": "What is artificial intelligence?",
+                    "answers": [
+                        "A method of human brain enhancement",
+                        "A technology that mimics human intelligence",
+                        "A type of machine used in factories",
+                        "A program that replaces creativity"
+                    ],
+                    "correctAnswerIndex": 1
+                },
+                {
+                    "questionText": "Which industry is mentioned as benefiting from AI?",
+                    "answers": [
+                        "Education",
+                        "Construction",
+                        "Sports",
+                        "Healthcare"
+                    ],
+                    "correctAnswerIndex": 3
+                },
+                {
+                    "questionText": "What concern is raised about AI?",
+                    "answers": [
+                        "It may replace human jobs",
+                        "It is not widely used",
+                        "It has no practical applications",
+                        "It cannot learn from data"
+                    ],
+                    "correctAnswerIndex": 0
+                }
+            ]
+        }
+    ]
+}

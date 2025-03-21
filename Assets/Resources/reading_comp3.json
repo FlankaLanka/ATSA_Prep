@@ -1,0 +1,220 @@
+{
+    "passages": [
+        {
+            "title": "Quantum Computing Basics",
+            "content": "Quantum computers leverage quantum mechanics to process information using qubits instead of classical bits. Unlike binary systems, qubits can exist in superposition states, enabling simultaneous calculations. This technology promises breakthroughs in cryptography and drug discovery but faces challenges like quantum decoherence and error rates.",
+            "questions": [
+                {
+                    "questionText": "What advantage do qubits have over classical bits?",
+                    "answers": [
+                        "Lower energy consumption",
+                        "Simpler manufacturing process",
+                        "Compatibility with existing software",
+                        "Ability to represent multiple states simultaneously"
+                    ],
+                    "correctAnswerIndex": 3
+                },
+                {
+                    "questionText": "As used in the passage, 'decoherence' refers to:",
+                    "answers": [
+                        "Signal amplification",
+                        "Loss of quantum state stability",
+                        "Data encryption methods",
+                        "Heat dissipation issues"
+                    ],
+                    "correctAnswerIndex": 1
+                },
+                {
+                    "questionText": "Which field is NOT mentioned as benefiting from quantum computing?",
+                    "answers": [
+                        "Cryptography",
+                        "Weather prediction",
+                        "Pharmaceutical research",
+                        "Error correction systems"
+                    ],
+                    "correctAnswerIndex": 3
+                }
+            ]
+        },
+        {
+            "title": "The Gut-Brain Axis",
+            "content": "Recent research reveals extensive communication between gastrointestinal systems and the brain through neural, hormonal, and immunological pathways. Gut microbiota influence neurotransmitter production, potentially affecting mood and cognitive function. This connection has implications for treating depression and neurodegenerative diseases.",
+            "questions": [
+                {
+                    "questionText": "The passage primarily discusses:",
+                    "answers": [
+                        "Dietary guidelines for brain health",
+                        "Bidirectional gut-brain communication",
+                        "Antibiotic effects on digestion",
+                        "Evolution of human digestive systems"
+                    ],
+                    "correctAnswerIndex": 1
+                },
+                {
+                    "questionText": "Which substance is implied to be affected by gut bacteria?",
+                    "answers": [
+                        "Insulin",
+                        "Hemoglobin",
+                        "Dopamine",
+                        "Collagen"
+                    ],
+                    "correctAnswerIndex": 2
+                },
+                {
+                    "questionText": "What medical application is suggested?",
+                    "answers": [
+                        "Surgical techniques",
+                        "Cancer radiation therapy",
+                        "Mental health treatments",
+                        "Organ transplantation"
+                    ],
+                    "correctAnswerIndex": 2
+                }
+            ]
+        },
+        {
+            "title": "Circadian Rhythms",
+            "content": "Biological clocks regulate physiological processes over 24-hour cycles, influenced by light exposure. Shift workers often experience chronic circadian misalignment, linked to increased risks of metabolic disorders and cardiovascular disease. Blue light from screens can disrupt melatonin production, exacerbating sleep issues.",
+            "questions": [
+                {
+                    "questionText": "What primarily regulates circadian rhythms?",
+                    "answers": [
+                        "Dietary patterns",
+                        "Light exposure",
+                        "Physical activity",
+                        "Genetic predisposition"
+                    ],
+                    "correctAnswerIndex": 1
+                },
+                {
+                    "questionText": "Which group faces mentioned health risks?",
+                    "answers": [
+                        "Night shift workers",
+                        "Vegetarians",
+                        "Professional athletes",
+                        "Remote workers"
+                    ],
+                    "correctAnswerIndex": 0
+                },
+                {
+                    "questionText": "What disrupts melatonin production?",
+                    "answers": [
+                        "Red light",
+                        "Blue light",
+                        "Infrared radiation",
+                        "Ultraviolet light"
+                    ],
+                    "correctAnswerIndex": 1
+                }
+            ]
+        },
+        {
+            "title": "Cryptocurrency Volatility",
+            "content": "Digital currencies like Bitcoin experience extreme price fluctuations due to speculative trading and regulatory uncertainty. While blockchain technology offers secure transactions, the lack of centralized control makes cryptocurrencies vulnerable to market manipulation and energy consumption concerns.",
+            "questions": [
+                {
+                    "questionText": "What causes cryptocurrency price volatility?",
+                    "answers": [
+                        "Speculative trading",
+                        "Fixed supply limits",
+                        "Government backing",
+                        "Low energy usage"
+                    ],
+                    "correctAnswerIndex": 0
+                },
+                {
+                    "questionText": "What advantage of blockchain is mentioned?",
+                    "answers": [
+                        "Price stability",
+                        "Centralized control",
+                        "Environmental friendliness",
+                        "Secure transactions"
+                    ],
+                    "correctAnswerIndex": 3
+                },
+                {
+                    "questionText": "Which concern is NOT raised?",
+                    "answers": [
+                        "Market manipulation",
+                        "Energy consumption",
+                        "Technological obsolescence",
+                        "Regulatory uncertainty"
+                    ],
+                    "correctAnswerIndex": 2
+                }
+            ]
+        },
+        {
+            "title": "Neural Plasticity in Children",
+            "content": "Young brains exhibit remarkable adaptability, with neural networks reorganizing in response to learning and injury. This plasticity declines with age but can be maintained through cognitive challenges. Early childhood interventions show particular promise for addressing developmental delays.",
+            "questions": [
+                {
+                    "questionText": "What key trait do young brains possess?",
+                    "answers": [
+                        "Rapid physical growth",
+                        "High neural adaptability",
+                        "Strong immune response",
+                        "Perfect memory retention"
+                    ],
+                    "correctAnswerIndex": 1
+                },
+                {
+                    "questionText": "How can plasticity be maintained?",
+                    "answers": [
+                        "Adequate sleep",
+                        "Cognitive challenges",
+                        "Dietary supplements",
+                        "Reduced screen time"
+                    ],
+                    "correctAnswerIndex": 1
+                },
+                {
+                    "questionText": "Who benefits most from interventions?",
+                    "answers": [
+                        "Elderly patients",
+                        "Early childhood cases",
+                        "Teenage athletes",
+                        "Middle-aged professionals"
+                    ],
+                    "correctAnswerIndex": 1
+                }
+            ]
+        },
+        {
+            "title": "Sustainable Architecture",
+            "content": "Green building design emphasizes energy efficiency through passive solar heating, natural ventilation, and recycled materials. LEED certification has become an industry standard, though critics argue certification costs deter small-scale projects. Recent innovations include carbon-absorbing concrete and vertical forests.",
+            "questions": [
+                {
+                    "questionText": "What is a key green building feature?",
+                    "answers": [
+                        "Artificial climate control",
+                        "Synthetic materials",
+                        "Expensive finishes",
+                        "Passive solar heating"
+                    ],
+                    "correctAnswerIndex": 3
+                },
+                {
+                    "questionText": "What criticism does LEED certification face?",
+                    "answers": [
+                        "Lax environmental standards",
+                        "Excessive paperwork",
+                        "Outdated technology",
+                        "High implementation costs"
+                    ],
+                    "correctAnswerIndex": 3
+                },
+                {
+                    "questionText": "What recent innovation is mentioned?",
+                    "answers": [
+                        "Vertical forests",
+                        "Self-cleaning glass",
+                        "Floating foundations",
+                        "Holographic insulation"
+                    ],
+                    "correctAnswerIndex": 0
+                }
+            ]
+        }
+    ]
+}

@@ -69,6 +69,8 @@ public class ReadingManager : MonoBehaviour
 
     public void BeginExam()
     {
+        //score = 0;
+
         totalTimeLimit = timeLimitDropdown.value == 0 ? 1200f : 59940f;
         examUI.SetActive(true);
         settingsMenu.SetActive(false);
@@ -80,6 +82,8 @@ public class ReadingManager : MonoBehaviour
 
     void LoadJSONData()
     {
+        //currentQuestionIndex = 0;
+        //allQuestions.Clear();
         if (jsonFile != null)
         {
             ReadingPackage data = JsonUtility.FromJson<ReadingPackage>(jsonFile[questionSetDropdown.value].text);
@@ -147,7 +151,7 @@ public class ReadingManager : MonoBehaviour
     {
         int minutes = Mathf.FloorToInt(timeRemaining / 60);
         int seconds = Mathf.FloorToInt(timeRemaining % 60);
-        timerText.text = $"Time Remaining: {minutes:00}:{seconds:00}";
+        timerText.text = $"{minutes:00}:{seconds:00}";
     }
 
     void InitializeToggles()

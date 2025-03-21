@@ -1,0 +1,220 @@
+{
+    "passages": [
+        {
+            "title": "Urban Green Infrastructure",
+            "content": "Modern cities increasingly employ vegetation to combat rising temperatures and air pollution. Urban forests and green roofs can reduce heat island effects by up to 9°F, while strategically placed trees mitigate stormwater runoff. However, these solutions require careful planning - non-native species may disrupt ecosystems, and maintenance costs often burden municipal budgets.\n\nRecent initiatives prioritize 'adaptive greening' that combines environmental benefits with community needs. Philadelphia's Green City Plan demonstrates this approach, converting vacant lots into pocket parks while training local residents as landscape technicians. Such programs address criticism that traditional urban greening disproportionately benefits wealthy neighborhoods through increased property values.",
+            "questions": [
+                {
+                    "questionText": "The primary purpose of the passage is to:",
+                    "answers": [
+                        "Advocate for increased urban tree planting",
+                        "Analyze balanced approaches to environmental solutions",
+                        "Criticize historical approaches to city planning",
+                        "Explain the ecological benefits of green roofs"
+                    ],
+                    "correctAnswerIndex": 1
+                },
+                {
+                    "questionText": "As used in paragraph 1, 'mitigate' most nearly means:",
+                    "answers": [
+                        "Intensify",
+                        "Alleviate",
+                        "Complicate",
+                        "Evaluate"
+                    ],
+                    "correctAnswerIndex": 1
+                },
+                {
+                    "questionText": "The Philadelphia example primarily demonstrates:",
+                    "answers": [
+                        "Technological innovation in landscaping",
+                        "Community-integrated urban planning",
+                        "Corporate sponsorship of public spaces",
+                        "Historical preservation efforts"
+                    ],
+                    "correctAnswerIndex": 1
+                }
+            ]
+        },
+        {
+            "title": "Renaissance Humanism",
+            "content": "15th-century humanists approached classical texts as palimpsests - layered documents revealing historical perspectives. Unlike medieval scholars who sought absolute truths, figures like Lorenzo Valla compared multiple manuscript versions to identify textual variations. This philological method treated ancient works as products of their time rather than universal authorities.\n\nModern scholars debate whether this textual criticism constituted rebellion against Church authority. While some humanists challenged ecclesiastical interpretations, most operated within religious frameworks. Erasmus' Greek New Testament (1516), though controversial, aimed to purify Christian doctrine through original language study rather than undermine it.",
+            "questions": [
+                {
+                    "questionText": "The passage suggests Renaissance humanists viewed classical texts as:",
+                    "answers": [
+                        "Outdated scientific theories",
+                        "Historical cultural products",
+                        "Political propaganda tools",
+                        "Religious doctrine sources"
+                    ],
+                    "correctAnswerIndex": 1
+                },
+                {
+                    "questionText": "The reference to 'palimpsests' serves to:",
+                    "answers": [
+                        "Demonstrate medieval literacy rates",
+                        "Illustrate textual reinterpretation",
+                        "Criticize religious institutions",
+                        "Compare writing materials"
+                    ],
+                    "correctAnswerIndex": 1
+                },
+                {
+                    "questionText": "The author discusses Erasmus to show:",
+                    "answers": [
+                        "Humanism's anti-religious agenda",
+                        "Reformation's political motivations",
+                        "Humanism's compatibility with faith",
+                        "Printing's role in spreading ideas"
+                    ],
+                    "correctAnswerIndex": 2
+                }
+            ]
+        },
+        {
+            "title": "Cognitive Dissonance Theory",
+            "content": "Leon Festinger's 1957 theory posits that conflicting beliefs/actions create psychological discomfort, motivating people to reduce inconsistency. In a landmark experiment, participants who received $1 to lie about a boring task later reported enjoying it more than those paid $20. The lower compensation group rationalized their behavior by altering perceptions.\n\nModern applications range from consumer behavior to political ideology. Recent neuroimaging studies show dissonance resolution activates reward centers, suggesting it serves evolutionary purposes. However, critics argue cultural factors mediate these effects - collectivist societies demonstrate higher tolerance for contradictory beliefs.",
+            "questions": [
+                {
+                    "questionText": "The $1 vs $20 experiment demonstrates:",
+                    "answers": [
+                        "Financial incentives improve task enjoyment",
+                        "Behavior shapes belief systems",
+                        "Memory accuracy is unreliable",
+                        "Stress improves decision-making"
+                    ],
+                    "correctAnswerIndex": 1
+                },
+                {
+                    "questionText": "As used in paragraph 2, 'mediated' most nearly means:",
+                    "answers": [
+                        "Intensified",
+                        "Influenced",
+                        "Eliminated",
+                        "Predicted"
+                    ],
+                    "correctAnswerIndex": 1
+                },
+                {
+                    "questionText": "Which finding would challenge the passage's claims?",
+                    "answers": [
+                        "Subjects changed opinions when given financial incentives",
+                        "Brain scans showed increased prefrontal cortex activity",
+                        "Cultural group showed no discomfort with contradictions",
+                        "Memory recall improved after conscious reflection"
+                    ],
+                    "correctAnswerIndex": 2
+                }
+            ]
+        },
+        {
+            "title": "Renewable Energy Transition",
+            "content": "The shift to renewable energy faces infrastructure challenges beyond technological limitations. Solar/wind's intermittent nature requires grid-scale battery systems, while existing fossil fuel infrastructure creates path dependency. Energy density comparisons reveal stark differences - gasoline contains 35x more energy per kilogram than lithium-ion batteries.\n\nEconomic analyses suggest transition costs could reach $28 trillion globally by 2050. However, levelized costs show renewables becoming competitive: photovoltaic production costs fell 82% since 2010. Successful transitions require simultaneous investment in generation, storage, and workforce retraining programs.",
+            "questions": [
+                {
+                    "questionText": "The passage's central thesis is:",
+                    "answers": [
+                        "Solar power will replace fossil fuels by 2030",
+                        "Energy transitions require systemic changes",
+                        "Wind power is more reliable than solar",
+                        "Nuclear energy remains the safest option"
+                    ],
+                    "correctAnswerIndex": 1
+                },
+                {
+                    "questionText": "The reference to 'energy density' emphasizes:",
+                    "answers": [
+                        "Battery storage limitations",
+                        "Fuel transportation costs",
+                        "Urban population density",
+                        "Solar panel efficiency"
+                    ],
+                    "correctAnswerIndex": 0
+                },
+                {
+                    "questionText": "Which evidence supports renewable energy's economic viability?",
+                    "answers": [
+                        "Falling photovoltaic production costs",
+                        "Increased oil company profits",
+                        "Stable government subsidies",
+                        "Rising coal employment rates"
+                    ],
+                    "correctAnswerIndex": 0
+                }
+            ]
+        },
+        {
+            "title": "Silk Road Exchanges",
+            "content": "The Silk Road's significance lies less in trade volume than cultural transmission. Buddhist monks carried Greek-inspired Gandhara sculptures to China, while Central Asian merchants introduced lute precursors to both Europe and Asia. Papermaking technology spread westward after 751 CE Battle of Talas, enabling Islamic Golden Age scholarship.\n\nContrary to popular imagery, most Silk Road 'trade' involved short-distance exchanges between neighboring regions. Luxury goods like Chinese silk reached Rome through multiple intermediaries, each adding substantial markups. The network's true legacy lies in creating cosmopolitan centers where ideas circulated freely.",
+            "questions": [
+                {
+                    "questionText": "The passage primarily discusses the Silk Road's:",
+                    "answers": [
+                        "Military conquests",
+                        "Cultural exchanges",
+                        "Technological superiority",
+                        "Religious persecution"
+                    ],
+                    "correctAnswerIndex": 1
+                },
+                {
+                    "questionText": "As used in paragraph 1, 'cosmopolitan' most nearly means:",
+                    "answers": [
+                        "Wealth-focused",
+                        "Internationally diverse",
+                        "Mathematically precise",
+                        "Architecturally grand"
+                    ],
+                    "correctAnswerIndex": 1
+                },
+                {
+                    "questionText": "The author cites paper money primarily to:",
+                    "answers": [
+                        "Demonstrate economic innovation",
+                        "Criticize monetary systems",
+                        "Compare Eastern/Western technologies",
+                        "Explain inflation causes"
+                    ],
+                    "correctAnswerIndex": 0
+                }
+            ]
+        },
+        {
+            "title": "Modernist Poetry",
+            "content": "Modernist poets rejected Victorian formalism through radical experimentation. T.S. Eliot's 'objective correlative' theory argued emotions should be evoked through symbolic objects rather than direct description. Imagists like H.D. focused on precise visual imagery, while Symbolists employed suggestive metaphors.\n\nThis linguistic fragmentation reflected postwar disillusionment. Ezra Pound's 'In a Station of the Metro' reduces experience to a 14-word vignette, contrasting with Wordsworth's expansive narratives. However, some critics argue this focus on technique sacrificed emotional accessibility, creating poetry that demanded specialized interpretation.",
+            "questions": [
+                {
+                    "questionText": "Modernist poets primarily sought to:",
+                    "answers": [
+                        "Revive classical forms",
+                        "Challenge linguistic conventions",
+                        "Promote political ideologies",
+                        "Imitate natural speech patterns"
+                    ],
+                    "correctAnswerIndex": 1
+                },
+                {
+                    "questionText": "The 'objective correlative' refers to:",
+                    "answers": [
+                        "Political symbolism",
+                        "Emotional representation through objects",
+                        "Grammatical structure",
+                        "Biographical references"
+                    ],
+                    "correctAnswerIndex": 1
+                },
+                {
+                    "questionText": "Which technique appears in both Imagist and Symbolist poetry?",
+                    "answers": [
+                        "Rhyming couplets",
+                        "Visual imagery",
+                        "First-person narration",
+                        "Regional dialect"
+                    ],
+                    "correctAnswerIndex": 1
+                }
+            ]
+        }
+    ]
+}

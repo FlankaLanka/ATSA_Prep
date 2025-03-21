@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Simulator.unity
     guid: cbbf011fa5d034fb7b6c877f9d6a3f3a
+  - enabled: 1
+    path: Assets/Scenes/Reading.unity
+    guid: e4ab4fc5120fe4e87a435bb10dd2177a
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

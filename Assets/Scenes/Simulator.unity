@@ -4388,11 +4388,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4170837983624328583, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.000022888
       objectReference: {fileID: 0}
     - target: {fileID: 4170837983624328583, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 48.224945
       objectReference: {fileID: 0}
     - target: {fileID: 4283995757201227277, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_AnchorMax.y
@@ -8400,8 +8400,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 16.47
-  m_fontSizeBase: 16.47
+  m_fontSize: 14
+  m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

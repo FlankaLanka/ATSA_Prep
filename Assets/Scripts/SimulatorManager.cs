@@ -135,14 +135,10 @@ public class SimulatorManager : MonoBehaviour
         if (!gameRunning)
             return;
 
-        if(curSession >= totalSessions || Input.GetKeyDown(KeyCode.Escape))
+        if(Input.GetKeyDown(KeyCode.Escape))
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                int sessionNum = Mathf.Min(curSession, totalSessions - 1);
-                UpdateAdvancedStats(sessionNum);
-            }
-
+            int sessionNum = Mathf.Min(curSession, totalSessions - 1);
+            UpdateAdvancedStats(sessionNum);
             StopSimulator();
             return;
         }
@@ -150,10 +146,15 @@ public class SimulatorManager : MonoBehaviour
         if (!instanceRunning) // each instance refers to one wave of planes spawning and flying across
         {
             curSession++;
+            if(curSession >= totalSessions)
+            {
+                StopSimulator();
+                return;
+            }    
+
             ClearPlanes();
             CreatePlanes();
             frozenText.gameObject.SetActive(false);
-
             instanceRunning = true;
             return;
         }
@@ -309,12 +310,20 @@ public class SimulatorManager : MonoBehaviour
             return;
         }
 
+        //in some cases you have multiple optimal solutions. If user provides an optimal solution, set optimal solution to user's solution
+        if(replaySessions[curSession].optimalDeletes.Count == replaySessions[curSession].actualDeletes.Count &&
+           replaySessions[curSession].actualCollisions.Count == 0)
+        {
+            replaySessions[curSession].optimalDeletes = new List<int>(replaySessions[curSession].actualDeletes);
+        }
+
         //assign variables for readability
         bool freezeDeletion = replaySessions[curSession].freezeDeletion;
         float zeroPressedTimer = replaySessions[curSession].zeroPressedTimer;
         float roundTimer = replaySessions[curSession].roundTimer;
         Dictionary<GameObject, List<GameObject>> collisionsGraph = replaySessions[curSession].collisionsGraph;
         List<int> optimalDeletes = replaySessions[curSession].optimalDeletes;
+        List<(int, int)> possibleCollisions = replaySessions[curSession].potentialCollisions;
         List<int> inputDeletes = replaySessions[curSession].actualDeletes;
         List<(int, int)> actualCollisions = replaySessions[curSession].actualCollisions;
 
@@ -327,7 +336,13 @@ public class SimulatorManager : MonoBehaviour
 
         //fill in text
         roundStatText[0].text = (curSession + 1).ToString();
-        roundStatText[1].text = LogPossibleCollisions(collisionsGraph);
+
+        roundStatText[1].text = "";
+        foreach ((int, int) collidedPair in possibleCollisions)
+        {
+            roundStatText[1].text += $"[{collidedPair.Item1},{collidedPair.Item2}] ";
+        }
+
         roundStatText[2].text = "";
         foreach ((int, int) collidedPair in actualCollisions)
         {
@@ -336,16 +351,19 @@ public class SimulatorManager : MonoBehaviour
                 roundStatText[2].text += $"[{collidedPair.Item1},{collidedPair.Item2}] ";
             }
         }
+
         roundStatText[3].text = "";
         foreach (int d in optimalDeletes)
         {
             roundStatText[3].text += d + ", ";
         }
+
         roundStatText[4].text = "";
         foreach (int input in inputDeletes)
         {
             roundStatText[4].text += input + ", ";
         }
+
         roundStatText[5].text = (freezeDeletion ? zeroPressedTimer.ToString("F3") + "s" : "Not pressed") + " / " + roundTimer.ToString("F3") + "s";
     }
 
@@ -398,7 +416,6 @@ public class SimulatorManager : MonoBehaviour
 
         return reportedConnections.ToList();
     }
-
 
 
     public Dictionary<GameObject, List<GameObject>> CalculateCollisionsMap(List<GameObject> allPlanes)
@@ -522,33 +539,45 @@ public class SimulatorManager : MonoBehaviour
         int totalPotentialCollisions = 0;
         int totalActualCollisions = 0;
 
-        int minDeletionsRequired = 0;
-        int excessDeletions = 0;
-        int actualDeletions = 0;
+        //int minDeletionsRequired = 0;
+        //int excessDeletions = 0;
+        //int actualDeletions = 0;
+        int numFreezes = 0;
+        int correctFreezes = 0;
+        float cumulativeFreezeSpeed = 0f;
+
 
         foreach (ReplaySessionInfoStats session in replaySessions)
         {
             totalPotentialCollisions += session.potentialCollisions.Count;
-            totalActualCollisions += session.actualCollisions.Count;
+            totalActualCollisions += session.actualCollisions.Count / 2;
 
-            minDeletionsRequired += session.optimalDeletes.Count;
-            excessDeletions += Mathf.Max(session.actualDeletes.Count - session.optimalDeletes.Count, 0);
-            actualDeletions += session.actualDeletes.Count;
+            //minDeletionsRequired += session.optimalDeletes.Count;
+            //excessDeletions += Mathf.Max(session.actualDeletes.Count - session.optimalDeletes.Count, 0);
+            //actualDeletions += session.actualDeletes.Count;
+            if(session.freezeDeletion)
+            {
+                numFreezes++;
+                if (session.wasGoodFreeze)
+                    correctFreezes++;
+                cumulativeFreezeSpeed += session.zeroPressedTimer;
+            }
         }
 
-        float collisionsScore = totalPotentialCollisions == 0 ? 100 : (float)totalActualCollisions / totalPotentialCollisions * 100;
-        float deletionScore = minDeletionsRequired == 0 ? 100 : (float)minDeletionsRequired / actualDeletions * 100;
+        float collisionsScore = totalPotentialCollisions == 0 ? 100 : (1 - (float)totalActualCollisions / totalPotentialCollisions) * 100;
+        //float deletionScore = minDeletionsRequired == 0 ? 100 : (float)minDeletionsRequired / actualDeletions * 100;
 
         if(advanced)
         {
-            return $"You had {totalActualCollisions}/{totalPotentialCollisions} possible collisions. Score: {collisionsScore:F2}. " +
-                   $"You removed {actualDeletions} planes. You removed {excessDeletions} more than the optimal solution." +
-                   $"Score: (IDK, still figuring out the math lol). " +
-                   $"<color=yellow>Hightlight and click a round to see your replay.</color>.";
+            return $"Collisions Avoided: {totalPotentialCollisions - totalActualCollisions}/{totalPotentialCollisions} ({collisionsScore:F2}%).\n\n" +
+                   $"You pressed '0' {numFreezes}/{replaySessions.Count} rounds. {correctFreezes} were correct and no collisions after pressing '0'. " +
+                   $"AvgSpeed of '0' press: {(cumulativeFreezeSpeed/numFreezes):F3}s.\n\n" +
+                   $"Check individual rounds for optimal deletions. Note: There may be multiple optimal solutions. This tool provides just one.\n\n" +
+                   $"<color=yellow>Hightlight and mouse click on a round to see your replay.</color>";
         }
         else
         {
-            return $"You had {totalActualCollisions}/{totalPotentialCollisions} possible collisions. Score: {((float)totalActualCollisions / totalPotentialCollisions):F2}.";
+            return $"Collisions Avoided: {totalPotentialCollisions - totalActualCollisions}/{totalPotentialCollisions} ({collisionsScore:F2}%).";
         }
 
     }

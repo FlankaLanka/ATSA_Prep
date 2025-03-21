@@ -16,7 +16,6 @@ public class PlaneInstance : MonoBehaviour
     private TMP_Text numberText;
     public Vector2 direction;
     public float speed;
-    private bool collided = false;
 
     public bool isFake = false; //used for replay
     public float timer = 0f, timeOfDelete = 99999f; //timeOfDelete is actually only referenced by case 0 of InitiateReplay(int replayType) in SimulatorManager.cs
@@ -93,12 +92,14 @@ public class PlaneInstance : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         PlaneInstance otherPlaneInst = collision.GetComponent<PlaneInstance>();
-        if (!collided && otherPlaneInst != null)
+        if (otherPlaneInst != null && bg.bounds.Contains(collision.ClosestPoint(transform.position)))
         {
-            collided = true;
             sp.color = Color.red;
-            sm.replaySessions[sm.curSession].actualCollisions.Add((planeID, otherPlaneInst.planeID));
 
+            if(isFake)
+                return;
+
+            sm.replaySessions[sm.curSession].actualCollisions.Add((planeID, otherPlaneInst.planeID));
             if (sm.replaySessions[sm.curSession].freezeDeletion)
                 sm.replaySessions[sm.curSession].wasGoodFreeze = false;
         }

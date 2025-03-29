@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class ReadingManager : MonoBehaviour
 {
+    private static int NO_ANSWER_SELECTED = -65;
+
     [System.Serializable]
     public class PassageData
     {
@@ -26,6 +28,7 @@ public class ReadingManager : MonoBehaviour
         public string questionText;
         public string[] answers = new string[4];
         public int correctAnswerIndex;
+        public int inputAnswer = NO_ANSWER_SELECTED; //65 - 65 = 0 = 'NULL' character
     }
 
     [Header("UI Elements")]
@@ -47,43 +50,52 @@ public class ReadingManager : MonoBehaviour
     [SerializeField] private TextAsset[] jsonFile;
     [SerializeField] private float totalTimeLimit = 1200f;
 
-    private List<Question> allQuestions = new List<Question>();
-    private int currentQuestionIndex = 0;
-    private int selectedAnswerIndex = -1;
-    private int score = 0;
-    private float timeRemaining;
-    private bool isExamActive = false;
-    private ToggleGroup toggleGroup;
+    public List<Question> allQuestions = new List<Question>();
+    public int currentQuestionIndex = 0;
+    public int selectedAnswerIndex = -1;
+    public int score = 0;
+    public float timeRemaining;
+    public bool isExamActive = false;
+    public ToggleGroup toggleGroup;
+
+
 
     // Original UI text values
-    private string originalPassageText;
-    private string originalQuestionText;
-    private string[] originalAnswerTexts = new string[4];
-    private string originalTimerText;
-    private string originalQuestionNumText;
+    public string originalPassageText;
+    public string originalQuestionText;
+    public string[] originalAnswerTexts = new string[4];
+    public string originalTimerText;
+    public string originalQuestionNumText;
 
 
     [Header("Stats")]
     public TMP_Text statsText;
+    public TMP_Text advancedStatsText;
+    public GameObject questionNumButtonsList;
+    private Button[] questionButtons;
+    private List<Image> questionButtonBorders = new();
+    private List<Image> questionButtonBodies = new();
+    public TMP_Text advContentText; //include passage, question, and answers
 
 
     public void BeginExam()
     {
-        //score = 0;
-
         totalTimeLimit = timeLimitDropdown.value == 0 ? 1200f : 59940f;
         examUI.SetActive(true);
         settingsMenu.SetActive(false);
-
         isExamActive = true;
+
+        currentQuestionIndex = 0;
+        selectedAnswerIndex = -1;
+        score = 0;
+        allQuestions.Clear();
+
         LoadJSONData();
         InitializeSystem();
     }
 
     void LoadJSONData()
     {
-        //currentQuestionIndex = 0;
-        //allQuestions.Clear();
         if (jsonFile != null)
         {
             ReadingPackage data = JsonUtility.FromJson<ReadingPackage>(jsonFile[questionSetDropdown.value].text);
@@ -116,7 +128,7 @@ public class ReadingManager : MonoBehaviour
         StoreOriginalTextValues();
         submitButton.onClick.AddListener(SubmitAnswer);
         timeRemaining = totalTimeLimit;
-        UpdateTimerDisplay();
+        timerText.text = UpdateTimerDisplay(timeRemaining);
         LoadQuestion(currentQuestionIndex);
     }
 
@@ -137,21 +149,21 @@ public class ReadingManager : MonoBehaviour
         if (isExamActive)
         {
             timeRemaining -= Time.deltaTime;
-            UpdateTimerDisplay();
+            timerText.text = UpdateTimerDisplay(timeRemaining);
 
-            if (timeRemaining <= 0)
+            if (timeRemaining <= 0 || Input.GetKeyDown(KeyCode.Escape))
             {
-                timeRemaining = 0;
+                timeRemaining = Mathf.Max(0, timeRemaining);
                 EndExam();
             }
         }
     }
 
-    void UpdateTimerDisplay()
+    string UpdateTimerDisplay(float timeRemaining)
     {
         int minutes = Mathf.FloorToInt(timeRemaining / 60);
         int seconds = Mathf.FloorToInt(timeRemaining % 60);
-        timerText.text = $"{minutes:00}:{seconds:00}";
+        return $"{minutes:00}:{seconds:00}";
     }
 
     void InitializeToggles()
@@ -215,6 +227,7 @@ public class ReadingManager : MonoBehaviour
         {
             Debug.Log("Incorrect!");
         }
+        allQuestions[currentQuestionIndex].inputAnswer = selectedAnswerIndex;
 
         // Move to next question
         currentQuestionIndex++;
@@ -244,19 +257,100 @@ public class ReadingManager : MonoBehaviour
             answerTexts[i].text = originalAnswerTexts[i];
         }
 
-        // Disable interaction
-        foreach (Toggle toggle in answerToggles)
-        {
-            toggle.isOn = false;
-            toggle.interactable = false;
-        }
-        submitButton.interactable = false;
-
         // Show final score
-        //Debug.Log($"Final Score: {score}/{allQuestions.Count}");
-        statsText.text = $"Final Score: {score}/{allQuestions.Count}.";
+        statsText.text = $"Score: {score}/{allQuestions.Count}. ({((float)score * 100 / allQuestions.Count):F2}%). Time left: {UpdateTimerDisplay(timeRemaining)}.";
+        advancedStatsText.text = $"Score: {score}/{allQuestions.Count}. ({((float)score * 100 / allQuestions.Count):F2}%).\nTime left: {UpdateTimerDisplay(timeRemaining)}.";
+        SetContextInAdvStats();
 
         examUI.SetActive(false);
         settingsMenu.SetActive(true);
     }
+
+
+    #region advanced_stats
+
+    private void Awake()
+    {
+        questionButtons = questionNumButtonsList.GetComponentsInChildren<Button>();
+        SetPreContentInAdvStats();
+    }
+
+    private void SetPreContentInAdvStats()
+    {
+        int i = 1;
+        foreach(Button b in questionButtons)
+        {
+            int temp = i;
+            b.onClick.RemoveAllListeners();
+            b.onClick.AddListener(() => LoadButtonQuestion(temp));
+            //b.GetComponentInChildren<TMP_Text>().text = i.ToString();
+
+            Image questionButtonBody = b.gameObject.GetComponent<Image>();
+            questionButtonBodies.Add(questionButtonBody);
+            Image questionButtonBorder = b.transform.parent.GetComponent<Image>();
+            questionButtonBorders.Add(questionButtonBorder);
+            //questionBorder.enabled = false;
+
+            i++;
+        }
+    }
+
+    private void ClearAllBorders()
+    {
+        foreach(Image i in questionButtonBorders)
+        {
+            i.enabled = false;
+        }
+    }
+
+    private void ClearAllBodies()
+    {
+        foreach(Image i in questionButtonBodies)
+        {
+            i.color = Color.white;
+        }
+    }
+
+    private void SetContextInAdvStats()
+    {
+        ClearAllBorders();
+        ClearAllBodies();
+        advContentText.text = "";
+        for(int i = 0; i < allQuestions.Count && i < questionButtonBodies.Count; i++)
+        {
+            questionButtonBodies[i].color = allQuestions[i].correctAnswerIndex == allQuestions[i].inputAnswer ? Color.green : Color.red;
+            if (allQuestions[i].inputAnswer == NO_ANSWER_SELECTED)
+                questionButtonBodies[i].color = Color.yellow;
+        }
+    }
+
+    private void LoadButtonQuestion(int questionNum)
+    {
+        if (questionNum > allQuestions.Count)
+            return;
+        questionNum--; //get the index rather than visual value
+
+        //clear borders and set this one
+        ClearAllBorders();
+        questionButtonBorders[questionNum].enabled = true;
+
+        //content
+        string contentText = "";
+        contentText += allQuestions[questionNum].passageContent + "\n\n";
+        contentText += allQuestions[questionNum].questionText + "\n\n";
+
+        int temp = 0;
+        foreach(string answer in allQuestions[questionNum].answers)
+        {
+            contentText += $"{(char)(temp + 65)}) {answer}\n";
+            temp++;
+        }
+        contentText += "\nCorrect Answer: " + (char)(allQuestions[questionNum].correctAnswerIndex + 65) + "\n";
+        contentText += "Selected Answer: " + (char)(allQuestions[questionNum].inputAnswer + 65) + "\n";
+        contentText += "(Explanations work in progress)";
+
+        advContentText.text = contentText;
+    }
+
+    #endregion
 }

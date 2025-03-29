@@ -1409,6 +1409,21 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7744348901775307247, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
+      propertyPath: m_text
+      value: "<b>Inputs</b>: Numpad Keys\n\n<b>Objective</b>: Calculate the difference
+        between consecutive numbers that appear on your screen.\n\nInitially, two
+        numbers will appear one briefly after another. Your goal is to type the positive
+        difference of the two using the numpad. A new number will appear everytime
+        you press a numpad key. Your goal is always to type the positive difference
+        of the currently displayed number and the previously displayed number. Do
+        this as fast and accurately as you can until you run out of time.\n\n<b>Exam</b>:
+        The exam will consist of eight 2-minute sessions of this exercise. There
+        will be no timer and no correctness indicator during the exam.\n\n<b>Tips</b>:
+        The maximum difference between the current number and previous number is
+        4. This means for example, if \u20189\u2019 was the previous number, \u20182\u2019
+        cannot be the current number since 9-2=7 which is greater than 4.\n"
+      objectReference: {fileID: 0}
     - target: {fileID: 8604195508721642903, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

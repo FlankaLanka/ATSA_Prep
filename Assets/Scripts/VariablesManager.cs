@@ -28,7 +28,7 @@ public class VariablesManager : MonoBehaviour
     public GameObject settingsMenu;
 
     [Header("Game Loop Related")]
-    public int totalQuestions = 20;
+    public int totalQuestions = 10;
     public int curQuestion = 0;
     public float timePerVariable = 2f;
     public float timer;

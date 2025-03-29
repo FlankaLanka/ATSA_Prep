@@ -929,7 +929,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 20
+  m_Text: 10
 --- !u!222 &422373683
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1814,12 +1814,14 @@ MonoBehaviour:
   m_CaptionImage: {fileID: 0}
   m_ItemText: {fileID: 627976576}
   m_ItemImage: {fileID: 0}
-  m_Value: 2
+  m_Value: 1
   m_Options:
     m_Options:
     - m_Text: 5
       m_Image: {fileID: 0}
     - m_Text: 10
+      m_Image: {fileID: 0}
+    - m_Text: 15
       m_Image: {fileID: 0}
     - m_Text: 20
       m_Image: {fileID: 0}
@@ -3273,17 +3275,19 @@ PrefabInstance:
         ABCs will all be integers. In the second session, one of the ABCs will be
         an algebra equation. In the third session, two of the ABCs will be an algebra
         equation. The variables (questions and answers) flash for ~2-3 seconds each
-        before it moves on to the next.
+        before it moves on to the next. There will be no timer and no correctness
+        indicator during the exam.
 
 
-        <b>Tips</b>: You can keep track
-        of two of A,B, and C using your left hand and right hand.
+        <b>Tips</b>: You can keep track of two
+        of A, B, and C using your left hand and right hand.
 
 
-        Watch
-        out when inputting an answer when the time limit for that question is almost
-        expiring. Sometimes your input may register onto the next question if you
-        are too slow.'
+        Watch out when
+        inputting an answer when the time limit for that question is almost expiring.
+        Sometimes your input may register onto the next question if you are too slow.
+
+'
       objectReference: {fileID: 0}
     - target: {fileID: 8604195508721642903, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_AnchorMax.y

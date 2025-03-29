@@ -4216,6 +4216,10 @@ PrefabInstance:
       value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 2575219035715401356, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
+      propertyPath: m_Value
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2575219035715401356, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_Options.m_Options.Array.size
       value: 6
       objectReference: {fileID: 0}
@@ -4317,7 +4321,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3199561875483232146, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_Text
-      value: NumSessions
+      value: Num Rounds
       objectReference: {fileID: 0}
     - target: {fileID: 3199561875483232146, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_FontData.m_FontSize
@@ -4765,45 +4769,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7744348901775307247, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_text
-      value: '<b>Inputs</b>: Numpad keys and ASDF
-
-
-        <b>Objective</b>: Avoid
-        collisions by removing planes while solving math problems.
-
-
-        In part
-        1, planes (numbers) will fly across the screen. You can press the numpad
-        number corresponding to the plane''s number on screen to delete them. The
-        task is to delete planes that are going to collide. The goal is to minimize
-        the number of collisions while also minimizing the number of deletions. In
-        each round, if you are confident no additional collisions will occur, press
-        ''0''. The earlier you press ''0'' the better. Note that when you do press
-        ''0'', you will not be allowed to delete planes for the rest of that round.
-
-
-        In
-        part 2, math questions will appear. The same rules from part 1 apply in addition
-        to math questions that can be attempted. Use keys ASDF to pick your answer
-        choice for the math problems.
-
-
-        <b>Exam</b>: The exam will consist
-        of two ~5-minute sessions of this exercise. In the first session, there will
-        be no math questions. In the second session, there will be math questions.
-        The difficulty of the plane simulators in both sessions are roughly identical
-        to difficulity 4/10 on this simulator.
-
-
-        <b>Tips</b>: Always watch
-        out for collisions before attempting math problems. It is theorized that
-        avoiding collisions is more important than solving math problems.
-
-
-        Solve
-        for the last digit of the math problem. Sometimes only one answer choice
-        will have a matching last digit. For example 49 x 189. The last digit is
-        1 and your choices may be 9839, 9261, 9265, 9313. The answer is 9261.'
+      value: "<b>Inputs</b>: Numpad keys and ASDF\n\n<b>Objective</b>: Avoid collisions
+        by removing planes while solving math problems.\n\nIn part 1, numbered circles
+        (planes) will fly across the screen. You can press the numpad number corresponding
+        to the circle on screen to delete them. The task is to delete circles that
+        are going to collide. The goal is to minimize the number of collisions while
+        also minimizing the number of deletions. In each round, after you are confident
+        you have removed all collisions, press \u20190\u2019. The earlier you press
+        \u20180\u2019 the more points you get.\n\nIn part 2, math questions will
+        appear. The same rules from part 1 apply in addition to math questions that
+        can be attempted. Use keys ASDF to pick your answer choice for the math problems.\n\n<b>Exam</b>:
+        The exam will consist of two ~15-round sessions of this exercise. In the
+        first session, there will be no math questions. In the second session, there
+        will be math questions. The difficulty of the exam matches to about 3 or
+        4 out of 10 on this simulator.\n\n<b>Tips</b>: Always watch out for collisions
+        before attempting math problems. Though nobody knows how the exam is graded,
+        many people have come to the consensus that avoiding collisions is more important
+        than solving math problems.\n\nSolve for the last digit of the math problem.
+        Sometimes only one answer choice will have a matching last digit. Take 49
+        x 189 for example. The last digit is 1 because 9x9=81. Your choices may be
+        9839, 9261, 9265, 9313. The answer is 9261.\n"
       objectReference: {fileID: 0}
     - target: {fileID: 8604195508721642903, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_AnchorMax.y
@@ -4827,7 +4812,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9219179413467633553, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_Text
-      value: 20
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

@@ -1521,7 +1521,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7382087308704227834, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_Text
-      value: Show Timer (Session Total)
+      value: Show Question Number
       objectReference: {fileID: 0}
     - target: {fileID: 7405641799696568966, guid: ba7b2564ab56c4f229558c9cf5252ef3, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1639,28 +1639,29 @@ PrefabInstance:
 
         The word LEFT or RIGHT will appear on the screen. If there
         are two planes and no eye on the screen, your job is to determine if the
-        red plane is on the left or right of the black plane from the black plane''s
-        point of view. If the answer matches the word on screen, input T for true.
-        Otherwise, input F for false. If you see an eye on screen, determine if the
-        red plane is on the left or right of the eye instead of the black plane and
-        input T or F accordingly.
+        red plane is on the left or right of the black plane. If the answer matches
+        the word on screen, input T for true. Otherwise, input F for false. If you
+        see an eye on screen, determine if the red plane is on the left or right
+        of the eye instead of the black plane and input T or F accordingly.
 
 
-        <b>Exam</b>: The exam will consist of
-        two ~50-question sessions of this exercise. In the first session, there will
-        be no eye. In the second session, the eye pov will appear roughly ~40% of
-        the time. The images will last for about ~1.5-2 seconds before moving to
-        the next.
+        <b>Exam</b>:
+        The exam will consist of two ~30-question sessions of this exercise. In the
+        first session, there will be no eye. In the second session, the eye pov will
+        appear roughly ~40% of the time. The images will flash for ~1.5-2 seconds
+        before moving to the next. There will be no question number indicator, no
+        timer, and no correctness indicator during the exam.
 
 
-        <b>Tips</b>: If an eye appears, it will always be looking
-        at the black plane. Use this information to help deduce the position of the
-        red plane.
+        <b>Tips</b>:
+        If an eye appears, it will always be looking at the black plane. Use this
+        information to help deduce the position of the red plane.
 
 
-        Watch out when inputting an answer when the time limit
-        for that question is almost expiring. Sometimes your input may register onto
-        the next question if you are too slow.
+        Watch
+        out when inputting an answer when the time limit for that question is almost
+        expiring. Sometimes your input may register onto the next question if you
+        are too slow.
 
 '
       objectReference: {fileID: 0}
@@ -1984,7 +1985,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &620978131
 GameObject:
   m_ObjectHideFlags: 0
